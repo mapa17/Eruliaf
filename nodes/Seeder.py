@@ -1,7 +1,7 @@
 '''
 Created on Feb 2, 2012
 
-@author: dd
+@author: Pasieka Manuel , mapa17@posgrado.upv.es
 '''
 from nodes.Peer import Peer
 
