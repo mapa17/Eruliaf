@@ -3,16 +3,14 @@ Created on Feb 2, 2012
 
 @author: dd
 '''
-from nodes import Node
+from nodes.Node import Node
 
 class Tracker(Node):
-    '''
-    classdocs
-    '''
-
 
     def __init__(self):
-        '''
-        Constructor
-        '''
+        Node.__init__(self)
+        #self.__id = SSimulator().getNewPeerId()
+
+    def __str__(self, *args, **kwargs):
+        return "Tracker"
         

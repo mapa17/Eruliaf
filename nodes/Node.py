@@ -1,17 +1,22 @@
 '''
 Created on Feb 2, 2012
 
-@author: dd
+@author: Pasieka Manuel , mapa17@posgrado.upv.es
 '''
+from simulation.SimElement import SimElement
+from simulation.SSimulator import SSimulator
 
-class Node(object):
-    '''
-    classdocs
-    '''
+class Node(SimElement):
 
+    __id = -1 
 
     def __init__(self):
-        '''
-        Constructor
-        '''
+        SimElement.__init__(self)
+        self.__id = SSimulator().getNewNodeId()
+        
+    def __str__(self, *args, **kwargs):
+        return "Node (0)".format(self.__id)
+    
+    def getNodeId(self):
+        return self.__id
         

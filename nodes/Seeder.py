@@ -3,16 +3,12 @@ Created on Feb 2, 2012
 
 @author: dd
 '''
-from nodes import Node
+from nodes.Peer import Peer
 
-class Seeder(Node):
-    '''
-    classdocs
-    '''
-
+class Seeder(Peer):
 
     def __init__(self):
-        '''
-        Constructor
-        '''
+        Peer.__init__(self)
         
+    def __str__(self, *args, **kwargs):
+        return "Seeder"
