@@ -45,7 +45,7 @@ class Simulator(object):
         #TODO: simulate tick
 
     def testSimEnd(self):
-        if(self.getTick() == 2):
+        if(self.getTick() == 20):
             return True
         else:
             return False

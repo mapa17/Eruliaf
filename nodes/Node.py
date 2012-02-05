@@ -8,15 +8,15 @@ from simulation.SSimulator import SSimulator
 
 class Node(SimElement):
 
-    __id = -1 
+    nid = -1 
 
     def __init__(self):
-        SimElement.__init__(self)
-        self.__id = SSimulator().getNewNodeId()
+        super().__init__()
+        self.nid = SSimulator().getNewNodeId()
         
     def __str__(self, *args, **kwargs):
-        return "Node (0)".format(self.__id)
+        return "Node (0)".format(self.nid)
     
     def getNodeId(self):
-        return self.__id
+        return self.nid
         

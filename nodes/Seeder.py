@@ -7,8 +7,8 @@ from nodes.Peer import Peer
 
 class Seeder(Peer):
 
-    def __init__(self):
-        Peer.__init__(self)
+    def __init__(self, torrent):
+        super().__init__(torrent)
         
     def __str__(self, *args, **kwargs):
-        return "Seeder"
+        return "Seeder [pid {0}, nid {1} ]".format(self.pid, self.nid)
