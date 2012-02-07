@@ -8,6 +8,7 @@ from nodes.Peer import Peer
 class Seeder(Peer):
 
     def __init__(self, torrent):
+        torrent.setFinished()
         super().__init__(torrent)
         
     def __str__(self, *args, **kwargs):

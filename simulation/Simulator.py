@@ -4,27 +4,18 @@ Created on Feb 2, 2012
 @author: Pasieka Manuel , mapa17@posgrado.upv.es
 '''
 
-class Simulator(object):
-    '''
-    classdocs
-    '''
+import logging
+#from utils.Log import Log
 
+class Simulator(object):
     _singelton = None
     _initialized = False
     _stage = [0,1,2,3]
     
-#    def __new__(cls, *args, **kwargs):
-#        if( cls._singelton == None ):
-#        #if not cls._singelton :
-#            cls._singelton = super(Simulator, cls).__new__(cls, *args, **kwargs)
-#            cls._initialized = True
-#        return cls._singelton
-
-
-    def __init__(self):
-        #if(self._initialized == False):
-        print("New Simulator!")
-        self.__tick = -1
+    def __init__(self):        
+        logging.log(logging.INFO, "Creating Simulator ...")
+        self.tick = -1
+        self.stage = -1
         self.__elements = []
         self.__nodeId = -1
         self.__peerId = -1
@@ -32,21 +23,20 @@ class Simulator(object):
     def addSimulationElement(self, element):
         self.__elements.append(element)
         
-    def getTick(self):
-        return self.__tick;
-    
     def simTick(self):
-        self.__tick+=1
+        self.tick+=1
         
         for s in Simulator._stage :
+            self.stage = s
             for e in self.__elements :
-                e.nextTick(self.__tick, s)
+                e.nextTick(self.tick, s)
                 
         #TODO: simulate tick
 
     def testSimEnd(self):
-        if(self.getTick() == 20):
+        if(self.tick == 100):
             return True
+            logging.log(logging.INFO, "Time to end the simulation ...")
         else:
             return False
 
@@ -61,5 +51,6 @@ class Simulator(object):
 
 #Start Simulation
     def start(self):
+        logging.log(logging.INFO, "Starting simulation ...")
         while (self.testSimEnd() == False) :
             self.simTick()

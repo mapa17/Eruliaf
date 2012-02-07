@@ -10,7 +10,7 @@ class SimElement(object):
     def __init__(self):
         SSimulator().addSimulationElement(self)
         self.__simFunctions = []
-    
+
     def __str__(self, *args, **kwargs):
         return "Simulation Element"
     

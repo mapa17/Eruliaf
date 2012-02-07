@@ -35,8 +35,14 @@ class Torrent(object):
     def getEmptyPieces(self, n):
         return set( self.getPieceSubSet(self.__Cempty, n) ) #Set of piece indexes
         
+    def getNumberOfPieces(self):
+        return self.__nPieces
+        
+    def getNumberOfFinishedPieces(self):
+        return self.__nFinishedPieces
+        
     def getNumberOfNotFinishedPieces(self):
-        return self.__nPieces - self.__nFinishedPieces
+        return self.__nPieces - self.__nFinishedPieces #This are empty AND downloading pieces
         
         '''
             Returns a set of the indexes of the pieces in the specified state
@@ -56,6 +62,8 @@ class Torrent(object):
     
     def setFinished(self):
         self.__finishedTorrent = True
+        self.__nFinishedPieces = self.__nPieces
+        self.__pieces = [ self.__Cfinished ] * self.__nPieces #Set all to finished
     
     def isFinished(self):
         return self.__finishedTorrent
@@ -64,18 +72,17 @@ class Torrent(object):
         return self.__blockSize
     
     def downloadPiece(self, piece):
-        if(piece > 0 and piece < len(self.__pieces) and self.__pieces[piece] == self.__Cempty) :
+        if(piece >= 0 and piece < len(self.__pieces) and self.__pieces[piece] == self.__Cempty) :
             self.__pieces[piece] = self.__Cdownloading
             
     def finishedPiece(self, piece):
-        if(piece > 0 and piece < len(self.__pieces) and self.__pieces[piece] != self.__Cfinished) :
+        if(piece >= 0 and piece < len(self.__pieces) and self.__pieces[piece] != self.__Cfinished) :
             self.__pieces[piece] = self.__Cfinished
-            self.__nFinishedBlocks+=1
-            
-        if(self.__nFinishedPieces == self.__nPieces) :
-            self.__finishedTorrent = True
+            self.__nFinishedPieces+=1
+            if(self.__nFinishedPieces == self.__nPieces) :
+                self.__finishedTorrent = True
             
     def setEmptyPiece(self, piece):
-        if(piece > 0 and piece < len(self.__pieces) ) :
+        if(piece >= 0 and piece < len(self.__pieces) ) :
             self.__pieces[piece] = self.__Cempty
     
