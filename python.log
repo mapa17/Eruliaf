@@ -1,0 +1,2132 @@
+Eruliaf.py INFO - Starting simulation
+Simulator.py INFO - Creating Simulator ...
+Eruliaf.py INFO - Creating nodes ...
+Eruliaf.py INFO - Creating Seeder [pid 0, nid 1 ]
+Eruliaf.py INFO - Creating Peer [pid 1, nid 2 ]
+Simulator.py INFO - Starting simulation ...
+Log.py DEBUG - 0:2  [1] External peer is connecting! [0]
+Log.py DEBUG - 0:2  [1] adding Peer [0]
+Log.py DEBUG - 0:2  [0] External peer is connecting! [1]
+Log.py DEBUG - 0:2  [0] adding Peer [1]
+Log.py DEBUG - 0:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 0:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 0:2  [0] Unchocked peers []
+Log.py DEBUG - 0:2  [0] PeerList ['( 1@0: 1|0|1|0 )']
+Log.py DEBUG - 0:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 0:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 0:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 0:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 0:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 0:2  [1] Unchocked peers []
+Log.py DEBUG - 0:2  [1] PeerList ['( 0@0: 1|0|1|0 )']
+Log.py DEBUG - 0:2  [1] Downloaded 0/500 Pieces
+Log.py DEBUG - 1:1  [1] Getting interest in peer 0
+Log.py DEBUG - 1:1  [1] unchocking [0@0]
+Log.py DEBUG - 1:1  [1] Selecting piece 0 to get from 0
+Log.py DEBUG - 1:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 1:2  [0] unchocking [1@20480]
+Log.py DEBUG - 1:2  [0] Unchocked peers [1]
+Log.py DEBUG - 1:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 1:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 1:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 1:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 1:2  [1] Unchocked peers [0]
+Log.py DEBUG - 1:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 1:2  [1] Downloaded 0/500 Pieces
+Log.py DEBUG - 2:1  [1] Getting interest in peer 0
+Log.py DEBUG - 2:1  [1] Downloaded 20480/2097.152 of piece 0
+Log.py DEBUG - 2:1  [1] Finished downloading piece 0
+Log.py DEBUG - 2:1  [1] Selecting piece 40 to get from 0
+Log.py DEBUG - 2:1  [1] Finished downloading piece 40
+Log.py DEBUG - 2:1  [1] Selecting piece 42 to get from 0
+Log.py DEBUG - 2:1  [1] Finished downloading piece 42
+Log.py DEBUG - 2:1  [1] Selecting piece 39 to get from 0
+Log.py DEBUG - 2:1  [1] Finished downloading piece 39
+Log.py DEBUG - 2:1  [1] Selecting piece 9 to get from 0
+Log.py DEBUG - 2:1  [1] Finished downloading piece 9
+Log.py DEBUG - 2:1  [1] Selecting piece 46 to get from 0
+Log.py DEBUG - 2:1  [1] Finished downloading piece 46
+Log.py DEBUG - 2:1  [1] Selecting piece 3 to get from 0
+Log.py DEBUG - 2:1  [1] Finished downloading piece 3
+Log.py DEBUG - 2:1  [1] Selecting piece 27 to get from 0
+Log.py DEBUG - 2:1  [1] Finished downloading piece 27
+Log.py DEBUG - 2:1  [1] Selecting piece 36 to get from 0
+Log.py DEBUG - 2:1  [1] Finished downloading piece 36
+Log.py DEBUG - 2:1  [1] Selecting piece 6 to get from 0
+Log.py DEBUG - 2:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 2:2  [0] unchocking [1@20480]
+Log.py DEBUG - 2:2  [0] Unchocked peers [1]
+Log.py DEBUG - 2:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 2:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 2:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 2:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 2:2  [1] Unchocked peers [0]
+Log.py DEBUG - 2:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 2:2  [1] Downloaded 9/500 Pieces
+Log.py DEBUG - 3:1  [1] Getting interest in peer 0
+Log.py DEBUG - 3:1  [1] Downloaded 22085.631999999998/2097.152 of piece 6
+Log.py DEBUG - 3:1  [1] Finished downloading piece 6
+Log.py DEBUG - 3:1  [1] Selecting piece 35 to get from 0
+Log.py DEBUG - 3:1  [1] Finished downloading piece 35
+Log.py DEBUG - 3:1  [1] Selecting piece 20 to get from 0
+Log.py DEBUG - 3:1  [1] Finished downloading piece 20
+Log.py DEBUG - 3:1  [1] Selecting piece 33 to get from 0
+Log.py DEBUG - 3:1  [1] Finished downloading piece 33
+Log.py DEBUG - 3:1  [1] Selecting piece 51 to get from 0
+Log.py DEBUG - 3:1  [1] Finished downloading piece 51
+Log.py DEBUG - 3:1  [1] Selecting piece 10 to get from 0
+Log.py DEBUG - 3:1  [1] Finished downloading piece 10
+Log.py DEBUG - 3:1  [1] Selecting piece 34 to get from 0
+Log.py DEBUG - 3:1  [1] Finished downloading piece 34
+Log.py DEBUG - 3:1  [1] Selecting piece 15 to get from 0
+Log.py DEBUG - 3:1  [1] Finished downloading piece 15
+Log.py DEBUG - 3:1  [1] Selecting piece 16 to get from 0
+Log.py DEBUG - 3:1  [1] Finished downloading piece 16
+Log.py DEBUG - 3:1  [1] Selecting piece 49 to get from 0
+Log.py DEBUG - 3:1  [1] Finished downloading piece 49
+Log.py DEBUG - 3:1  [1] Selecting piece 47 to get from 0
+Log.py DEBUG - 3:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 3:2  [0] unchocking [1@20480]
+Log.py DEBUG - 3:2  [0] Unchocked peers [1]
+Log.py DEBUG - 3:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 3:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 3:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 3:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 3:2  [1] Unchocked peers [0]
+Log.py DEBUG - 3:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 3:2  [1] Downloaded 19/500 Pieces
+Log.py DEBUG - 4:1  [1] Getting interest in peer 0
+Log.py DEBUG - 4:1  [1] Downloaded 21594.111999999994/2097.152 of piece 47
+Log.py DEBUG - 4:1  [1] Finished downloading piece 47
+Log.py DEBUG - 4:1  [1] Selecting piece 13 to get from 0
+Log.py DEBUG - 4:1  [1] Finished downloading piece 13
+Log.py DEBUG - 4:1  [1] Selecting piece 25 to get from 0
+Log.py DEBUG - 4:1  [1] Finished downloading piece 25
+Log.py DEBUG - 4:1  [1] Selecting piece 12 to get from 0
+Log.py DEBUG - 4:1  [1] Finished downloading piece 12
+Log.py DEBUG - 4:1  [1] Selecting piece 17 to get from 0
+Log.py DEBUG - 4:1  [1] Finished downloading piece 17
+Log.py DEBUG - 4:1  [1] Selecting piece 11 to get from 0
+Log.py DEBUG - 4:1  [1] Finished downloading piece 11
+Log.py DEBUG - 4:1  [1] Selecting piece 7 to get from 0
+Log.py DEBUG - 4:1  [1] Finished downloading piece 7
+Log.py DEBUG - 4:1  [1] Selecting piece 56 to get from 0
+Log.py DEBUG - 4:1  [1] Finished downloading piece 56
+Log.py DEBUG - 4:1  [1] Selecting piece 32 to get from 0
+Log.py DEBUG - 4:1  [1] Finished downloading piece 32
+Log.py DEBUG - 4:1  [1] Selecting piece 66 to get from 0
+Log.py DEBUG - 4:1  [1] Finished downloading piece 66
+Log.py DEBUG - 4:1  [1] Selecting piece 29 to get from 0
+Log.py DEBUG - 4:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 4:2  [0] unchocking [1@20480]
+Log.py DEBUG - 4:2  [0] Unchocked peers [1]
+Log.py DEBUG - 4:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 4:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 4:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 4:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 4:2  [1] Unchocked peers [0]
+Log.py DEBUG - 4:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 4:2  [1] Downloaded 29/500 Pieces
+Log.py DEBUG - 5:1  [1] Getting interest in peer 0
+Log.py DEBUG - 5:1  [1] Downloaded 21102.59199999999/2097.152 of piece 29
+Log.py DEBUG - 5:1  [1] Finished downloading piece 29
+Log.py DEBUG - 5:1  [1] Selecting piece 59 to get from 0
+Log.py DEBUG - 5:1  [1] Finished downloading piece 59
+Log.py DEBUG - 5:1  [1] Selecting piece 43 to get from 0
+Log.py DEBUG - 5:1  [1] Finished downloading piece 43
+Log.py DEBUG - 5:1  [1] Selecting piece 37 to get from 0
+Log.py DEBUG - 5:1  [1] Finished downloading piece 37
+Log.py DEBUG - 5:1  [1] Selecting piece 71 to get from 0
+Log.py DEBUG - 5:1  [1] Finished downloading piece 71
+Log.py DEBUG - 5:1  [1] Selecting piece 50 to get from 0
+Log.py DEBUG - 5:1  [1] Finished downloading piece 50
+Log.py DEBUG - 5:1  [1] Selecting piece 48 to get from 0
+Log.py DEBUG - 5:1  [1] Finished downloading piece 48
+Log.py DEBUG - 5:1  [1] Selecting piece 73 to get from 0
+Log.py DEBUG - 5:1  [1] Finished downloading piece 73
+Log.py DEBUG - 5:1  [1] Selecting piece 18 to get from 0
+Log.py DEBUG - 5:1  [1] Finished downloading piece 18
+Log.py DEBUG - 5:1  [1] Selecting piece 23 to get from 0
+Log.py DEBUG - 5:1  [1] Finished downloading piece 23
+Log.py DEBUG - 5:1  [1] Selecting piece 8 to get from 0
+Log.py DEBUG - 5:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 5:2  [0] unchocking [1@20480]
+Log.py DEBUG - 5:2  [0] Unchocked peers [1]
+Log.py DEBUG - 5:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 5:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 5:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 5:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 5:2  [1] Unchocked peers [0]
+Log.py DEBUG - 5:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 5:2  [1] Downloaded 39/500 Pieces
+Log.py DEBUG - 6:1  [1] Getting interest in peer 0
+Log.py DEBUG - 6:1  [1] Downloaded 20611.071999999986/2097.152 of piece 8
+Log.py DEBUG - 6:1  [1] Finished downloading piece 8
+Log.py DEBUG - 6:1  [1] Selecting piece 78 to get from 0
+Log.py DEBUG - 6:1  [1] Finished downloading piece 78
+Log.py DEBUG - 6:1  [1] Selecting piece 31 to get from 0
+Log.py DEBUG - 6:1  [1] Finished downloading piece 31
+Log.py DEBUG - 6:1  [1] Selecting piece 54 to get from 0
+Log.py DEBUG - 6:1  [1] Finished downloading piece 54
+Log.py DEBUG - 6:1  [1] Selecting piece 1 to get from 0
+Log.py DEBUG - 6:1  [1] Finished downloading piece 1
+Log.py DEBUG - 6:1  [1] Selecting piece 74 to get from 0
+Log.py DEBUG - 6:1  [1] Finished downloading piece 74
+Log.py DEBUG - 6:1  [1] Selecting piece 4 to get from 0
+Log.py DEBUG - 6:1  [1] Finished downloading piece 4
+Log.py DEBUG - 6:1  [1] Selecting piece 70 to get from 0
+Log.py DEBUG - 6:1  [1] Finished downloading piece 70
+Log.py DEBUG - 6:1  [1] Selecting piece 79 to get from 0
+Log.py DEBUG - 6:1  [1] Finished downloading piece 79
+Log.py DEBUG - 6:1  [1] Selecting piece 19 to get from 0
+Log.py DEBUG - 6:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 6:2  [0] unchocking [1@20480]
+Log.py DEBUG - 6:2  [0] Unchocked peers [1]
+Log.py DEBUG - 6:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 6:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 6:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 6:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 6:2  [1] Unchocked peers [0]
+Log.py DEBUG - 6:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 6:2  [1] Downloaded 48/500 Pieces
+Log.py DEBUG - 7:1  [1] Getting interest in peer 0
+Log.py DEBUG - 7:1  [1] Downloaded 22216.703999999983/2097.152 of piece 19
+Log.py DEBUG - 7:1  [1] Finished downloading piece 19
+Log.py DEBUG - 7:1  [1] Selecting piece 96 to get from 0
+Log.py DEBUG - 7:1  [1] Finished downloading piece 96
+Log.py DEBUG - 7:1  [1] Selecting piece 76 to get from 0
+Log.py DEBUG - 7:1  [1] Finished downloading piece 76
+Log.py DEBUG - 7:1  [1] Selecting piece 67 to get from 0
+Log.py DEBUG - 7:1  [1] Finished downloading piece 67
+Log.py DEBUG - 7:1  [1] Selecting piece 58 to get from 0
+Log.py DEBUG - 7:1  [1] Finished downloading piece 58
+Log.py DEBUG - 7:1  [1] Selecting piece 41 to get from 0
+Log.py DEBUG - 7:1  [1] Finished downloading piece 41
+Log.py DEBUG - 7:1  [1] Selecting piece 57 to get from 0
+Log.py DEBUG - 7:1  [1] Finished downloading piece 57
+Log.py DEBUG - 7:1  [1] Selecting piece 83 to get from 0
+Log.py DEBUG - 7:1  [1] Finished downloading piece 83
+Log.py DEBUG - 7:1  [1] Selecting piece 30 to get from 0
+Log.py DEBUG - 7:1  [1] Finished downloading piece 30
+Log.py DEBUG - 7:1  [1] Selecting piece 21 to get from 0
+Log.py DEBUG - 7:1  [1] Finished downloading piece 21
+Log.py DEBUG - 7:1  [1] Selecting piece 52 to get from 0
+Log.py DEBUG - 7:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 7:2  [0] unchocking [1@20480]
+Log.py DEBUG - 7:2  [0] Unchocked peers [1]
+Log.py DEBUG - 7:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 7:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 7:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 7:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 7:2  [1] Unchocked peers [0]
+Log.py DEBUG - 7:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 7:2  [1] Downloaded 58/500 Pieces
+Log.py DEBUG - 8:1  [1] Getting interest in peer 0
+Log.py DEBUG - 8:1  [1] Downloaded 21725.18399999998/2097.152 of piece 52
+Log.py DEBUG - 8:1  [1] Finished downloading piece 52
+Log.py DEBUG - 8:1  [1] Selecting piece 82 to get from 0
+Log.py DEBUG - 8:1  [1] Finished downloading piece 82
+Log.py DEBUG - 8:1  [1] Selecting piece 28 to get from 0
+Log.py DEBUG - 8:1  [1] Finished downloading piece 28
+Log.py DEBUG - 8:1  [1] Selecting piece 87 to get from 0
+Log.py DEBUG - 8:1  [1] Finished downloading piece 87
+Log.py DEBUG - 8:1  [1] Selecting piece 26 to get from 0
+Log.py DEBUG - 8:1  [1] Finished downloading piece 26
+Log.py DEBUG - 8:1  [1] Selecting piece 75 to get from 0
+Log.py DEBUG - 8:1  [1] Finished downloading piece 75
+Log.py DEBUG - 8:1  [1] Selecting piece 102 to get from 0
+Log.py DEBUG - 8:1  [1] Finished downloading piece 102
+Log.py DEBUG - 8:1  [1] Selecting piece 91 to get from 0
+Log.py DEBUG - 8:1  [1] Finished downloading piece 91
+Log.py DEBUG - 8:1  [1] Selecting piece 105 to get from 0
+Log.py DEBUG - 8:1  [1] Finished downloading piece 105
+Log.py DEBUG - 8:1  [1] Selecting piece 44 to get from 0
+Log.py DEBUG - 8:1  [1] Finished downloading piece 44
+Log.py DEBUG - 8:1  [1] Selecting piece 45 to get from 0
+Log.py DEBUG - 8:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 8:2  [0] unchocking [1@20480]
+Log.py DEBUG - 8:2  [0] Unchocked peers [1]
+Log.py DEBUG - 8:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 8:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 8:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 8:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 8:2  [1] Unchocked peers [0]
+Log.py DEBUG - 8:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 8:2  [1] Downloaded 68/500 Pieces
+Log.py DEBUG - 9:1  [1] Getting interest in peer 0
+Log.py DEBUG - 9:1  [1] Downloaded 21233.663999999975/2097.152 of piece 45
+Log.py DEBUG - 9:1  [1] Finished downloading piece 45
+Log.py DEBUG - 9:1  [1] Selecting piece 104 to get from 0
+Log.py DEBUG - 9:1  [1] Finished downloading piece 104
+Log.py DEBUG - 9:1  [1] Selecting piece 14 to get from 0
+Log.py DEBUG - 9:1  [1] Finished downloading piece 14
+Log.py DEBUG - 9:1  [1] Selecting piece 114 to get from 0
+Log.py DEBUG - 9:1  [1] Finished downloading piece 114
+Log.py DEBUG - 9:1  [1] Selecting piece 38 to get from 0
+Log.py DEBUG - 9:1  [1] Finished downloading piece 38
+Log.py DEBUG - 9:1  [1] Selecting piece 89 to get from 0
+Log.py DEBUG - 9:1  [1] Finished downloading piece 89
+Log.py DEBUG - 9:1  [1] Selecting piece 108 to get from 0
+Log.py DEBUG - 9:1  [1] Finished downloading piece 108
+Log.py DEBUG - 9:1  [1] Selecting piece 103 to get from 0
+Log.py DEBUG - 9:1  [1] Finished downloading piece 103
+Log.py DEBUG - 9:1  [1] Selecting piece 5 to get from 0
+Log.py DEBUG - 9:1  [1] Finished downloading piece 5
+Log.py DEBUG - 9:1  [1] Selecting piece 61 to get from 0
+Log.py DEBUG - 9:1  [1] Finished downloading piece 61
+Log.py DEBUG - 9:1  [1] Selecting piece 106 to get from 0
+Log.py DEBUG - 9:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 9:2  [0] unchocking [1@20480]
+Log.py DEBUG - 9:2  [0] Unchocked peers [1]
+Log.py DEBUG - 9:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 9:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 9:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 9:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 9:2  [1] Unchocked peers [0]
+Log.py DEBUG - 9:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 9:2  [1] Downloaded 78/500 Pieces
+Log.py DEBUG - 10:1  [1] Getting interest in peer 0
+Log.py DEBUG - 10:1  [1] Downloaded 20742.14399999997/2097.152 of piece 106
+Log.py DEBUG - 10:1  [1] Finished downloading piece 106
+Log.py DEBUG - 10:1  [1] Selecting piece 81 to get from 0
+Log.py DEBUG - 10:1  [1] Finished downloading piece 81
+Log.py DEBUG - 10:1  [1] Selecting piece 60 to get from 0
+Log.py DEBUG - 10:1  [1] Finished downloading piece 60
+Log.py DEBUG - 10:1  [1] Selecting piece 63 to get from 0
+Log.py DEBUG - 10:1  [1] Finished downloading piece 63
+Log.py DEBUG - 10:1  [1] Selecting piece 110 to get from 0
+Log.py DEBUG - 10:1  [1] Finished downloading piece 110
+Log.py DEBUG - 10:1  [1] Selecting piece 84 to get from 0
+Log.py DEBUG - 10:1  [1] Finished downloading piece 84
+Log.py DEBUG - 10:1  [1] Selecting piece 62 to get from 0
+Log.py DEBUG - 10:1  [1] Finished downloading piece 62
+Log.py DEBUG - 10:1  [1] Selecting piece 126 to get from 0
+Log.py DEBUG - 10:1  [1] Finished downloading piece 126
+Log.py DEBUG - 10:1  [1] Selecting piece 98 to get from 0
+Log.py DEBUG - 10:1  [1] Finished downloading piece 98
+Log.py DEBUG - 10:1  [1] Selecting piece 122 to get from 0
+Log.py DEBUG - 10:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 10:2  [0] unchocking [1@20480]
+Log.py DEBUG - 10:2  [0] Unchocked peers [1]
+Log.py DEBUG - 10:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 10:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 10:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 10:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 10:2  [1] Unchocked peers [0]
+Log.py DEBUG - 10:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 10:2  [1] Downloaded 87/500 Pieces
+Log.py DEBUG - 11:1  [1] Getting interest in peer 0
+Log.py DEBUG - 11:1  [1] Downloaded 22347.77599999997/2097.152 of piece 122
+Log.py DEBUG - 11:1  [1] Finished downloading piece 122
+Log.py DEBUG - 11:1  [1] Selecting piece 109 to get from 0
+Log.py DEBUG - 11:1  [1] Finished downloading piece 109
+Log.py DEBUG - 11:1  [1] Selecting piece 22 to get from 0
+Log.py DEBUG - 11:1  [1] Finished downloading piece 22
+Log.py DEBUG - 11:1  [1] Selecting piece 100 to get from 0
+Log.py DEBUG - 11:1  [1] Finished downloading piece 100
+Log.py DEBUG - 11:1  [1] Selecting piece 90 to get from 0
+Log.py DEBUG - 11:1  [1] Finished downloading piece 90
+Log.py DEBUG - 11:1  [1] Selecting piece 111 to get from 0
+Log.py DEBUG - 11:1  [1] Finished downloading piece 111
+Log.py DEBUG - 11:1  [1] Selecting piece 116 to get from 0
+Log.py DEBUG - 11:1  [1] Finished downloading piece 116
+Log.py DEBUG - 11:1  [1] Selecting piece 113 to get from 0
+Log.py DEBUG - 11:1  [1] Finished downloading piece 113
+Log.py DEBUG - 11:1  [1] Selecting piece 24 to get from 0
+Log.py DEBUG - 11:1  [1] Finished downloading piece 24
+Log.py DEBUG - 11:1  [1] Selecting piece 80 to get from 0
+Log.py DEBUG - 11:1  [1] Finished downloading piece 80
+Log.py DEBUG - 11:1  [1] Selecting piece 115 to get from 0
+Log.py DEBUG - 11:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 11:2  [0] unchocking [1@20480]
+Log.py DEBUG - 11:2  [0] Unchocked peers [1]
+Log.py DEBUG - 11:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 11:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 11:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 11:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 11:2  [1] Unchocked peers [0]
+Log.py DEBUG - 11:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 11:2  [1] Downloaded 97/500 Pieces
+Log.py DEBUG - 12:1  [1] Getting interest in peer 0
+Log.py DEBUG - 12:1  [1] Downloaded 21856.255999999965/2097.152 of piece 115
+Log.py DEBUG - 12:1  [1] Finished downloading piece 115
+Log.py DEBUG - 12:1  [1] Selecting piece 97 to get from 0
+Log.py DEBUG - 12:1  [1] Finished downloading piece 97
+Log.py DEBUG - 12:1  [1] Selecting piece 93 to get from 0
+Log.py DEBUG - 12:1  [1] Finished downloading piece 93
+Log.py DEBUG - 12:1  [1] Selecting piece 143 to get from 0
+Log.py DEBUG - 12:1  [1] Finished downloading piece 143
+Log.py DEBUG - 12:1  [1] Selecting piece 147 to get from 0
+Log.py DEBUG - 12:1  [1] Finished downloading piece 147
+Log.py DEBUG - 12:1  [1] Selecting piece 145 to get from 0
+Log.py DEBUG - 12:1  [1] Finished downloading piece 145
+Log.py DEBUG - 12:1  [1] Selecting piece 140 to get from 0
+Log.py DEBUG - 12:1  [1] Finished downloading piece 140
+Log.py DEBUG - 12:1  [1] Selecting piece 141 to get from 0
+Log.py DEBUG - 12:1  [1] Finished downloading piece 141
+Log.py DEBUG - 12:1  [1] Selecting piece 121 to get from 0
+Log.py DEBUG - 12:1  [1] Finished downloading piece 121
+Log.py DEBUG - 12:1  [1] Selecting piece 92 to get from 0
+Log.py DEBUG - 12:1  [1] Finished downloading piece 92
+Log.py DEBUG - 12:1  [1] Selecting piece 117 to get from 0
+Log.py DEBUG - 12:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 12:2  [0] unchocking [1@20480]
+Log.py DEBUG - 12:2  [0] Unchocked peers [1]
+Log.py DEBUG - 12:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 12:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 12:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 12:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 12:2  [1] Unchocked peers [0]
+Log.py DEBUG - 12:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 12:2  [1] Downloaded 107/500 Pieces
+Log.py DEBUG - 13:1  [1] Getting interest in peer 0
+Log.py DEBUG - 13:1  [1] Downloaded 21364.73599999996/2097.152 of piece 117
+Log.py DEBUG - 13:1  [1] Finished downloading piece 117
+Log.py DEBUG - 13:1  [1] Selecting piece 119 to get from 0
+Log.py DEBUG - 13:1  [1] Finished downloading piece 119
+Log.py DEBUG - 13:1  [1] Selecting piece 68 to get from 0
+Log.py DEBUG - 13:1  [1] Finished downloading piece 68
+Log.py DEBUG - 13:1  [1] Selecting piece 133 to get from 0
+Log.py DEBUG - 13:1  [1] Finished downloading piece 133
+Log.py DEBUG - 13:1  [1] Selecting piece 148 to get from 0
+Log.py DEBUG - 13:1  [1] Finished downloading piece 148
+Log.py DEBUG - 13:1  [1] Selecting piece 151 to get from 0
+Log.py DEBUG - 13:1  [1] Finished downloading piece 151
+Log.py DEBUG - 13:1  [1] Selecting piece 129 to get from 0
+Log.py DEBUG - 13:1  [1] Finished downloading piece 129
+Log.py DEBUG - 13:1  [1] Selecting piece 77 to get from 0
+Log.py DEBUG - 13:1  [1] Finished downloading piece 77
+Log.py DEBUG - 13:1  [1] Selecting piece 146 to get from 0
+Log.py DEBUG - 13:1  [1] Finished downloading piece 146
+Log.py DEBUG - 13:1  [1] Selecting piece 120 to get from 0
+Log.py DEBUG - 13:1  [1] Finished downloading piece 120
+Log.py DEBUG - 13:1  [1] Selecting piece 99 to get from 0
+Log.py DEBUG - 13:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 13:2  [0] unchocking [1@20480]
+Log.py DEBUG - 13:2  [0] Unchocked peers [1]
+Log.py DEBUG - 13:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 13:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 13:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 13:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 13:2  [1] Unchocked peers [0]
+Log.py DEBUG - 13:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 13:2  [1] Downloaded 117/500 Pieces
+Log.py DEBUG - 14:1  [1] Getting interest in peer 0
+Log.py DEBUG - 14:1  [1] Downloaded 20873.215999999957/2097.152 of piece 99
+Log.py DEBUG - 14:1  [1] Finished downloading piece 99
+Log.py DEBUG - 14:1  [1] Selecting piece 95 to get from 0
+Log.py DEBUG - 14:1  [1] Finished downloading piece 95
+Log.py DEBUG - 14:1  [1] Selecting piece 142 to get from 0
+Log.py DEBUG - 14:1  [1] Finished downloading piece 142
+Log.py DEBUG - 14:1  [1] Selecting piece 86 to get from 0
+Log.py DEBUG - 14:1  [1] Finished downloading piece 86
+Log.py DEBUG - 14:1  [1] Selecting piece 158 to get from 0
+Log.py DEBUG - 14:1  [1] Finished downloading piece 158
+Log.py DEBUG - 14:1  [1] Selecting piece 123 to get from 0
+Log.py DEBUG - 14:1  [1] Finished downloading piece 123
+Log.py DEBUG - 14:1  [1] Selecting piece 131 to get from 0
+Log.py DEBUG - 14:1  [1] Finished downloading piece 131
+Log.py DEBUG - 14:1  [1] Selecting piece 124 to get from 0
+Log.py DEBUG - 14:1  [1] Finished downloading piece 124
+Log.py DEBUG - 14:1  [1] Selecting piece 157 to get from 0
+Log.py DEBUG - 14:1  [1] Finished downloading piece 157
+Log.py DEBUG - 14:1  [1] Selecting piece 128 to get from 0
+Log.py DEBUG - 14:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 14:2  [0] unchocking [1@20480]
+Log.py DEBUG - 14:2  [0] Unchocked peers [1]
+Log.py DEBUG - 14:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 14:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 14:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 14:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 14:2  [1] Unchocked peers [0]
+Log.py DEBUG - 14:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 14:2  [1] Downloaded 126/500 Pieces
+Log.py DEBUG - 15:1  [1] Getting interest in peer 0
+Log.py DEBUG - 15:1  [1] Downloaded 22478.847999999954/2097.152 of piece 128
+Log.py DEBUG - 15:1  [1] Finished downloading piece 128
+Log.py DEBUG - 15:1  [1] Selecting piece 101 to get from 0
+Log.py DEBUG - 15:1  [1] Finished downloading piece 101
+Log.py DEBUG - 15:1  [1] Selecting piece 167 to get from 0
+Log.py DEBUG - 15:1  [1] Finished downloading piece 167
+Log.py DEBUG - 15:1  [1] Selecting piece 155 to get from 0
+Log.py DEBUG - 15:1  [1] Finished downloading piece 155
+Log.py DEBUG - 15:1  [1] Selecting piece 150 to get from 0
+Log.py DEBUG - 15:1  [1] Finished downloading piece 150
+Log.py DEBUG - 15:1  [1] Selecting piece 138 to get from 0
+Log.py DEBUG - 15:1  [1] Finished downloading piece 138
+Log.py DEBUG - 15:1  [1] Selecting piece 130 to get from 0
+Log.py DEBUG - 15:1  [1] Finished downloading piece 130
+Log.py DEBUG - 15:1  [1] Selecting piece 152 to get from 0
+Log.py DEBUG - 15:1  [1] Finished downloading piece 152
+Log.py DEBUG - 15:1  [1] Selecting piece 137 to get from 0
+Log.py DEBUG - 15:1  [1] Finished downloading piece 137
+Log.py DEBUG - 15:1  [1] Selecting piece 134 to get from 0
+Log.py DEBUG - 15:1  [1] Finished downloading piece 134
+Log.py DEBUG - 15:1  [1] Selecting piece 174 to get from 0
+Log.py DEBUG - 15:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 15:2  [0] unchocking [1@20480]
+Log.py DEBUG - 15:2  [0] Unchocked peers [1]
+Log.py DEBUG - 15:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 15:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 15:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 15:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 15:2  [1] Unchocked peers [0]
+Log.py DEBUG - 15:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 15:2  [1] Downloaded 136/500 Pieces
+Log.py DEBUG - 16:1  [1] Getting interest in peer 0
+Log.py DEBUG - 16:1  [1] Downloaded 21987.32799999995/2097.152 of piece 174
+Log.py DEBUG - 16:1  [1] Finished downloading piece 174
+Log.py DEBUG - 16:1  [1] Selecting piece 162 to get from 0
+Log.py DEBUG - 16:1  [1] Finished downloading piece 162
+Log.py DEBUG - 16:1  [1] Selecting piece 181 to get from 0
+Log.py DEBUG - 16:1  [1] Finished downloading piece 181
+Log.py DEBUG - 16:1  [1] Selecting piece 160 to get from 0
+Log.py DEBUG - 16:1  [1] Finished downloading piece 160
+Log.py DEBUG - 16:1  [1] Selecting piece 2 to get from 0
+Log.py DEBUG - 16:1  [1] Finished downloading piece 2
+Log.py DEBUG - 16:1  [1] Selecting piece 168 to get from 0
+Log.py DEBUG - 16:1  [1] Finished downloading piece 168
+Log.py DEBUG - 16:1  [1] Selecting piece 175 to get from 0
+Log.py DEBUG - 16:1  [1] Finished downloading piece 175
+Log.py DEBUG - 16:1  [1] Selecting piece 177 to get from 0
+Log.py DEBUG - 16:1  [1] Finished downloading piece 177
+Log.py DEBUG - 16:1  [1] Selecting piece 186 to get from 0
+Log.py DEBUG - 16:1  [1] Finished downloading piece 186
+Log.py DEBUG - 16:1  [1] Selecting piece 184 to get from 0
+Log.py DEBUG - 16:1  [1] Finished downloading piece 184
+Log.py DEBUG - 16:1  [1] Selecting piece 169 to get from 0
+Log.py DEBUG - 16:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 16:2  [0] unchocking [1@20480]
+Log.py DEBUG - 16:2  [0] Unchocked peers [1]
+Log.py DEBUG - 16:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 16:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 16:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 16:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 16:2  [1] Unchocked peers [0]
+Log.py DEBUG - 16:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 16:2  [1] Downloaded 146/500 Pieces
+Log.py DEBUG - 17:1  [1] Getting interest in peer 0
+Log.py DEBUG - 17:1  [1] Downloaded 21495.807999999946/2097.152 of piece 169
+Log.py DEBUG - 17:1  [1] Finished downloading piece 169
+Log.py DEBUG - 17:1  [1] Selecting piece 195 to get from 0
+Log.py DEBUG - 17:1  [1] Finished downloading piece 195
+Log.py DEBUG - 17:1  [1] Selecting piece 182 to get from 0
+Log.py DEBUG - 17:1  [1] Finished downloading piece 182
+Log.py DEBUG - 17:1  [1] Selecting piece 180 to get from 0
+Log.py DEBUG - 17:1  [1] Finished downloading piece 180
+Log.py DEBUG - 17:1  [1] Selecting piece 193 to get from 0
+Log.py DEBUG - 17:1  [1] Finished downloading piece 193
+Log.py DEBUG - 17:1  [1] Selecting piece 112 to get from 0
+Log.py DEBUG - 17:1  [1] Finished downloading piece 112
+Log.py DEBUG - 17:1  [1] Selecting piece 190 to get from 0
+Log.py DEBUG - 17:1  [1] Finished downloading piece 190
+Log.py DEBUG - 17:1  [1] Selecting piece 153 to get from 0
+Log.py DEBUG - 17:1  [1] Finished downloading piece 153
+Log.py DEBUG - 17:1  [1] Selecting piece 132 to get from 0
+Log.py DEBUG - 17:1  [1] Finished downloading piece 132
+Log.py DEBUG - 17:1  [1] Selecting piece 191 to get from 0
+Log.py DEBUG - 17:1  [1] Finished downloading piece 191
+Log.py DEBUG - 17:1  [1] Selecting piece 88 to get from 0
+Log.py DEBUG - 17:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 17:2  [0] unchocking [1@20480]
+Log.py DEBUG - 17:2  [0] Unchocked peers [1]
+Log.py DEBUG - 17:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 17:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 17:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 17:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 17:2  [1] Unchocked peers [0]
+Log.py DEBUG - 17:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 17:2  [1] Downloaded 156/500 Pieces
+Log.py DEBUG - 18:1  [1] Getting interest in peer 0
+Log.py DEBUG - 18:1  [1] Downloaded 21004.287999999942/2097.152 of piece 88
+Log.py DEBUG - 18:1  [1] Finished downloading piece 88
+Log.py DEBUG - 18:1  [1] Selecting piece 176 to get from 0
+Log.py DEBUG - 18:1  [1] Finished downloading piece 176
+Log.py DEBUG - 18:1  [1] Selecting piece 163 to get from 0
+Log.py DEBUG - 18:1  [1] Finished downloading piece 163
+Log.py DEBUG - 18:1  [1] Selecting piece 72 to get from 0
+Log.py DEBUG - 18:1  [1] Finished downloading piece 72
+Log.py DEBUG - 18:1  [1] Selecting piece 192 to get from 0
+Log.py DEBUG - 18:1  [1] Finished downloading piece 192
+Log.py DEBUG - 18:1  [1] Selecting piece 178 to get from 0
+Log.py DEBUG - 18:1  [1] Finished downloading piece 178
+Log.py DEBUG - 18:1  [1] Selecting piece 170 to get from 0
+Log.py DEBUG - 18:1  [1] Finished downloading piece 170
+Log.py DEBUG - 18:1  [1] Selecting piece 149 to get from 0
+Log.py DEBUG - 18:1  [1] Finished downloading piece 149
+Log.py DEBUG - 18:1  [1] Selecting piece 189 to get from 0
+Log.py DEBUG - 18:1  [1] Finished downloading piece 189
+Log.py DEBUG - 18:1  [1] Selecting piece 187 to get from 0
+Log.py DEBUG - 18:1  [1] Finished downloading piece 187
+Log.py DEBUG - 18:1  [1] Selecting piece 159 to get from 0
+Log.py DEBUG - 18:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 18:2  [0] unchocking [1@20480]
+Log.py DEBUG - 18:2  [0] Unchocked peers [1]
+Log.py DEBUG - 18:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 18:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 18:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 18:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 18:2  [1] Unchocked peers [0]
+Log.py DEBUG - 18:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 18:2  [1] Downloaded 166/500 Pieces
+Log.py DEBUG - 19:1  [1] Getting interest in peer 0
+Log.py DEBUG - 19:1  [1] Downloaded 20512.76799999994/2097.152 of piece 159
+Log.py DEBUG - 19:1  [1] Finished downloading piece 159
+Log.py DEBUG - 19:1  [1] Selecting piece 201 to get from 0
+Log.py DEBUG - 19:1  [1] Finished downloading piece 201
+Log.py DEBUG - 19:1  [1] Selecting piece 216 to get from 0
+Log.py DEBUG - 19:1  [1] Finished downloading piece 216
+Log.py DEBUG - 19:1  [1] Selecting piece 65 to get from 0
+Log.py DEBUG - 19:1  [1] Finished downloading piece 65
+Log.py DEBUG - 19:1  [1] Selecting piece 188 to get from 0
+Log.py DEBUG - 19:1  [1] Finished downloading piece 188
+Log.py DEBUG - 19:1  [1] Selecting piece 164 to get from 0
+Log.py DEBUG - 19:1  [1] Finished downloading piece 164
+Log.py DEBUG - 19:1  [1] Selecting piece 94 to get from 0
+Log.py DEBUG - 19:1  [1] Finished downloading piece 94
+Log.py DEBUG - 19:1  [1] Selecting piece 85 to get from 0
+Log.py DEBUG - 19:1  [1] Finished downloading piece 85
+Log.py DEBUG - 19:1  [1] Selecting piece 144 to get from 0
+Log.py DEBUG - 19:1  [1] Finished downloading piece 144
+Log.py DEBUG - 19:1  [1] Selecting piece 53 to get from 0
+Log.py DEBUG - 19:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 19:2  [0] unchocking [1@20480]
+Log.py DEBUG - 19:2  [0] Unchocked peers [1]
+Log.py DEBUG - 19:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 19:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 19:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 19:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 19:2  [1] Unchocked peers [0]
+Log.py DEBUG - 19:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 19:2  [1] Downloaded 175/500 Pieces
+Log.py DEBUG - 20:1  [1] Getting interest in peer 0
+Log.py DEBUG - 20:1  [1] Downloaded 22118.399999999936/2097.152 of piece 53
+Log.py DEBUG - 20:1  [1] Finished downloading piece 53
+Log.py DEBUG - 20:1  [1] Selecting piece 127 to get from 0
+Log.py DEBUG - 20:1  [1] Finished downloading piece 127
+Log.py DEBUG - 20:1  [1] Selecting piece 161 to get from 0
+Log.py DEBUG - 20:1  [1] Finished downloading piece 161
+Log.py DEBUG - 20:1  [1] Selecting piece 173 to get from 0
+Log.py DEBUG - 20:1  [1] Finished downloading piece 173
+Log.py DEBUG - 20:1  [1] Selecting piece 205 to get from 0
+Log.py DEBUG - 20:1  [1] Finished downloading piece 205
+Log.py DEBUG - 20:1  [1] Selecting piece 179 to get from 0
+Log.py DEBUG - 20:1  [1] Finished downloading piece 179
+Log.py DEBUG - 20:1  [1] Selecting piece 156 to get from 0
+Log.py DEBUG - 20:1  [1] Finished downloading piece 156
+Log.py DEBUG - 20:1  [1] Selecting piece 135 to get from 0
+Log.py DEBUG - 20:1  [1] Finished downloading piece 135
+Log.py DEBUG - 20:1  [1] Selecting piece 206 to get from 0
+Log.py DEBUG - 20:1  [1] Finished downloading piece 206
+Log.py DEBUG - 20:1  [1] Selecting piece 118 to get from 0
+Log.py DEBUG - 20:1  [1] Finished downloading piece 118
+Log.py DEBUG - 20:1  [1] Selecting piece 212 to get from 0
+Log.py DEBUG - 20:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 20:2  [0] unchocking [1@20480]
+Log.py DEBUG - 20:2  [0] Unchocked peers [1]
+Log.py DEBUG - 20:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 20:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 20:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 20:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 20:2  [1] Unchocked peers [0]
+Log.py DEBUG - 20:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 20:2  [1] Downloaded 185/500 Pieces
+Log.py DEBUG - 21:1  [1] Getting interest in peer 0
+Log.py DEBUG - 21:1  [1] Downloaded 21626.879999999932/2097.152 of piece 212
+Log.py DEBUG - 21:1  [1] Finished downloading piece 212
+Log.py DEBUG - 21:1  [1] Selecting piece 213 to get from 0
+Log.py DEBUG - 21:1  [1] Finished downloading piece 213
+Log.py DEBUG - 21:1  [1] Selecting piece 215 to get from 0
+Log.py DEBUG - 21:1  [1] Finished downloading piece 215
+Log.py DEBUG - 21:1  [1] Selecting piece 172 to get from 0
+Log.py DEBUG - 21:1  [1] Finished downloading piece 172
+Log.py DEBUG - 21:1  [1] Selecting piece 224 to get from 0
+Log.py DEBUG - 21:1  [1] Finished downloading piece 224
+Log.py DEBUG - 21:1  [1] Selecting piece 210 to get from 0
+Log.py DEBUG - 21:1  [1] Finished downloading piece 210
+Log.py DEBUG - 21:1  [1] Selecting piece 197 to get from 0
+Log.py DEBUG - 21:1  [1] Finished downloading piece 197
+Log.py DEBUG - 21:1  [1] Selecting piece 55 to get from 0
+Log.py DEBUG - 21:1  [1] Finished downloading piece 55
+Log.py DEBUG - 21:1  [1] Selecting piece 227 to get from 0
+Log.py DEBUG - 21:1  [1] Finished downloading piece 227
+Log.py DEBUG - 21:1  [1] Selecting piece 204 to get from 0
+Log.py DEBUG - 21:1  [1] Finished downloading piece 204
+Log.py DEBUG - 21:1  [1] Selecting piece 200 to get from 0
+Log.py DEBUG - 21:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 21:2  [0] unchocking [1@20480]
+Log.py DEBUG - 21:2  [0] Unchocked peers [1]
+Log.py DEBUG - 21:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 21:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 21:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 21:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 21:2  [1] Unchocked peers [0]
+Log.py DEBUG - 21:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 21:2  [1] Downloaded 195/500 Pieces
+Log.py DEBUG - 22:1  [1] Getting interest in peer 0
+Log.py DEBUG - 22:1  [1] Downloaded 21135.359999999928/2097.152 of piece 200
+Log.py DEBUG - 22:1  [1] Finished downloading piece 200
+Log.py DEBUG - 22:1  [1] Selecting piece 221 to get from 0
+Log.py DEBUG - 22:1  [1] Finished downloading piece 221
+Log.py DEBUG - 22:1  [1] Selecting piece 245 to get from 0
+Log.py DEBUG - 22:1  [1] Finished downloading piece 245
+Log.py DEBUG - 22:1  [1] Selecting piece 183 to get from 0
+Log.py DEBUG - 22:1  [1] Finished downloading piece 183
+Log.py DEBUG - 22:1  [1] Selecting piece 136 to get from 0
+Log.py DEBUG - 22:1  [1] Finished downloading piece 136
+Log.py DEBUG - 22:1  [1] Selecting piece 185 to get from 0
+Log.py DEBUG - 22:1  [1] Finished downloading piece 185
+Log.py DEBUG - 22:1  [1] Selecting piece 214 to get from 0
+Log.py DEBUG - 22:1  [1] Finished downloading piece 214
+Log.py DEBUG - 22:1  [1] Selecting piece 225 to get from 0
+Log.py DEBUG - 22:1  [1] Finished downloading piece 225
+Log.py DEBUG - 22:1  [1] Selecting piece 139 to get from 0
+Log.py DEBUG - 22:1  [1] Finished downloading piece 139
+Log.py DEBUG - 22:1  [1] Selecting piece 198 to get from 0
+Log.py DEBUG - 22:1  [1] Finished downloading piece 198
+Log.py DEBUG - 22:1  [1] Selecting piece 202 to get from 0
+Log.py DEBUG - 22:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 22:2  [0] unchocking [1@20480]
+Log.py DEBUG - 22:2  [0] Unchocked peers [1]
+Log.py DEBUG - 22:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 22:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 22:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 22:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 22:2  [1] Unchocked peers [0]
+Log.py DEBUG - 22:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 22:2  [1] Downloaded 205/500 Pieces
+Log.py DEBUG - 23:1  [1] Getting interest in peer 0
+Log.py DEBUG - 23:1  [1] Downloaded 20643.839999999924/2097.152 of piece 202
+Log.py DEBUG - 23:1  [1] Finished downloading piece 202
+Log.py DEBUG - 23:1  [1] Selecting piece 238 to get from 0
+Log.py DEBUG - 23:1  [1] Finished downloading piece 238
+Log.py DEBUG - 23:1  [1] Selecting piece 217 to get from 0
+Log.py DEBUG - 23:1  [1] Finished downloading piece 217
+Log.py DEBUG - 23:1  [1] Selecting piece 233 to get from 0
+Log.py DEBUG - 23:1  [1] Finished downloading piece 233
+Log.py DEBUG - 23:1  [1] Selecting piece 226 to get from 0
+Log.py DEBUG - 23:1  [1] Finished downloading piece 226
+Log.py DEBUG - 23:1  [1] Selecting piece 243 to get from 0
+Log.py DEBUG - 23:1  [1] Finished downloading piece 243
+Log.py DEBUG - 23:1  [1] Selecting piece 235 to get from 0
+Log.py DEBUG - 23:1  [1] Finished downloading piece 235
+Log.py DEBUG - 23:1  [1] Selecting piece 223 to get from 0
+Log.py DEBUG - 23:1  [1] Finished downloading piece 223
+Log.py DEBUG - 23:1  [1] Selecting piece 194 to get from 0
+Log.py DEBUG - 23:1  [1] Finished downloading piece 194
+Log.py DEBUG - 23:1  [1] Selecting piece 244 to get from 0
+Log.py DEBUG - 23:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 23:2  [0] unchocking [1@20480]
+Log.py DEBUG - 23:2  [0] Unchocked peers [1]
+Log.py DEBUG - 23:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 23:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 23:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 23:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 23:2  [1] Unchocked peers [0]
+Log.py DEBUG - 23:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 23:2  [1] Downloaded 214/500 Pieces
+Log.py DEBUG - 24:1  [1] Getting interest in peer 0
+Log.py DEBUG - 24:1  [1] Downloaded 22249.47199999992/2097.152 of piece 244
+Log.py DEBUG - 24:1  [1] Finished downloading piece 244
+Log.py DEBUG - 24:1  [1] Selecting piece 154 to get from 0
+Log.py DEBUG - 24:1  [1] Finished downloading piece 154
+Log.py DEBUG - 24:1  [1] Selecting piece 107 to get from 0
+Log.py DEBUG - 24:1  [1] Finished downloading piece 107
+Log.py DEBUG - 24:1  [1] Selecting piece 252 to get from 0
+Log.py DEBUG - 24:1  [1] Finished downloading piece 252
+Log.py DEBUG - 24:1  [1] Selecting piece 253 to get from 0
+Log.py DEBUG - 24:1  [1] Finished downloading piece 253
+Log.py DEBUG - 24:1  [1] Selecting piece 222 to get from 0
+Log.py DEBUG - 24:1  [1] Finished downloading piece 222
+Log.py DEBUG - 24:1  [1] Selecting piece 228 to get from 0
+Log.py DEBUG - 24:1  [1] Finished downloading piece 228
+Log.py DEBUG - 24:1  [1] Selecting piece 209 to get from 0
+Log.py DEBUG - 24:1  [1] Finished downloading piece 209
+Log.py DEBUG - 24:1  [1] Selecting piece 257 to get from 0
+Log.py DEBUG - 24:1  [1] Finished downloading piece 257
+Log.py DEBUG - 24:1  [1] Selecting piece 240 to get from 0
+Log.py DEBUG - 24:1  [1] Finished downloading piece 240
+Log.py DEBUG - 24:1  [1] Selecting piece 259 to get from 0
+Log.py DEBUG - 24:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 24:2  [0] unchocking [1@20480]
+Log.py DEBUG - 24:2  [0] Unchocked peers [1]
+Log.py DEBUG - 24:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 24:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 24:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 24:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 24:2  [1] Unchocked peers [0]
+Log.py DEBUG - 24:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 24:2  [1] Downloaded 224/500 Pieces
+Log.py DEBUG - 25:1  [1] Getting interest in peer 0
+Log.py DEBUG - 25:1  [1] Downloaded 21757.951999999917/2097.152 of piece 259
+Log.py DEBUG - 25:1  [1] Finished downloading piece 259
+Log.py DEBUG - 25:1  [1] Selecting piece 69 to get from 0
+Log.py DEBUG - 25:1  [1] Finished downloading piece 69
+Log.py DEBUG - 25:1  [1] Selecting piece 166 to get from 0
+Log.py DEBUG - 25:1  [1] Finished downloading piece 166
+Log.py DEBUG - 25:1  [1] Selecting piece 211 to get from 0
+Log.py DEBUG - 25:1  [1] Finished downloading piece 211
+Log.py DEBUG - 25:1  [1] Selecting piece 199 to get from 0
+Log.py DEBUG - 25:1  [1] Finished downloading piece 199
+Log.py DEBUG - 25:1  [1] Selecting piece 263 to get from 0
+Log.py DEBUG - 25:1  [1] Finished downloading piece 263
+Log.py DEBUG - 25:1  [1] Selecting piece 267 to get from 0
+Log.py DEBUG - 25:1  [1] Finished downloading piece 267
+Log.py DEBUG - 25:1  [1] Selecting piece 262 to get from 0
+Log.py DEBUG - 25:1  [1] Finished downloading piece 262
+Log.py DEBUG - 25:1  [1] Selecting piece 256 to get from 0
+Log.py DEBUG - 25:1  [1] Finished downloading piece 256
+Log.py DEBUG - 25:1  [1] Selecting piece 218 to get from 0
+Log.py DEBUG - 25:1  [1] Finished downloading piece 218
+Log.py DEBUG - 25:1  [1] Selecting piece 207 to get from 0
+Log.py DEBUG - 25:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 25:2  [0] unchocking [1@20480]
+Log.py DEBUG - 25:2  [0] Unchocked peers [1]
+Log.py DEBUG - 25:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 25:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 25:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 25:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 25:2  [1] Unchocked peers [0]
+Log.py DEBUG - 25:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 25:2  [1] Downloaded 234/500 Pieces
+Log.py DEBUG - 26:1  [1] Getting interest in peer 0
+Log.py DEBUG - 26:1  [1] Downloaded 21266.431999999913/2097.152 of piece 207
+Log.py DEBUG - 26:1  [1] Finished downloading piece 207
+Log.py DEBUG - 26:1  [1] Selecting piece 261 to get from 0
+Log.py DEBUG - 26:1  [1] Finished downloading piece 261
+Log.py DEBUG - 26:1  [1] Selecting piece 281 to get from 0
+Log.py DEBUG - 26:1  [1] Finished downloading piece 281
+Log.py DEBUG - 26:1  [1] Selecting piece 274 to get from 0
+Log.py DEBUG - 26:1  [1] Finished downloading piece 274
+Log.py DEBUG - 26:1  [1] Selecting piece 264 to get from 0
+Log.py DEBUG - 26:1  [1] Finished downloading piece 264
+Log.py DEBUG - 26:1  [1] Selecting piece 272 to get from 0
+Log.py DEBUG - 26:1  [1] Finished downloading piece 272
+Log.py DEBUG - 26:1  [1] Selecting piece 230 to get from 0
+Log.py DEBUG - 26:1  [1] Finished downloading piece 230
+Log.py DEBUG - 26:1  [1] Selecting piece 219 to get from 0
+Log.py DEBUG - 26:1  [1] Finished downloading piece 219
+Log.py DEBUG - 26:1  [1] Selecting piece 279 to get from 0
+Log.py DEBUG - 26:1  [1] Finished downloading piece 279
+Log.py DEBUG - 26:1  [1] Selecting piece 234 to get from 0
+Log.py DEBUG - 26:1  [1] Finished downloading piece 234
+Log.py DEBUG - 26:1  [1] Selecting piece 246 to get from 0
+Log.py DEBUG - 26:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 26:2  [0] unchocking [1@20480]
+Log.py DEBUG - 26:2  [0] Unchocked peers [1]
+Log.py DEBUG - 26:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 26:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 26:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 26:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 26:2  [1] Unchocked peers [0]
+Log.py DEBUG - 26:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 26:2  [1] Downloaded 244/500 Pieces
+Log.py DEBUG - 27:1  [1] Getting interest in peer 0
+Log.py DEBUG - 27:1  [1] Downloaded 20774.91199999991/2097.152 of piece 246
+Log.py DEBUG - 27:1  [1] Finished downloading piece 246
+Log.py DEBUG - 27:1  [1] Selecting piece 284 to get from 0
+Log.py DEBUG - 27:1  [1] Finished downloading piece 284
+Log.py DEBUG - 27:1  [1] Selecting piece 254 to get from 0
+Log.py DEBUG - 27:1  [1] Finished downloading piece 254
+Log.py DEBUG - 27:1  [1] Selecting piece 196 to get from 0
+Log.py DEBUG - 27:1  [1] Finished downloading piece 196
+Log.py DEBUG - 27:1  [1] Selecting piece 294 to get from 0
+Log.py DEBUG - 27:1  [1] Finished downloading piece 294
+Log.py DEBUG - 27:1  [1] Selecting piece 275 to get from 0
+Log.py DEBUG - 27:1  [1] Finished downloading piece 275
+Log.py DEBUG - 27:1  [1] Selecting piece 165 to get from 0
+Log.py DEBUG - 27:1  [1] Finished downloading piece 165
+Log.py DEBUG - 27:1  [1] Selecting piece 282 to get from 0
+Log.py DEBUG - 27:1  [1] Finished downloading piece 282
+Log.py DEBUG - 27:1  [1] Selecting piece 293 to get from 0
+Log.py DEBUG - 27:1  [1] Finished downloading piece 293
+Log.py DEBUG - 27:1  [1] Selecting piece 291 to get from 0
+Log.py DEBUG - 27:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 27:2  [0] unchocking [1@20480]
+Log.py DEBUG - 27:2  [0] Unchocked peers [1]
+Log.py DEBUG - 27:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 27:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 27:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 27:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 27:2  [1] Unchocked peers [0]
+Log.py DEBUG - 27:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 27:2  [1] Downloaded 253/500 Pieces
+Log.py DEBUG - 28:1  [1] Getting interest in peer 0
+Log.py DEBUG - 28:1  [1] Downloaded 22380.543999999907/2097.152 of piece 291
+Log.py DEBUG - 28:1  [1] Finished downloading piece 291
+Log.py DEBUG - 28:1  [1] Selecting piece 276 to get from 0
+Log.py DEBUG - 28:1  [1] Finished downloading piece 276
+Log.py DEBUG - 28:1  [1] Selecting piece 64 to get from 0
+Log.py DEBUG - 28:1  [1] Finished downloading piece 64
+Log.py DEBUG - 28:1  [1] Selecting piece 301 to get from 0
+Log.py DEBUG - 28:1  [1] Finished downloading piece 301
+Log.py DEBUG - 28:1  [1] Selecting piece 260 to get from 0
+Log.py DEBUG - 28:1  [1] Finished downloading piece 260
+Log.py DEBUG - 28:1  [1] Selecting piece 278 to get from 0
+Log.py DEBUG - 28:1  [1] Finished downloading piece 278
+Log.py DEBUG - 28:1  [1] Selecting piece 289 to get from 0
+Log.py DEBUG - 28:1  [1] Finished downloading piece 289
+Log.py DEBUG - 28:1  [1] Selecting piece 241 to get from 0
+Log.py DEBUG - 28:1  [1] Finished downloading piece 241
+Log.py DEBUG - 28:1  [1] Selecting piece 298 to get from 0
+Log.py DEBUG - 28:1  [1] Finished downloading piece 298
+Log.py DEBUG - 28:1  [1] Selecting piece 270 to get from 0
+Log.py DEBUG - 28:1  [1] Finished downloading piece 270
+Log.py DEBUG - 28:1  [1] Selecting piece 248 to get from 0
+Log.py DEBUG - 28:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 28:2  [0] unchocking [1@20480]
+Log.py DEBUG - 28:2  [0] Unchocked peers [1]
+Log.py DEBUG - 28:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 28:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 28:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 28:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 28:2  [1] Unchocked peers [0]
+Log.py DEBUG - 28:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 28:2  [1] Downloaded 263/500 Pieces
+Log.py DEBUG - 29:1  [1] Getting interest in peer 0
+Log.py DEBUG - 29:1  [1] Downloaded 21889.023999999903/2097.152 of piece 248
+Log.py DEBUG - 29:1  [1] Finished downloading piece 248
+Log.py DEBUG - 29:1  [1] Selecting piece 285 to get from 0
+Log.py DEBUG - 29:1  [1] Finished downloading piece 285
+Log.py DEBUG - 29:1  [1] Selecting piece 268 to get from 0
+Log.py DEBUG - 29:1  [1] Finished downloading piece 268
+Log.py DEBUG - 29:1  [1] Selecting piece 203 to get from 0
+Log.py DEBUG - 29:1  [1] Finished downloading piece 203
+Log.py DEBUG - 29:1  [1] Selecting piece 311 to get from 0
+Log.py DEBUG - 29:1  [1] Finished downloading piece 311
+Log.py DEBUG - 29:1  [1] Selecting piece 287 to get from 0
+Log.py DEBUG - 29:1  [1] Finished downloading piece 287
+Log.py DEBUG - 29:1  [1] Selecting piece 295 to get from 0
+Log.py DEBUG - 29:1  [1] Finished downloading piece 295
+Log.py DEBUG - 29:1  [1] Selecting piece 265 to get from 0
+Log.py DEBUG - 29:1  [1] Finished downloading piece 265
+Log.py DEBUG - 29:1  [1] Selecting piece 251 to get from 0
+Log.py DEBUG - 29:1  [1] Finished downloading piece 251
+Log.py DEBUG - 29:1  [1] Selecting piece 307 to get from 0
+Log.py DEBUG - 29:1  [1] Finished downloading piece 307
+Log.py DEBUG - 29:1  [1] Selecting piece 237 to get from 0
+Log.py DEBUG - 29:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 29:2  [0] unchocking [1@20480]
+Log.py DEBUG - 29:2  [0] Unchocked peers [1]
+Log.py DEBUG - 29:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 29:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 29:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 29:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 29:2  [1] Unchocked peers [0]
+Log.py DEBUG - 29:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 29:2  [1] Downloaded 273/500 Pieces
+Log.py DEBUG - 30:1  [1] Getting interest in peer 0
+Log.py DEBUG - 30:1  [1] Downloaded 21397.5039999999/2097.152 of piece 237
+Log.py DEBUG - 30:1  [1] Finished downloading piece 237
+Log.py DEBUG - 30:1  [1] Selecting piece 312 to get from 0
+Log.py DEBUG - 30:1  [1] Finished downloading piece 312
+Log.py DEBUG - 30:1  [1] Selecting piece 232 to get from 0
+Log.py DEBUG - 30:1  [1] Finished downloading piece 232
+Log.py DEBUG - 30:1  [1] Selecting piece 255 to get from 0
+Log.py DEBUG - 30:1  [1] Finished downloading piece 255
+Log.py DEBUG - 30:1  [1] Selecting piece 266 to get from 0
+Log.py DEBUG - 30:1  [1] Finished downloading piece 266
+Log.py DEBUG - 30:1  [1] Selecting piece 313 to get from 0
+Log.py DEBUG - 30:1  [1] Finished downloading piece 313
+Log.py DEBUG - 30:1  [1] Selecting piece 283 to get from 0
+Log.py DEBUG - 30:1  [1] Finished downloading piece 283
+Log.py DEBUG - 30:1  [1] Selecting piece 300 to get from 0
+Log.py DEBUG - 30:1  [1] Finished downloading piece 300
+Log.py DEBUG - 30:1  [1] Selecting piece 302 to get from 0
+Log.py DEBUG - 30:1  [1] Finished downloading piece 302
+Log.py DEBUG - 30:1  [1] Selecting piece 314 to get from 0
+Log.py DEBUG - 30:1  [1] Finished downloading piece 314
+Log.py DEBUG - 30:1  [1] Selecting piece 229 to get from 0
+Log.py DEBUG - 30:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 30:2  [0] unchocking [1@20480]
+Log.py DEBUG - 30:2  [0] Unchocked peers [1]
+Log.py DEBUG - 30:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 30:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 30:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 30:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 30:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 30:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 30:2  [1] Unchocked peers [0]
+Log.py DEBUG - 30:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 30:2  [1] Downloaded 283/500 Pieces
+Log.py DEBUG - 31:1  [1] Getting interest in peer 0
+Log.py DEBUG - 31:1  [1] Downloaded 20905.983999999895/2097.152 of piece 229
+Log.py DEBUG - 31:1  [1] Finished downloading piece 229
+Log.py DEBUG - 31:1  [1] Selecting piece 269 to get from 0
+Log.py DEBUG - 31:1  [1] Finished downloading piece 269
+Log.py DEBUG - 31:1  [1] Selecting piece 308 to get from 0
+Log.py DEBUG - 31:1  [1] Finished downloading piece 308
+Log.py DEBUG - 31:1  [1] Selecting piece 239 to get from 0
+Log.py DEBUG - 31:1  [1] Finished downloading piece 239
+Log.py DEBUG - 31:1  [1] Selecting piece 258 to get from 0
+Log.py DEBUG - 31:1  [1] Finished downloading piece 258
+Log.py DEBUG - 31:1  [1] Selecting piece 310 to get from 0
+Log.py DEBUG - 31:1  [1] Finished downloading piece 310
+Log.py DEBUG - 31:1  [1] Selecting piece 321 to get from 0
+Log.py DEBUG - 31:1  [1] Finished downloading piece 321
+Log.py DEBUG - 31:1  [1] Selecting piece 319 to get from 0
+Log.py DEBUG - 31:1  [1] Finished downloading piece 319
+Log.py DEBUG - 31:1  [1] Selecting piece 220 to get from 0
+Log.py DEBUG - 31:1  [1] Finished downloading piece 220
+Log.py DEBUG - 31:1  [1] Selecting piece 250 to get from 0
+Log.py DEBUG - 31:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 31:2  [0] unchocking [1@20480]
+Log.py DEBUG - 31:2  [0] Unchocked peers [1]
+Log.py DEBUG - 31:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 31:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 31:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 31:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 31:2  [1] Unchocked peers [0]
+Log.py DEBUG - 31:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 31:2  [1] Downloaded 292/500 Pieces
+Log.py DEBUG - 32:1  [1] Getting interest in peer 0
+Log.py DEBUG - 32:1  [1] Downloaded 22511.615999999893/2097.152 of piece 250
+Log.py DEBUG - 32:1  [1] Finished downloading piece 250
+Log.py DEBUG - 32:1  [1] Selecting piece 318 to get from 0
+Log.py DEBUG - 32:1  [1] Finished downloading piece 318
+Log.py DEBUG - 32:1  [1] Selecting piece 125 to get from 0
+Log.py DEBUG - 32:1  [1] Finished downloading piece 125
+Log.py DEBUG - 32:1  [1] Selecting piece 305 to get from 0
+Log.py DEBUG - 32:1  [1] Finished downloading piece 305
+Log.py DEBUG - 32:1  [1] Selecting piece 171 to get from 0
+Log.py DEBUG - 32:1  [1] Finished downloading piece 171
+Log.py DEBUG - 32:1  [1] Selecting piece 341 to get from 0
+Log.py DEBUG - 32:1  [1] Finished downloading piece 341
+Log.py DEBUG - 32:1  [1] Selecting piece 286 to get from 0
+Log.py DEBUG - 32:1  [1] Finished downloading piece 286
+Log.py DEBUG - 32:1  [1] Selecting piece 320 to get from 0
+Log.py DEBUG - 32:1  [1] Finished downloading piece 320
+Log.py DEBUG - 32:1  [1] Selecting piece 208 to get from 0
+Log.py DEBUG - 32:1  [1] Finished downloading piece 208
+Log.py DEBUG - 32:1  [1] Selecting piece 297 to get from 0
+Log.py DEBUG - 32:1  [1] Finished downloading piece 297
+Log.py DEBUG - 32:1  [1] Selecting piece 249 to get from 0
+Log.py DEBUG - 32:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 32:2  [0] unchocking [1@20480]
+Log.py DEBUG - 32:2  [0] Unchocked peers [1]
+Log.py DEBUG - 32:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 32:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 32:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 32:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 32:2  [1] Unchocked peers [0]
+Log.py DEBUG - 32:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 32:2  [1] Downloaded 302/500 Pieces
+Log.py DEBUG - 33:1  [1] Getting interest in peer 0
+Log.py DEBUG - 33:1  [1] Downloaded 22020.09599999989/2097.152 of piece 249
+Log.py DEBUG - 33:1  [1] Finished downloading piece 249
+Log.py DEBUG - 33:1  [1] Selecting piece 317 to get from 0
+Log.py DEBUG - 33:1  [1] Finished downloading piece 317
+Log.py DEBUG - 33:1  [1] Selecting piece 333 to get from 0
+Log.py DEBUG - 33:1  [1] Finished downloading piece 333
+Log.py DEBUG - 33:1  [1] Selecting piece 309 to get from 0
+Log.py DEBUG - 33:1  [1] Finished downloading piece 309
+Log.py DEBUG - 33:1  [1] Selecting piece 288 to get from 0
+Log.py DEBUG - 33:1  [1] Finished downloading piece 288
+Log.py DEBUG - 33:1  [1] Selecting piece 337 to get from 0
+Log.py DEBUG - 33:1  [1] Finished downloading piece 337
+Log.py DEBUG - 33:1  [1] Selecting piece 332 to get from 0
+Log.py DEBUG - 33:1  [1] Finished downloading piece 332
+Log.py DEBUG - 33:1  [1] Selecting piece 315 to get from 0
+Log.py DEBUG - 33:1  [1] Finished downloading piece 315
+Log.py DEBUG - 33:1  [1] Selecting piece 242 to get from 0
+Log.py DEBUG - 33:1  [1] Finished downloading piece 242
+Log.py DEBUG - 33:1  [1] Selecting piece 236 to get from 0
+Log.py DEBUG - 33:1  [1] Finished downloading piece 236
+Log.py DEBUG - 33:1  [1] Selecting piece 330 to get from 0
+Log.py DEBUG - 33:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 33:2  [0] unchocking [1@20480]
+Log.py DEBUG - 33:2  [0] Unchocked peers [1]
+Log.py DEBUG - 33:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 33:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 33:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 33:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 33:2  [1] Unchocked peers [0]
+Log.py DEBUG - 33:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 33:2  [1] Downloaded 312/500 Pieces
+Log.py DEBUG - 34:1  [1] Getting interest in peer 0
+Log.py DEBUG - 34:1  [1] Downloaded 21528.575999999885/2097.152 of piece 330
+Log.py DEBUG - 34:1  [1] Finished downloading piece 330
+Log.py DEBUG - 34:1  [1] Selecting piece 354 to get from 0
+Log.py DEBUG - 34:1  [1] Finished downloading piece 354
+Log.py DEBUG - 34:1  [1] Selecting piece 335 to get from 0
+Log.py DEBUG - 34:1  [1] Finished downloading piece 335
+Log.py DEBUG - 34:1  [1] Selecting piece 340 to get from 0
+Log.py DEBUG - 34:1  [1] Finished downloading piece 340
+Log.py DEBUG - 34:1  [1] Selecting piece 324 to get from 0
+Log.py DEBUG - 34:1  [1] Finished downloading piece 324
+Log.py DEBUG - 34:1  [1] Selecting piece 280 to get from 0
+Log.py DEBUG - 34:1  [1] Finished downloading piece 280
+Log.py DEBUG - 34:1  [1] Selecting piece 331 to get from 0
+Log.py DEBUG - 34:1  [1] Finished downloading piece 331
+Log.py DEBUG - 34:1  [1] Selecting piece 350 to get from 0
+Log.py DEBUG - 34:1  [1] Finished downloading piece 350
+Log.py DEBUG - 34:1  [1] Selecting piece 347 to get from 0
+Log.py DEBUG - 34:1  [1] Finished downloading piece 347
+Log.py DEBUG - 34:1  [1] Selecting piece 325 to get from 0
+Log.py DEBUG - 34:1  [1] Finished downloading piece 325
+Log.py DEBUG - 34:1  [1] Selecting piece 348 to get from 0
+Log.py DEBUG - 34:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 34:2  [0] unchocking [1@20480]
+Log.py DEBUG - 34:2  [0] Unchocked peers [1]
+Log.py DEBUG - 34:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 34:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 34:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 34:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 34:2  [1] Unchocked peers [0]
+Log.py DEBUG - 34:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 34:2  [1] Downloaded 322/500 Pieces
+Log.py DEBUG - 35:1  [1] Getting interest in peer 0
+Log.py DEBUG - 35:1  [1] Downloaded 21037.05599999988/2097.152 of piece 348
+Log.py DEBUG - 35:1  [1] Finished downloading piece 348
+Log.py DEBUG - 35:1  [1] Selecting piece 349 to get from 0
+Log.py DEBUG - 35:1  [1] Finished downloading piece 349
+Log.py DEBUG - 35:1  [1] Selecting piece 277 to get from 0
+Log.py DEBUG - 35:1  [1] Finished downloading piece 277
+Log.py DEBUG - 35:1  [1] Selecting piece 371 to get from 0
+Log.py DEBUG - 35:1  [1] Finished downloading piece 371
+Log.py DEBUG - 35:1  [1] Selecting piece 322 to get from 0
+Log.py DEBUG - 35:1  [1] Finished downloading piece 322
+Log.py DEBUG - 35:1  [1] Selecting piece 343 to get from 0
+Log.py DEBUG - 35:1  [1] Finished downloading piece 343
+Log.py DEBUG - 35:1  [1] Selecting piece 323 to get from 0
+Log.py DEBUG - 35:1  [1] Finished downloading piece 323
+Log.py DEBUG - 35:1  [1] Selecting piece 365 to get from 0
+Log.py DEBUG - 35:1  [1] Finished downloading piece 365
+Log.py DEBUG - 35:1  [1] Selecting piece 368 to get from 0
+Log.py DEBUG - 35:1  [1] Finished downloading piece 368
+Log.py DEBUG - 35:1  [1] Selecting piece 334 to get from 0
+Log.py DEBUG - 35:1  [1] Finished downloading piece 334
+Log.py DEBUG - 35:1  [1] Selecting piece 362 to get from 0
+Log.py DEBUG - 35:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 35:2  [0] unchocking [1@20480]
+Log.py DEBUG - 35:2  [0] Unchocked peers [1]
+Log.py DEBUG - 35:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 35:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 35:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 35:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 35:2  [1] Unchocked peers [0]
+Log.py DEBUG - 35:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 35:2  [1] Downloaded 332/500 Pieces
+Log.py DEBUG - 36:1  [1] Getting interest in peer 0
+Log.py DEBUG - 36:1  [1] Downloaded 20545.535999999876/2097.152 of piece 362
+Log.py DEBUG - 36:1  [1] Finished downloading piece 362
+Log.py DEBUG - 36:1  [1] Selecting piece 338 to get from 0
+Log.py DEBUG - 36:1  [1] Finished downloading piece 338
+Log.py DEBUG - 36:1  [1] Selecting piece 231 to get from 0
+Log.py DEBUG - 36:1  [1] Finished downloading piece 231
+Log.py DEBUG - 36:1  [1] Selecting piece 374 to get from 0
+Log.py DEBUG - 36:1  [1] Finished downloading piece 374
+Log.py DEBUG - 36:1  [1] Selecting piece 381 to get from 0
+Log.py DEBUG - 36:1  [1] Finished downloading piece 381
+Log.py DEBUG - 36:1  [1] Selecting piece 370 to get from 0
+Log.py DEBUG - 36:1  [1] Finished downloading piece 370
+Log.py DEBUG - 36:1  [1] Selecting piece 361 to get from 0
+Log.py DEBUG - 36:1  [1] Finished downloading piece 361
+Log.py DEBUG - 36:1  [1] Selecting piece 290 to get from 0
+Log.py DEBUG - 36:1  [1] Finished downloading piece 290
+Log.py DEBUG - 36:1  [1] Selecting piece 328 to get from 0
+Log.py DEBUG - 36:1  [1] Finished downloading piece 328
+Log.py DEBUG - 36:1  [1] Selecting piece 380 to get from 0
+Log.py DEBUG - 36:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 36:2  [0] unchocking [1@20480]
+Log.py DEBUG - 36:2  [0] Unchocked peers [1]
+Log.py DEBUG - 36:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 36:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 36:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 36:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 36:2  [1] Unchocked peers [0]
+Log.py DEBUG - 36:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 36:2  [1] Downloaded 341/500 Pieces
+Log.py DEBUG - 37:1  [1] Getting interest in peer 0
+Log.py DEBUG - 37:1  [1] Downloaded 22151.167999999874/2097.152 of piece 380
+Log.py DEBUG - 37:1  [1] Finished downloading piece 380
+Log.py DEBUG - 37:1  [1] Selecting piece 344 to get from 0
+Log.py DEBUG - 37:1  [1] Finished downloading piece 344
+Log.py DEBUG - 37:1  [1] Selecting piece 391 to get from 0
+Log.py DEBUG - 37:1  [1] Finished downloading piece 391
+Log.py DEBUG - 37:1  [1] Selecting piece 357 to get from 0
+Log.py DEBUG - 37:1  [1] Finished downloading piece 357
+Log.py DEBUG - 37:1  [1] Selecting piece 360 to get from 0
+Log.py DEBUG - 37:1  [1] Finished downloading piece 360
+Log.py DEBUG - 37:1  [1] Selecting piece 342 to get from 0
+Log.py DEBUG - 37:1  [1] Finished downloading piece 342
+Log.py DEBUG - 37:1  [1] Selecting piece 359 to get from 0
+Log.py DEBUG - 37:1  [1] Finished downloading piece 359
+Log.py DEBUG - 37:1  [1] Selecting piece 247 to get from 0
+Log.py DEBUG - 37:1  [1] Finished downloading piece 247
+Log.py DEBUG - 37:1  [1] Selecting piece 299 to get from 0
+Log.py DEBUG - 37:1  [1] Finished downloading piece 299
+Log.py DEBUG - 37:1  [1] Selecting piece 336 to get from 0
+Log.py DEBUG - 37:1  [1] Finished downloading piece 336
+Log.py DEBUG - 37:1  [1] Selecting piece 366 to get from 0
+Log.py DEBUG - 37:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 37:2  [0] unchocking [1@20480]
+Log.py DEBUG - 37:2  [0] Unchocked peers [1]
+Log.py DEBUG - 37:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 37:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 37:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 37:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 37:2  [1] Unchocked peers [0]
+Log.py DEBUG - 37:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 37:2  [1] Downloaded 351/500 Pieces
+Log.py DEBUG - 38:1  [1] Getting interest in peer 0
+Log.py DEBUG - 38:1  [1] Downloaded 21659.64799999987/2097.152 of piece 366
+Log.py DEBUG - 38:1  [1] Finished downloading piece 366
+Log.py DEBUG - 38:1  [1] Selecting piece 352 to get from 0
+Log.py DEBUG - 38:1  [1] Finished downloading piece 352
+Log.py DEBUG - 38:1  [1] Selecting piece 400 to get from 0
+Log.py DEBUG - 38:1  [1] Finished downloading piece 400
+Log.py DEBUG - 38:1  [1] Selecting piece 296 to get from 0
+Log.py DEBUG - 38:1  [1] Finished downloading piece 296
+Log.py DEBUG - 38:1  [1] Selecting piece 385 to get from 0
+Log.py DEBUG - 38:1  [1] Finished downloading piece 385
+Log.py DEBUG - 38:1  [1] Selecting piece 377 to get from 0
+Log.py DEBUG - 38:1  [1] Finished downloading piece 377
+Log.py DEBUG - 38:1  [1] Selecting piece 383 to get from 0
+Log.py DEBUG - 38:1  [1] Finished downloading piece 383
+Log.py DEBUG - 38:1  [1] Selecting piece 303 to get from 0
+Log.py DEBUG - 38:1  [1] Finished downloading piece 303
+Log.py DEBUG - 38:1  [1] Selecting piece 373 to get from 0
+Log.py DEBUG - 38:1  [1] Finished downloading piece 373
+Log.py DEBUG - 38:1  [1] Selecting piece 372 to get from 0
+Log.py DEBUG - 38:1  [1] Finished downloading piece 372
+Log.py DEBUG - 38:1  [1] Selecting piece 388 to get from 0
+Log.py DEBUG - 38:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 38:2  [0] unchocking [1@20480]
+Log.py DEBUG - 38:2  [0] Unchocked peers [1]
+Log.py DEBUG - 38:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 38:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 38:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 38:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 38:2  [1] Unchocked peers [0]
+Log.py DEBUG - 38:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 38:2  [1] Downloaded 361/500 Pieces
+Log.py DEBUG - 39:1  [1] Getting interest in peer 0
+Log.py DEBUG - 39:1  [1] Downloaded 21168.127999999866/2097.152 of piece 388
+Log.py DEBUG - 39:1  [1] Finished downloading piece 388
+Log.py DEBUG - 39:1  [1] Selecting piece 395 to get from 0
+Log.py DEBUG - 39:1  [1] Finished downloading piece 395
+Log.py DEBUG - 39:1  [1] Selecting piece 304 to get from 0
+Log.py DEBUG - 39:1  [1] Finished downloading piece 304
+Log.py DEBUG - 39:1  [1] Selecting piece 353 to get from 0
+Log.py DEBUG - 39:1  [1] Finished downloading piece 353
+Log.py DEBUG - 39:1  [1] Selecting piece 356 to get from 0
+Log.py DEBUG - 39:1  [1] Finished downloading piece 356
+Log.py DEBUG - 39:1  [1] Selecting piece 411 to get from 0
+Log.py DEBUG - 39:1  [1] Finished downloading piece 411
+Log.py DEBUG - 39:1  [1] Selecting piece 406 to get from 0
+Log.py DEBUG - 39:1  [1] Finished downloading piece 406
+Log.py DEBUG - 39:1  [1] Selecting piece 271 to get from 0
+Log.py DEBUG - 39:1  [1] Finished downloading piece 271
+Log.py DEBUG - 39:1  [1] Selecting piece 399 to get from 0
+Log.py DEBUG - 39:1  [1] Finished downloading piece 399
+Log.py DEBUG - 39:1  [1] Selecting piece 394 to get from 0
+Log.py DEBUG - 39:1  [1] Finished downloading piece 394
+Log.py DEBUG - 39:1  [1] Selecting piece 375 to get from 0
+Log.py DEBUG - 39:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 39:2  [0] unchocking [1@20480]
+Log.py DEBUG - 39:2  [0] Unchocked peers [1]
+Log.py DEBUG - 39:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 39:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 39:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 39:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 39:2  [1] Unchocked peers [0]
+Log.py DEBUG - 39:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 39:2  [1] Downloaded 371/500 Pieces
+Log.py DEBUG - 40:1  [1] Getting interest in peer 0
+Log.py DEBUG - 40:1  [1] Downloaded 20676.607999999862/2097.152 of piece 375
+Log.py DEBUG - 40:1  [1] Finished downloading piece 375
+Log.py DEBUG - 40:1  [1] Selecting piece 410 to get from 0
+Log.py DEBUG - 40:1  [1] Finished downloading piece 410
+Log.py DEBUG - 40:1  [1] Selecting piece 404 to get from 0
+Log.py DEBUG - 40:1  [1] Finished downloading piece 404
+Log.py DEBUG - 40:1  [1] Selecting piece 401 to get from 0
+Log.py DEBUG - 40:1  [1] Finished downloading piece 401
+Log.py DEBUG - 40:1  [1] Selecting piece 345 to get from 0
+Log.py DEBUG - 40:1  [1] Finished downloading piece 345
+Log.py DEBUG - 40:1  [1] Selecting piece 405 to get from 0
+Log.py DEBUG - 40:1  [1] Finished downloading piece 405
+Log.py DEBUG - 40:1  [1] Selecting piece 396 to get from 0
+Log.py DEBUG - 40:1  [1] Finished downloading piece 396
+Log.py DEBUG - 40:1  [1] Selecting piece 402 to get from 0
+Log.py DEBUG - 40:1  [1] Finished downloading piece 402
+Log.py DEBUG - 40:1  [1] Selecting piece 364 to get from 0
+Log.py DEBUG - 40:1  [1] Finished downloading piece 364
+Log.py DEBUG - 40:1  [1] Selecting piece 376 to get from 0
+Log.py DEBUG - 40:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 40:2  [0] unchocking [1@20480]
+Log.py DEBUG - 40:2  [0] Unchocked peers [1]
+Log.py DEBUG - 40:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 40:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 40:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 40:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 40:2  [1] Unchocked peers [0]
+Log.py DEBUG - 40:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 40:2  [1] Downloaded 380/500 Pieces
+Log.py DEBUG - 41:1  [1] Getting interest in peer 0
+Log.py DEBUG - 41:1  [1] Downloaded 22282.23999999986/2097.152 of piece 376
+Log.py DEBUG - 41:1  [1] Finished downloading piece 376
+Log.py DEBUG - 41:1  [1] Selecting piece 369 to get from 0
+Log.py DEBUG - 41:1  [1] Finished downloading piece 369
+Log.py DEBUG - 41:1  [1] Selecting piece 427 to get from 0
+Log.py DEBUG - 41:1  [1] Finished downloading piece 427
+Log.py DEBUG - 41:1  [1] Selecting piece 418 to get from 0
+Log.py DEBUG - 41:1  [1] Finished downloading piece 418
+Log.py DEBUG - 41:1  [1] Selecting piece 389 to get from 0
+Log.py DEBUG - 41:1  [1] Finished downloading piece 389
+Log.py DEBUG - 41:1  [1] Selecting piece 417 to get from 0
+Log.py DEBUG - 41:1  [1] Finished downloading piece 417
+Log.py DEBUG - 41:1  [1] Selecting piece 339 to get from 0
+Log.py DEBUG - 41:1  [1] Finished downloading piece 339
+Log.py DEBUG - 41:1  [1] Selecting piece 316 to get from 0
+Log.py DEBUG - 41:1  [1] Finished downloading piece 316
+Log.py DEBUG - 41:1  [1] Selecting piece 421 to get from 0
+Log.py DEBUG - 41:1  [1] Finished downloading piece 421
+Log.py DEBUG - 41:1  [1] Selecting piece 392 to get from 0
+Log.py DEBUG - 41:1  [1] Finished downloading piece 392
+Log.py DEBUG - 41:1  [1] Selecting piece 408 to get from 0
+Log.py DEBUG - 41:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 41:2  [0] unchocking [1@20480]
+Log.py DEBUG - 41:2  [0] Unchocked peers [1]
+Log.py DEBUG - 41:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 41:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 41:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 41:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 41:2  [1] Unchocked peers [0]
+Log.py DEBUG - 41:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 41:2  [1] Downloaded 390/500 Pieces
+Log.py DEBUG - 42:1  [1] Getting interest in peer 0
+Log.py DEBUG - 42:1  [1] Downloaded 21790.719999999856/2097.152 of piece 408
+Log.py DEBUG - 42:1  [1] Finished downloading piece 408
+Log.py DEBUG - 42:1  [1] Selecting piece 426 to get from 0
+Log.py DEBUG - 42:1  [1] Finished downloading piece 426
+Log.py DEBUG - 42:1  [1] Selecting piece 390 to get from 0
+Log.py DEBUG - 42:1  [1] Finished downloading piece 390
+Log.py DEBUG - 42:1  [1] Selecting piece 382 to get from 0
+Log.py DEBUG - 42:1  [1] Finished downloading piece 382
+Log.py DEBUG - 42:1  [1] Selecting piece 432 to get from 0
+Log.py DEBUG - 42:1  [1] Finished downloading piece 432
+Log.py DEBUG - 42:1  [1] Selecting piece 436 to get from 0
+Log.py DEBUG - 42:1  [1] Finished downloading piece 436
+Log.py DEBUG - 42:1  [1] Selecting piece 306 to get from 0
+Log.py DEBUG - 42:1  [1] Finished downloading piece 306
+Log.py DEBUG - 42:1  [1] Selecting piece 420 to get from 0
+Log.py DEBUG - 42:1  [1] Finished downloading piece 420
+Log.py DEBUG - 42:1  [1] Selecting piece 387 to get from 0
+Log.py DEBUG - 42:1  [1] Finished downloading piece 387
+Log.py DEBUG - 42:1  [1] Selecting piece 351 to get from 0
+Log.py DEBUG - 42:1  [1] Finished downloading piece 351
+Log.py DEBUG - 42:1  [1] Selecting piece 393 to get from 0
+Log.py DEBUG - 42:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 42:2  [0] unchocking [1@20480]
+Log.py DEBUG - 42:2  [0] Unchocked peers [1]
+Log.py DEBUG - 42:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 42:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 42:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 42:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 42:2  [1] Unchocked peers [0]
+Log.py DEBUG - 42:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 42:2  [1] Downloaded 400/500 Pieces
+Log.py DEBUG - 43:1  [1] Getting interest in peer 0
+Log.py DEBUG - 43:1  [1] Downloaded 21299.19999999985/2097.152 of piece 393
+Log.py DEBUG - 43:1  [1] Finished downloading piece 393
+Log.py DEBUG - 43:1  [1] Selecting piece 437 to get from 0
+Log.py DEBUG - 43:1  [1] Finished downloading piece 437
+Log.py DEBUG - 43:1  [1] Selecting piece 448 to get from 0
+Log.py DEBUG - 43:1  [1] Finished downloading piece 448
+Log.py DEBUG - 43:1  [1] Selecting piece 407 to get from 0
+Log.py DEBUG - 43:1  [1] Finished downloading piece 407
+Log.py DEBUG - 43:1  [1] Selecting piece 435 to get from 0
+Log.py DEBUG - 43:1  [1] Finished downloading piece 435
+Log.py DEBUG - 43:1  [1] Selecting piece 441 to get from 0
+Log.py DEBUG - 43:1  [1] Finished downloading piece 441
+Log.py DEBUG - 43:1  [1] Selecting piece 409 to get from 0
+Log.py DEBUG - 43:1  [1] Finished downloading piece 409
+Log.py DEBUG - 43:1  [1] Selecting piece 439 to get from 0
+Log.py DEBUG - 43:1  [1] Finished downloading piece 439
+Log.py DEBUG - 43:1  [1] Selecting piece 386 to get from 0
+Log.py DEBUG - 43:1  [1] Finished downloading piece 386
+Log.py DEBUG - 43:1  [1] Selecting piece 425 to get from 0
+Log.py DEBUG - 43:1  [1] Finished downloading piece 425
+Log.py DEBUG - 43:1  [1] Selecting piece 413 to get from 0
+Log.py DEBUG - 43:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 43:2  [0] unchocking [1@20480]
+Log.py DEBUG - 43:2  [0] Unchocked peers [1]
+Log.py DEBUG - 43:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 43:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 43:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 43:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 43:2  [1] Unchocked peers [0]
+Log.py DEBUG - 43:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 43:2  [1] Downloaded 410/500 Pieces
+Log.py DEBUG - 44:1  [1] Getting interest in peer 0
+Log.py DEBUG - 44:1  [1] Downloaded 20807.679999999847/2097.152 of piece 413
+Log.py DEBUG - 44:1  [1] Finished downloading piece 413
+Log.py DEBUG - 44:1  [1] Selecting piece 453 to get from 0
+Log.py DEBUG - 44:1  [1] Finished downloading piece 453
+Log.py DEBUG - 44:1  [1] Selecting piece 419 to get from 0
+Log.py DEBUG - 44:1  [1] Finished downloading piece 419
+Log.py DEBUG - 44:1  [1] Selecting piece 355 to get from 0
+Log.py DEBUG - 44:1  [1] Finished downloading piece 355
+Log.py DEBUG - 44:1  [1] Selecting piece 398 to get from 0
+Log.py DEBUG - 44:1  [1] Finished downloading piece 398
+Log.py DEBUG - 44:1  [1] Selecting piece 423 to get from 0
+Log.py DEBUG - 44:1  [1] Finished downloading piece 423
+Log.py DEBUG - 44:1  [1] Selecting piece 367 to get from 0
+Log.py DEBUG - 44:1  [1] Finished downloading piece 367
+Log.py DEBUG - 44:1  [1] Selecting piece 433 to get from 0
+Log.py DEBUG - 44:1  [1] Finished downloading piece 433
+Log.py DEBUG - 44:1  [1] Selecting piece 460 to get from 0
+Log.py DEBUG - 44:1  [1] Finished downloading piece 460
+Log.py DEBUG - 44:1  [1] Selecting piece 443 to get from 0
+Log.py DEBUG - 44:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 44:2  [0] unchocking [1@20480]
+Log.py DEBUG - 44:2  [0] Unchocked peers [1]
+Log.py DEBUG - 44:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 44:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 44:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 44:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 44:2  [1] Unchocked peers [0]
+Log.py DEBUG - 44:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 44:2  [1] Downloaded 419/500 Pieces
+Log.py DEBUG - 45:1  [1] Getting interest in peer 0
+Log.py DEBUG - 45:1  [1] Downloaded 22413.311999999845/2097.152 of piece 443
+Log.py DEBUG - 45:1  [1] Finished downloading piece 443
+Log.py DEBUG - 45:1  [1] Selecting piece 327 to get from 0
+Log.py DEBUG - 45:1  [1] Finished downloading piece 327
+Log.py DEBUG - 45:1  [1] Selecting piece 434 to get from 0
+Log.py DEBUG - 45:1  [1] Finished downloading piece 434
+Log.py DEBUG - 45:1  [1] Selecting piece 465 to get from 0
+Log.py DEBUG - 45:1  [1] Finished downloading piece 465
+Log.py DEBUG - 45:1  [1] Selecting piece 454 to get from 0
+Log.py DEBUG - 45:1  [1] Finished downloading piece 454
+Log.py DEBUG - 45:1  [1] Selecting piece 403 to get from 0
+Log.py DEBUG - 45:1  [1] Finished downloading piece 403
+Log.py DEBUG - 45:1  [1] Selecting piece 455 to get from 0
+Log.py DEBUG - 45:1  [1] Finished downloading piece 455
+Log.py DEBUG - 45:1  [1] Selecting piece 358 to get from 0
+Log.py DEBUG - 45:1  [1] Finished downloading piece 358
+Log.py DEBUG - 45:1  [1] Selecting piece 384 to get from 0
+Log.py DEBUG - 45:1  [1] Finished downloading piece 384
+Log.py DEBUG - 45:1  [1] Selecting piece 444 to get from 0
+Log.py DEBUG - 45:1  [1] Finished downloading piece 444
+Log.py DEBUG - 45:1  [1] Selecting piece 457 to get from 0
+Log.py DEBUG - 45:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 45:2  [0] unchocking [1@20480]
+Log.py DEBUG - 45:2  [0] Unchocked peers [1]
+Log.py DEBUG - 45:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 45:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 45:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 45:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 45:2  [1] Unchocked peers [0]
+Log.py DEBUG - 45:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 45:2  [1] Downloaded 429/500 Pieces
+Log.py DEBUG - 46:1  [1] Getting interest in peer 0
+Log.py DEBUG - 46:1  [1] Downloaded 21921.79199999984/2097.152 of piece 457
+Log.py DEBUG - 46:1  [1] Finished downloading piece 457
+Log.py DEBUG - 46:1  [1] Selecting piece 474 to get from 0
+Log.py DEBUG - 46:1  [1] Finished downloading piece 474
+Log.py DEBUG - 46:1  [1] Selecting piece 378 to get from 0
+Log.py DEBUG - 46:1  [1] Finished downloading piece 378
+Log.py DEBUG - 46:1  [1] Selecting piece 397 to get from 0
+Log.py DEBUG - 46:1  [1] Finished downloading piece 397
+Log.py DEBUG - 46:1  [1] Selecting piece 467 to get from 0
+Log.py DEBUG - 46:1  [1] Finished downloading piece 467
+Log.py DEBUG - 46:1  [1] Selecting piece 451 to get from 0
+Log.py DEBUG - 46:1  [1] Finished downloading piece 451
+Log.py DEBUG - 46:1  [1] Selecting piece 379 to get from 0
+Log.py DEBUG - 46:1  [1] Finished downloading piece 379
+Log.py DEBUG - 46:1  [1] Selecting piece 463 to get from 0
+Log.py DEBUG - 46:1  [1] Finished downloading piece 463
+Log.py DEBUG - 46:1  [1] Selecting piece 464 to get from 0
+Log.py DEBUG - 46:1  [1] Finished downloading piece 464
+Log.py DEBUG - 46:1  [1] Selecting piece 422 to get from 0
+Log.py DEBUG - 46:1  [1] Finished downloading piece 422
+Log.py DEBUG - 46:1  [1] Selecting piece 458 to get from 0
+Log.py DEBUG - 46:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 46:2  [0] unchocking [1@20480]
+Log.py DEBUG - 46:2  [0] Unchocked peers [1]
+Log.py DEBUG - 46:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 46:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 46:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 46:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 46:2  [1] Unchocked peers [0]
+Log.py DEBUG - 46:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 46:2  [1] Downloaded 439/500 Pieces
+Log.py DEBUG - 47:1  [1] Getting interest in peer 0
+Log.py DEBUG - 47:1  [1] Downloaded 21430.271999999837/2097.152 of piece 458
+Log.py DEBUG - 47:1  [1] Finished downloading piece 458
+Log.py DEBUG - 47:1  [1] Selecting piece 468 to get from 0
+Log.py DEBUG - 47:1  [1] Finished downloading piece 468
+Log.py DEBUG - 47:1  [1] Selecting piece 480 to get from 0
+Log.py DEBUG - 47:1  [1] Finished downloading piece 480
+Log.py DEBUG - 47:1  [1] Selecting piece 442 to get from 0
+Log.py DEBUG - 47:1  [1] Finished downloading piece 442
+Log.py DEBUG - 47:1  [1] Selecting piece 473 to get from 0
+Log.py DEBUG - 47:1  [1] Finished downloading piece 473
+Log.py DEBUG - 47:1  [1] Selecting piece 446 to get from 0
+Log.py DEBUG - 47:1  [1] Finished downloading piece 446
+Log.py DEBUG - 47:1  [1] Selecting piece 472 to get from 0
+Log.py DEBUG - 47:1  [1] Finished downloading piece 472
+Log.py DEBUG - 47:1  [1] Selecting piece 412 to get from 0
+Log.py DEBUG - 47:1  [1] Finished downloading piece 412
+Log.py DEBUG - 47:1  [1] Selecting piece 484 to get from 0
+Log.py DEBUG - 47:1  [1] Finished downloading piece 484
+Log.py DEBUG - 47:1  [1] Selecting piece 447 to get from 0
+Log.py DEBUG - 47:1  [1] Finished downloading piece 447
+Log.py DEBUG - 47:1  [1] Selecting piece 431 to get from 0
+Log.py DEBUG - 47:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 47:2  [0] unchocking [1@20480]
+Log.py DEBUG - 47:2  [0] Unchocked peers [1]
+Log.py DEBUG - 47:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 47:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 47:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 47:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 47:2  [1] Unchocked peers [0]
+Log.py DEBUG - 47:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 47:2  [1] Downloaded 449/500 Pieces
+Log.py DEBUG - 48:1  [1] Getting interest in peer 0
+Log.py DEBUG - 48:1  [1] Downloaded 20938.751999999833/2097.152 of piece 431
+Log.py DEBUG - 48:1  [1] Finished downloading piece 431
+Log.py DEBUG - 48:1  [1] Selecting piece 482 to get from 0
+Log.py DEBUG - 48:1  [1] Finished downloading piece 482
+Log.py DEBUG - 48:1  [1] Selecting piece 346 to get from 0
+Log.py DEBUG - 48:1  [1] Finished downloading piece 346
+Log.py DEBUG - 48:1  [1] Selecting piece 481 to get from 0
+Log.py DEBUG - 48:1  [1] Finished downloading piece 481
+Log.py DEBUG - 48:1  [1] Selecting piece 438 to get from 0
+Log.py DEBUG - 48:1  [1] Finished downloading piece 438
+Log.py DEBUG - 48:1  [1] Selecting piece 469 to get from 0
+Log.py DEBUG - 48:1  [1] Finished downloading piece 469
+Log.py DEBUG - 48:1  [1] Selecting piece 478 to get from 0
+Log.py DEBUG - 48:1  [1] Finished downloading piece 478
+Log.py DEBUG - 48:1  [1] Selecting piece 470 to get from 0
+Log.py DEBUG - 48:1  [1] Finished downloading piece 470
+Log.py DEBUG - 48:1  [1] Selecting piece 492 to get from 0
+Log.py DEBUG - 48:1  [1] Finished downloading piece 492
+Log.py DEBUG - 48:1  [1] Selecting piece 456 to get from 0
+Log.py DEBUG - 48:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 48:2  [0] unchocking [1@20480]
+Log.py DEBUG - 48:2  [0] Unchocked peers [1]
+Log.py DEBUG - 48:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 48:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 48:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 48:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 48:2  [1] Unchocked peers [0]
+Log.py DEBUG - 48:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 48:2  [1] Downloaded 458/500 Pieces
+Log.py DEBUG - 49:1  [1] Getting interest in peer 0
+Log.py DEBUG - 49:1  [1] Downloaded 22544.38399999983/2097.152 of piece 456
+Log.py DEBUG - 49:1  [1] Finished downloading piece 456
+Log.py DEBUG - 49:1  [1] Selecting piece 461 to get from 0
+Log.py DEBUG - 49:1  [1] Finished downloading piece 461
+Log.py DEBUG - 49:1  [1] Selecting piece 489 to get from 0
+Log.py DEBUG - 49:1  [1] Finished downloading piece 489
+Log.py DEBUG - 49:1  [1] Selecting piece 329 to get from 0
+Log.py DEBUG - 49:1  [1] Finished downloading piece 329
+Log.py DEBUG - 49:1  [1] Selecting piece 495 to get from 0
+Log.py DEBUG - 49:1  [1] Finished downloading piece 495
+Log.py DEBUG - 49:1  [1] Selecting piece 485 to get from 0
+Log.py DEBUG - 49:1  [1] Finished downloading piece 485
+Log.py DEBUG - 49:1  [1] Selecting piece 479 to get from 0
+Log.py DEBUG - 49:1  [1] Finished downloading piece 479
+Log.py DEBUG - 49:1  [1] Selecting piece 429 to get from 0
+Log.py DEBUG - 49:1  [1] Finished downloading piece 429
+Log.py DEBUG - 49:1  [1] Selecting piece 440 to get from 0
+Log.py DEBUG - 49:1  [1] Finished downloading piece 440
+Log.py DEBUG - 49:1  [1] Selecting piece 477 to get from 0
+Log.py DEBUG - 49:1  [1] Finished downloading piece 477
+Log.py DEBUG - 49:1  [1] Selecting piece 496 to get from 0
+Log.py DEBUG - 49:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 49:2  [0] unchocking [1@20480]
+Log.py DEBUG - 49:2  [0] Unchocked peers [1]
+Log.py DEBUG - 49:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 49:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 49:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 49:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 49:2  [1] Unchocked peers [0]
+Log.py DEBUG - 49:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 49:2  [1] Downloaded 468/500 Pieces
+Log.py DEBUG - 50:1  [1] Getting interest in peer 0
+Log.py DEBUG - 50:1  [1] Downloaded 22052.863999999827/2097.152 of piece 496
+Log.py DEBUG - 50:1  [1] Finished downloading piece 496
+Log.py DEBUG - 50:1  [1] Selecting piece 483 to get from 0
+Log.py DEBUG - 50:1  [1] Finished downloading piece 483
+Log.py DEBUG - 50:1  [1] Selecting piece 494 to get from 0
+Log.py DEBUG - 50:1  [1] Finished downloading piece 494
+Log.py DEBUG - 50:1  [1] Selecting piece 326 to get from 0
+Log.py DEBUG - 50:1  [1] Finished downloading piece 326
+Log.py DEBUG - 50:1  [1] Selecting piece 459 to get from 0
+Log.py DEBUG - 50:1  [1] Finished downloading piece 459
+Log.py DEBUG - 50:1  [1] Selecting piece 462 to get from 0
+Log.py DEBUG - 50:1  [1] Finished downloading piece 462
+Log.py DEBUG - 50:1  [1] Selecting piece 498 to get from 0
+Log.py DEBUG - 50:1  [1] Finished downloading piece 498
+Log.py DEBUG - 50:1  [1] Selecting piece 499 to get from 0
+Log.py DEBUG - 50:1  [1] Finished downloading piece 499
+Log.py DEBUG - 50:1  [1] Selecting piece 414 to get from 0
+Log.py DEBUG - 50:1  [1] Finished downloading piece 414
+Log.py DEBUG - 50:1  [1] Selecting piece 273 to get from 0
+Log.py DEBUG - 50:1  [1] Finished downloading piece 273
+Log.py DEBUG - 50:1  [1] Selecting piece 475 to get from 0
+Log.py DEBUG - 50:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 50:2  [0] unchocking [1@20480]
+Log.py DEBUG - 50:2  [0] Unchocked peers [1]
+Log.py DEBUG - 50:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 50:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 50:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 50:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 50:2  [1] Unchocked peers [0]
+Log.py DEBUG - 50:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 50:2  [1] Downloaded 478/500 Pieces
+Log.py DEBUG - 51:1  [1] Getting interest in peer 0
+Log.py DEBUG - 51:1  [1] Downloaded 21561.343999999823/2097.152 of piece 475
+Log.py DEBUG - 51:1  [1] Finished downloading piece 475
+Log.py DEBUG - 51:1  [1] Selecting piece 452 to get from 0
+Log.py DEBUG - 51:1  [1] Finished downloading piece 452
+Log.py DEBUG - 51:1  [1] Selecting piece 415 to get from 0
+Log.py DEBUG - 51:1  [1] Finished downloading piece 415
+Log.py DEBUG - 51:1  [1] Selecting piece 450 to get from 0
+Log.py DEBUG - 51:1  [1] Finished downloading piece 450
+Log.py DEBUG - 51:1  [1] Selecting piece 493 to get from 0
+Log.py DEBUG - 51:1  [1] Finished downloading piece 493
+Log.py DEBUG - 51:1  [1] Selecting piece 363 to get from 0
+Log.py DEBUG - 51:1  [1] Finished downloading piece 363
+Log.py DEBUG - 51:1  [1] Selecting piece 486 to get from 0
+Log.py DEBUG - 51:1  [1] Finished downloading piece 486
+Log.py DEBUG - 51:1  [1] Selecting piece 497 to get from 0
+Log.py DEBUG - 51:1  [1] Finished downloading piece 497
+Log.py DEBUG - 51:1  [1] Selecting piece 466 to get from 0
+Log.py DEBUG - 51:1  [1] Finished downloading piece 466
+Log.py DEBUG - 51:1  [1] Selecting piece 424 to get from 0
+Log.py DEBUG - 51:1  [1] Finished downloading piece 424
+Log.py DEBUG - 51:1  [1] Selecting piece 471 to get from 0
+Log.py DEBUG - 51:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 51:2  [0] unchocking [1@20480]
+Log.py DEBUG - 51:2  [0] Unchocked peers [1]
+Log.py DEBUG - 51:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 51:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 51:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 51:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 51:2  [1] Unchocked peers [0]
+Log.py DEBUG - 51:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 51:2  [1] Downloaded 488/500 Pieces
+Log.py DEBUG - 52:1  [1] Getting interest in peer 0
+Log.py DEBUG - 52:1  [1] Downloaded 21069.82399999982/2097.152 of piece 471
+Log.py DEBUG - 52:1  [1] Finished downloading piece 471
+Log.py DEBUG - 52:1  [1] Selecting piece 487 to get from 0
+Log.py DEBUG - 52:1  [1] Finished downloading piece 487
+Log.py DEBUG - 52:1  [1] Selecting piece 476 to get from 0
+Log.py DEBUG - 52:1  [1] Finished downloading piece 476
+Log.py DEBUG - 52:1  [1] Selecting piece 428 to get from 0
+Log.py DEBUG - 52:1  [1] Finished downloading piece 428
+Log.py DEBUG - 52:1  [1] Selecting piece 292 to get from 0
+Log.py DEBUG - 52:1  [1] Finished downloading piece 292
+Log.py DEBUG - 52:1  [1] Selecting piece 449 to get from 0
+Log.py DEBUG - 52:1  [1] Finished downloading piece 449
+Log.py DEBUG - 52:1  [1] Selecting piece 490 to get from 0
+Log.py DEBUG - 52:1  [1] Finished downloading piece 490
+Log.py DEBUG - 52:1  [1] Selecting piece 488 to get from 0
+Log.py DEBUG - 52:1  [1] Finished downloading piece 488
+Log.py DEBUG - 52:1  [1] Selecting piece 430 to get from 0
+Log.py DEBUG - 52:1  [1] Finished downloading piece 430
+Log.py DEBUG - 52:1  [1] Selecting piece 445 to get from 0
+Log.py DEBUG - 52:1  [1] Finished downloading piece 445
+Log.py DEBUG - 52:1  [1] Selecting piece 416 to get from 0
+Log.py DEBUG - 52:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 52:2  [0] unchocking [1@20480]
+Log.py DEBUG - 52:2  [0] Unchocked peers [1]
+Log.py DEBUG - 52:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 52:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 52:2  [1]  Executing TFT Algorithm for 1
+Log.py WARN - 52:2  [1]  not enough peers to fill all TFT slots ... 1 unfilled.
+Log.py DEBUG - 52:2  [1] Unchocked peers [0]
+Log.py DEBUG - 52:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 52:2  [1] Downloaded 498/500 Pieces
+Log.py DEBUG - 53:1  [1] Getting interest in peer 0
+Log.py DEBUG - 53:1  [1] Downloaded 20578.303999999815/2097.152 of piece 416
+Log.py DEBUG - 53:1  [1] Finished downloading piece 416
+Log.py DEBUG - 53:1  [1] Selecting piece 491 to get from 0
+Log.py DEBUG - 53:1  [1] Finished downloading piece 491
+Log.py DEBUG - 53:1  [1] Piece request queue empty!
+Log.py DEBUG - 53:2  [0] Executing OU Algorithm for 1
+Log.py DEBUG - 53:2  [0] unchocking [1@20480]
+Log.py DEBUG - 53:2  [0] Unchocked peers [1]
+Log.py DEBUG - 53:2  [0] PeerList ['( 1@0: 0|0|0|1 )']
+Log.py DEBUG - 53:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 53:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 53:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 53:2  [1] Unchocked peers [0]
+Log.py DEBUG - 53:2  [1] PeerList ['( 0@0: 0|1|0|0 )']
+Log.py DEBUG - 53:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 54:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 54:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 54:2  [0] Unchocked peers [1]
+Log.py DEBUG - 54:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 54:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 54:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 54:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 54:2  [1] Unchocked peers [0]
+Log.py DEBUG - 54:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 54:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 55:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 55:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 55:2  [0] Unchocked peers [1]
+Log.py DEBUG - 55:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 55:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 55:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 55:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 55:2  [1] Unchocked peers [0]
+Log.py DEBUG - 55:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 55:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 56:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 56:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 56:2  [0] Unchocked peers [1]
+Log.py DEBUG - 56:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 56:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 56:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 56:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 56:2  [1] Unchocked peers [0]
+Log.py DEBUG - 56:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 56:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 57:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 57:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 57:2  [0] Unchocked peers [1]
+Log.py DEBUG - 57:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 57:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 57:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 57:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 57:2  [1] Unchocked peers [0]
+Log.py DEBUG - 57:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 57:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 58:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 58:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 58:2  [0] Unchocked peers [1]
+Log.py DEBUG - 58:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 58:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 58:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 58:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 58:2  [1] Unchocked peers [0]
+Log.py DEBUG - 58:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 58:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 59:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 59:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 59:2  [0] Unchocked peers [1]
+Log.py DEBUG - 59:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 59:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 59:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 59:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 59:2  [1] Unchocked peers [0]
+Log.py DEBUG - 59:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 59:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 60:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 60:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 60:2  [0] Unchocked peers [1]
+Log.py DEBUG - 60:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 60:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 60:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 60:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 60:2  [1] Unchocked peers [0]
+Log.py DEBUG - 60:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 60:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 61:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 61:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 61:2  [0] Unchocked peers [1]
+Log.py DEBUG - 61:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 61:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 61:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 61:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 61:2  [1] Unchocked peers [0]
+Log.py DEBUG - 61:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 61:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 62:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 62:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 62:2  [0] Unchocked peers [1]
+Log.py DEBUG - 62:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 62:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 62:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 62:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 62:2  [1] Unchocked peers [0]
+Log.py DEBUG - 62:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 62:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 63:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 63:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 63:2  [0] Unchocked peers [1]
+Log.py DEBUG - 63:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 63:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 63:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 63:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 63:2  [1] Unchocked peers [0]
+Log.py DEBUG - 63:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 63:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 64:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 64:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 64:2  [0] Unchocked peers [1]
+Log.py DEBUG - 64:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 64:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 64:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 64:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 64:2  [1] Unchocked peers [0]
+Log.py DEBUG - 64:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 64:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 65:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 65:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 65:2  [0] Unchocked peers [1]
+Log.py DEBUG - 65:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 65:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 65:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 65:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 65:2  [1] Unchocked peers [0]
+Log.py DEBUG - 65:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 65:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 66:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 66:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 66:2  [0] Unchocked peers [1]
+Log.py DEBUG - 66:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 66:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 66:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 66:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 66:2  [1] Unchocked peers [0]
+Log.py DEBUG - 66:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 66:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 67:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 67:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 67:2  [0] Unchocked peers [1]
+Log.py DEBUG - 67:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 67:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 67:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 67:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 67:2  [1] Unchocked peers [0]
+Log.py DEBUG - 67:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 67:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 68:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 68:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 68:2  [0] Unchocked peers [1]
+Log.py DEBUG - 68:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 68:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 68:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 68:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 68:2  [1] Unchocked peers [0]
+Log.py DEBUG - 68:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 68:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 69:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 69:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 69:2  [0] Unchocked peers [1]
+Log.py DEBUG - 69:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 69:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 69:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 69:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 69:2  [1] Unchocked peers [0]
+Log.py DEBUG - 69:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 69:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 70:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 70:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 70:2  [0] Unchocked peers [1]
+Log.py DEBUG - 70:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 70:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 70:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 70:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 70:2  [1] Unchocked peers [0]
+Log.py DEBUG - 70:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 70:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 71:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 71:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 71:2  [0] Unchocked peers [1]
+Log.py DEBUG - 71:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 71:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 71:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 71:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 71:2  [1] Unchocked peers [0]
+Log.py DEBUG - 71:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 71:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 72:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 72:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 72:2  [0] Unchocked peers [1]
+Log.py DEBUG - 72:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 72:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 72:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 72:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 72:2  [1] Unchocked peers [0]
+Log.py DEBUG - 72:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 72:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 73:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 73:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 73:2  [0] Unchocked peers [1]
+Log.py DEBUG - 73:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 73:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 73:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 73:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 73:2  [1] Unchocked peers [0]
+Log.py DEBUG - 73:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 73:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 74:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 74:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 74:2  [0] Unchocked peers [1]
+Log.py DEBUG - 74:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 74:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 74:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 74:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 74:2  [1] Unchocked peers [0]
+Log.py DEBUG - 74:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 74:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 75:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 75:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 75:2  [0] Unchocked peers [1]
+Log.py DEBUG - 75:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 75:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 75:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 75:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 75:2  [1] Unchocked peers [0]
+Log.py DEBUG - 75:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 75:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 76:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 76:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 76:2  [0] Unchocked peers [1]
+Log.py DEBUG - 76:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 76:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 76:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 76:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 76:2  [1] Unchocked peers [0]
+Log.py DEBUG - 76:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 76:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 77:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 77:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 77:2  [0] Unchocked peers [1]
+Log.py DEBUG - 77:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 77:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 77:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 77:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 77:2  [1] Unchocked peers [0]
+Log.py DEBUG - 77:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 77:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 78:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 78:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 78:2  [0] Unchocked peers [1]
+Log.py DEBUG - 78:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 78:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 78:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 78:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 78:2  [1] Unchocked peers [0]
+Log.py DEBUG - 78:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 78:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 79:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 79:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 79:2  [0] Unchocked peers [1]
+Log.py DEBUG - 79:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 79:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 79:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 79:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 79:2  [1] Unchocked peers [0]
+Log.py DEBUG - 79:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 79:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 80:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 80:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 80:2  [0] Unchocked peers [1]
+Log.py DEBUG - 80:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 80:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 80:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 80:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 80:2  [1] Unchocked peers [0]
+Log.py DEBUG - 80:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 80:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 81:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 81:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 81:2  [0] Unchocked peers [1]
+Log.py DEBUG - 81:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 81:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 81:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 81:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 81:2  [1] Unchocked peers [0]
+Log.py DEBUG - 81:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 81:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 82:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 82:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 82:2  [0] Unchocked peers [1]
+Log.py DEBUG - 82:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 82:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 82:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 82:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 82:2  [1] Unchocked peers [0]
+Log.py DEBUG - 82:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 82:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 83:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 83:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 83:2  [0] Unchocked peers [1]
+Log.py DEBUG - 83:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 83:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 83:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 83:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 83:2  [1] Unchocked peers [0]
+Log.py DEBUG - 83:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 83:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 84:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 84:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 84:2  [0] Unchocked peers [1]
+Log.py DEBUG - 84:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 84:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 84:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 84:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 84:2  [1] Unchocked peers [0]
+Log.py DEBUG - 84:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 84:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 85:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 85:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 85:2  [0] Unchocked peers [1]
+Log.py DEBUG - 85:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 85:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 85:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 85:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 85:2  [1] Unchocked peers [0]
+Log.py DEBUG - 85:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 85:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 86:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 86:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 86:2  [0] Unchocked peers [1]
+Log.py DEBUG - 86:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 86:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 86:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 86:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 86:2  [1] Unchocked peers [0]
+Log.py DEBUG - 86:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 86:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 87:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 87:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 87:2  [0] Unchocked peers [1]
+Log.py DEBUG - 87:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 87:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 87:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 87:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 87:2  [1] Unchocked peers [0]
+Log.py DEBUG - 87:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 87:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 88:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 88:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 88:2  [0] Unchocked peers [1]
+Log.py DEBUG - 88:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 88:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 88:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 88:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 88:2  [1] Unchocked peers [0]
+Log.py DEBUG - 88:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 88:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 89:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 89:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 89:2  [0] Unchocked peers [1]
+Log.py DEBUG - 89:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 89:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 89:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 89:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 89:2  [1] Unchocked peers [0]
+Log.py DEBUG - 89:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 89:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 90:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 90:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 90:2  [0] Unchocked peers [1]
+Log.py DEBUG - 90:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 90:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 90:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 90:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 90:2  [1] Unchocked peers [0]
+Log.py DEBUG - 90:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 90:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 91:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 91:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 91:2  [0] Unchocked peers [1]
+Log.py DEBUG - 91:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 91:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 91:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 91:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 91:2  [1] Unchocked peers [0]
+Log.py DEBUG - 91:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 91:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 92:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 92:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 92:2  [0] Unchocked peers [1]
+Log.py DEBUG - 92:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 92:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 92:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 92:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 92:2  [1] Unchocked peers [0]
+Log.py DEBUG - 92:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 92:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 93:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 93:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 93:2  [0] Unchocked peers [1]
+Log.py DEBUG - 93:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 93:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 93:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 93:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 93:2  [1] Unchocked peers [0]
+Log.py DEBUG - 93:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 93:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 94:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 94:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 94:2  [0] Unchocked peers [1]
+Log.py DEBUG - 94:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 94:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 94:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 94:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 94:2  [1] Unchocked peers [0]
+Log.py DEBUG - 94:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 94:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 95:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 95:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 95:2  [0] Unchocked peers [1]
+Log.py DEBUG - 95:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 95:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 95:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 95:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 95:2  [1] Unchocked peers [0]
+Log.py DEBUG - 95:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 95:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 96:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 96:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 96:2  [0] Unchocked peers [1]
+Log.py DEBUG - 96:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 96:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 96:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 96:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 96:2  [1] Unchocked peers [0]
+Log.py DEBUG - 96:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 96:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 97:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 97:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 97:2  [0] Unchocked peers [1]
+Log.py DEBUG - 97:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 97:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 97:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 97:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 97:2  [1] Unchocked peers [0]
+Log.py DEBUG - 97:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 97:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 98:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 98:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 98:2  [0] Unchocked peers [1]
+Log.py DEBUG - 98:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 98:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 98:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 98:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 98:2  [1] Unchocked peers [0]
+Log.py DEBUG - 98:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 98:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 99:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 99:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 99:2  [0] Unchocked peers [1]
+Log.py DEBUG - 99:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 99:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 99:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 99:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 99:2  [1] Unchocked peers [0]
+Log.py DEBUG - 99:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 99:2  [1] Downloaded 500/500 Pieces
+Log.py DEBUG - 100:2  [0] Executing OU Algorithm for 1
+Log.py WARN - 100:2  [0]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 100:2  [0] Unchocked peers [1]
+Log.py DEBUG - 100:2  [0] PeerList ['( 1@0: 0|0|0|0 )']
+Log.py DEBUG - 100:2  [0] Downloaded 500/500 Pieces
+Log.py DEBUG - 100:2  [1] Executing OU Algorithm for 1
+Log.py WARN - 100:2  [1]  not enough peers to populate all OU slots ... 1 unfilled.
+Log.py DEBUG - 100:2  [1] Unchocked peers [0]
+Log.py DEBUG - 100:2  [1] PeerList ['( 0@0: 0|0|0|0 )']
+Log.py DEBUG - 100:2  [1] Downloaded 500/500 Pieces
+Eruliaf.py INFO - Ending simulation
