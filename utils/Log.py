@@ -37,12 +37,15 @@ class Log(object):
         
     def peerLogging(pID, level, msg):
         logging.log(level, "{0}:{1}  [{2}] {3}".format( SSimulator().tick, SSimulator().stage, pID, msg ))
-        
+
+    #write to log
+    def w(level,msg):
+        logging.log( level, msg )
+
     pLI = staticmethod(pLI)
     pLD = staticmethod(pLD)
     pLW = staticmethod(pLW)
     pLE = staticmethod(pLE)
     peerLogging = staticmethod(peerLogging)
-        
-        
+    w = staticmethod(w)
         

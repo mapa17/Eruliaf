@@ -10,8 +10,15 @@ import logging
 class Simulator(object):
     _singelton = None
     _initialized = False
-    _stage = [0,1,2,3]
-    
+    _stage = [0,1,2,3,4]
+
+    #Simulation stages
+    ST_INIT = 0
+    ST_UPDATE_LOCAL = 1
+    ST_UPDATE_GLOBAL = 2
+    ST_LOGIC = 3
+    ST_STATIS = 4
+
     def __init__(self):        
         logging.log(logging.INFO, "Creating Simulator ...")
         self.tick = -1
