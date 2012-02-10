@@ -26,4 +26,7 @@ class SimElement(object):
 
     def registerSimFunction(self, stage, function):
         self.__simFunctions.append( (stage, function) )
-    
+
+    def removeSimElement(self):
+        SSimulator().delSimulationElement(self)
+        

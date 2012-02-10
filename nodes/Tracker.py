@@ -21,7 +21,10 @@ class Tracker(Node):
         
     def addPeer(self, peer):
         self.__peersConn.append(peer)
-    
+   
+    def remPeer(self, peer):
+        self.__peersConn.remove(peer)
+
     #Returns a set of Peers
     def getPeerList(self):
         

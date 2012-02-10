@@ -29,7 +29,10 @@ class Simulator(object):
 
     def addSimulationElement(self, element):
         self.__elements.append(element)
-        
+
+    def delSimulationElement(self, element):
+        self.__elements.remove(element)
+
     def simTick(self):
         self.tick+=1
         

@@ -16,21 +16,25 @@ class Peer(Node):
     pid = -1
     TFTPeriod = 10    # number of ticks a TFT slot is active
     OUPeriod = 30     # number of ticks a UO slot is active
-    __minPieceInterestSize =  50
+    __minPieceInterestSize =  20
 
-    def __init__(self, torrent):
+    __PEER_REDUCED = 1
+    __TFT_REDUCED = 2
+    __OU_REDUCED = 4
+
+    def __init__(self, torrent, isSeeder=False):
         super().__init__()
         self.pid = SSimulator().getNewPeerId()
         self.__torrent = torrent
         self.__maxTFTSlots = 1
-        self.__maxOUSlots = 0
+        self.__maxOUSlots = 1
         self.__nTFTSlots = 0
         self.__nOUSlots = 0
         self.__TFTSlotAge = 0
         self.__OUSlotAge = 0
-        self.__minPeerListSize = 1 #TODO: change this to 30
+        self.__minPeerListSize = 10 #TODO: change this to 30
         
-        self.__nextPieces = set() #Set of pieces to download next
+        self.piecesQueue = set() #Set of pieces to download next
         
         self.__peersConn = []
         self.__OUConn = []
@@ -38,7 +42,9 @@ class Peer(Node):
         self.__TFTConn = []
         self.__TFTReduced = set()
         self.__peersReduced = []
-        
+       
+        self.__isSeeder = isSeeder
+
         self.registerSimFunction(Simulator.ST_UPDATE_LOCAL, self.updateLocalConnectionState )
         self.registerSimFunction(Simulator.ST_UPDATE_GLOBAL, self.updateGlobalConnectionState )
         self.registerSimFunction(Simulator.ST_LOGIC, self.peerLogic )
@@ -67,9 +73,10 @@ class Peer(Node):
         newPeers = filter( f, newPeers )
 
         for i in newPeers :
-            try:
-                self.__peersReduced.index(i.pid)
-            except ValueError:                
+            if i.pid in self.__peersReduced :
+                pass
+            else:
+            #except ValueError:                
                 self.__peersReduced.append(i.pid)
                 newConnection = Connection(self, i)
                 self.__peersConn.append( (0,i.pid, newConnection, -1 ) )
@@ -103,10 +110,23 @@ class Peer(Node):
         return newConnection 
             
 
-    def updateLocalConnectionState(self):
+    def updateLocalConnectionState(self):   
+        
+        if self.__torrent.isFinished() == True :
+            #So check if we want to leave or stay as a seeder
+            if( self.__leaveTorrent() == True ):
+                self.__torrent.tracker.remPeer(self)
+                self.__disconnectConnections()
+                self.removeSimElement()
+                Log.pLI(self, "Leaving torrent ...")
+        else:
+            if( (len(self.piecesQueue) < self.__minPieceInterestSize ) ):
+                Log.pLD(self, "Getting new piece list for downloading ..." )
+                self.pieceSelection(self.__minPieceInterestSize*3) #Simulates the queuing of piece requests to other peers
+        
         finishedPieces = self.__torrent.getFinishedPieces()
         for i in self.__peersConn :
-            i[2].updateLocalState(finishedPieces, self.__nextPieces)
+            i[2].updateLocalState(finishedPieces)
             i = (i[2].getDownloadRate(), i[1], i[2]) #Update the UploadRate field in the tuple
     
     def updateGlobalConnectionState(self):
@@ -114,7 +134,10 @@ class Peer(Node):
             i[2].updateGlobalState()
     
     def peerLogic(self):
-        
+       
+        #Update download states for every connection
+        self.__updateConnectionState()
+
         if(len(self.__peersConn) < self.__minPeerListSize):
             self.getNewPeerList()
  
@@ -132,19 +155,19 @@ class Peer(Node):
 
         if(self.__torrent.isFinished() == False):
             #Leecher
-            #if( len(self.__nextPieces) < ( self.__minPieceInterestSize ) ):
-            self.pieceSelection(self.__minPieceInterestSize) #Simulates the queuing of piece requests to other peers
-            
+                        
             unusedSlots = 0
            
             if(self.__TFTSlotAge == self.TFTPeriod):
                 tftChoosen = self.runTFT(self.__maxTFTSlots - self.__nTFTSlots)
                 unusedSlots = self.__maxTFTSlots - self.__nTFTSlots - len(tftChoosen)
                 self.__TFTSlotAge = 0
+                self.__TFTUnchock(tftChoosen)
             
-            if(self.__OUSlotAge == self.OUPeriod):
+            if( (self.__OUSlotAge == self.OUPeriod) or (unusedSlots>0) ) : 
                 ouChoosen = self.runOU(self.__maxOUSlots + unusedSlots - self.__nOUSlots)
                 self.__OUSlotAge = 0
+                self.__OUUnchock(ouChoosen)
             
             self.__TFTSlotAge += 1
             self.__OUSlotAge += 1
@@ -155,15 +178,55 @@ class Peer(Node):
                 nSlots = self.__maxOUSlots + self.__maxTFTSlots - self.__nOUSlots - self.__nTFTSlots
                 if( nSlots > 0):
                     ouChoosen = self.runOU(nSlots)
+                    self.__OUUnchock(ouChoosen)
                 self.__OUSlotAge = 0
                 
             self.__OUSlotAge += 1
         
-        #Chock/Unchock peers, update peer lists
-        self.__doUnchock(ouChoosen, tftChoosen)
-
         #Print statistics about the node
         self.__printStats()    
+
+    def peerDisconnect(self, conn):
+
+        #Remove connection from peer connection list, TFT and OU
+        for i in self.__OUConn:
+            if i[2] == conn:
+                self.__OUConn.remove(i)
+                self.__nOUSlots -= 1
+
+        for i in self.__TFTConn:
+            if i[2] == conn:
+                self.__TFTConn.remove(i)
+                self.__nTFTSlots -= 1
+
+        for i in self.__peersConn:
+            if i[2] == conn:
+                self.__peersConn.remove(i)
+
+        self.__generateReducedSets(self.__PEER_REDUCED | self.__TFT_REDUCED | self.__OU_REDUCED )
+
+        #Log.pLD(self, "Peer {0} disconnected ... ".format(conn.) )
+
+
+    def __leaveTorrent(self):
+
+        if self.__isSeeder:
+            return False
+
+        i = random.random() * 100
+        if ( i < 10 ) :
+            return True
+        else:
+            return False
+
+    def __disconnectConnections(self):
+        for i in self.__peersConn:
+            i[2].disconnect()
+
+    def __updateConnectionState(self):
+        for idx,i in enumerate(self.__peersConn) :
+            self.__peersConn[idx] = ( i[2].getDownloadRate(), i[1], i[2], i[3] ) 
+        pass
 
     def __doChocking(self):
         t = SSimulator().tick
@@ -182,18 +245,9 @@ class Peer(Node):
                 idx = self.__TFTConn.index(i)
                 self.__TFTConn.pop(idx)
         
-        self.__TFTReduced = set()
-        for i in self.__TFTConn:
-            self.__TFTReduced.add(i[1])
-        self.__nTFTSlots = len(self.__TFTReduced)
-        
-        self.__OUReduced = set()
-        for i in self.__OUConn:
-            self.__OUReduced.add(i[1])
-        self.__nOUSlots = len(self.__OUReduced)
+        self.__generateReducedSets(self.__OU_REDUCED | self.__TFT_REDUCED )
 
-
-    def __doUnchock(self, ouChoosen, tftChoosen):
+    def __OUUnchock(self, ouChoosen):
 
         t = SSimulator().tick
 
@@ -204,24 +258,45 @@ class Peer(Node):
             self.__OUConn.append( self.__peersConn[idx] )
             self.__peersConn[idx][2].unchock(1024*20)
 
+        self.__generateReducedSets(self.__OU_REDUCED)
+    
+    def __TFTUnchock(self, tftChoosen):
+
+        t = SSimulator().tick
+
         #Unchock TFT
         for i in tftChoosen:
-            idx = self.__peersConn.index(i)
-            self.__peersConn[idx] = (i[0],i[1],i[2],t + self.OUPeriod)
+            try:
+                idx = self.__peersConn.index(i)
+            except ValueError:
+                pass
+
+            self.__peersConn[idx] = (i[0],i[1],i[2],t + self.TFTPeriod)
             self.__TFTConn.append( self.__peersConn[idx] )
             self.__peersConn[idx][2].unchock(1024*20)
 
-        self.__TFTReduced = set()
-        for i in self.__TFTConn:
-            self.__TFTReduced.add(i[1])
-        self.__nTFTSlots = len(self.__TFTReduced)
-        
-        self.__OUReduced = set()
-        for i in self.__OUConn:
-            self.__OUReduced.add(i[1])
-        self.__nOUSlots = len(self.__OUReduced)
+        self.__generateReducedSets(self.__TFT_REDUCED)
 
- 
+    def __generateReducedSets(self, mode):
+
+        if mode & self.__PEER_REDUCED:
+            self.__peersReduced = set()
+            for i in self.__peersConn:
+                self.__peersReduced.add(i[1])
+
+        if mode & self.__TFT_REDUCED:
+            self.__TFTReduced = set()
+            for i in self.__TFTConn:
+                self.__TFTReduced.add(i[1])
+            self.__nTFTSlots = len(self.__TFTReduced)
+        
+        if mode & self.__OU_REDUCED:
+            self.__OUReduced = set()
+            for i in self.__OUConn:
+                self.__OUReduced.add(i[1])
+            self.__nOUSlots = len(self.__OUReduced)
+
+
     def __printStats(self):
        
         '''
@@ -240,7 +315,9 @@ class Peer(Node):
         #Print PeerList
         t = []
         for i in self.__peersConn:
-            t.append( "( {0}@{1} , {2}|{3}|{4}|{5} , {6})".format(i[1],i[0], \
+            t.append( "( {0}@{1}/{2} {3}|{4}|{5}|{6} , {7})".format(i[1], \
+                            i[2].getDownloadRate(),  \
+                            i[2].getUploadRate(), \
                             1 if i[2].chocking == True else 0, \
                             1 if i[2].interested == True else 0, \
                             1 if i[2].peerIsChocking() == True else 0, \
@@ -248,11 +325,11 @@ class Peer(Node):
                             i[3], \
                             ) )
 
-        Log.pLD(self, "TFT {0}, OU {1} , PeerList {2}".format(self.__nTFTSlots, self.__nOUSlots, t) )
+        Log.pLD(self, "DL {0}/{1} i{2} TFT {3}, OU {4} , PeerList {5}".format(self.__torrent.getNumberOfFinishedPieces(), \
+            self.__torrent.getNumberOfPieces(), \
+            len(self.piecesQueue), \
+            self.__nTFTSlots, self.__nOUSlots, t) )
                         
-        #Print download status
-        Log.pLD(self, "Downloaded {0}/{1} Pieces".format(self.__torrent.getNumberOfFinishedPieces(), self.__torrent.getNumberOfPieces()) )
-
     '''
         The Tit-for-tat algorithm ranks peers on their upload speed provided to this node.
         Take the <nSlots> highest ranked peers and execute the TFT algorithm on them 
@@ -263,16 +340,16 @@ class Peer(Node):
         
         choosen = list()
         candidates = self.getTFTCandidates()
-
+        
         if(len(candidates) > 0):
-            candidates = candidates.sort(reverse=True) #Sort candidates based on their uploadRate, (highest uploadRate first)
+            candidates.sort(reverse=True) #Sort candidates based on their uploadRate, (highest uploadRate first)
             if(nSlots > len(candidates)):
                 nSlots = len(candidates)
 
             while(nSlots > 0):
-                choosen = candidates.pop(0)
+                choosen.append( candidates.pop(0) )
                 nSlots-=1
-       
+           
         if(nSlots > 0):
             Log.pLW(self, " not enough peers to fill all TFT slots ... {0} unfilled.".format(nSlots) )
         
@@ -292,8 +369,18 @@ class Peer(Node):
         choosen = random.sample(candidates, nSlots)
         return choosen
 
+    def finishedDownloadingPiece(self, conn, piece):
+        self.__torrent.finishedPiece( piece )
+        if piece in self.piecesQueue:
+            self.piecesQueue.remove(piece)
+
+    def downloadingPiece(self, conn, piece):
+        if piece in self.piecesQueue:
+            self.piecesQueue.remove(piece)
+
     def pieceSelection(self, nPieces):
-        self.__nextPieces = set( self.__torrent.getEmptyPieces(nPieces) )
+        self.piecesQueue = self.__torrent.getEmptyPieces(nPieces)
+        self.piecesQueue = set( random.sample(self.piecesQueue, len(self.piecesQueue) ) )
     
     def getTorrent(self):
         return self.__torrent

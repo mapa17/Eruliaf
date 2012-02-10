@@ -29,8 +29,8 @@ class Torrent(object):
     def getFinishedPieces(self):
         return set( self.getPieceSubSet(self.__Cfinished, self.__nFinishedPieces) ) #set of piece indexes
         
-    def getDownloadingPieces(self, n):
-        return set( self.getPieceSubSet(self.__Cdownloading, n) ) #Set of piece indexes
+    #def getDownloadingPieces(self, n):
+    #    return set( self.getPieceSubSet(self.__Cdownloading, n) ) #Set of piece indexes
     
     def getEmptyPieces(self, n):
         return set( self.getPieceSubSet(self.__Cempty, n) ) #Set of piece indexes
@@ -40,7 +40,11 @@ class Torrent(object):
         
     def getNumberOfFinishedPieces(self):
         return self.__nFinishedPieces
-        
+
+    #def getNumberOfDownloadingPieces(self):
+    #    dl = self.getDownloadingPieces(self.__nPieces)
+    #    return len( dl )
+
     def getNumberOfNotFinishedPieces(self):
         return self.__nPieces - self.__nFinishedPieces #This are empty AND downloading pieces
         
@@ -71,11 +75,13 @@ class Torrent(object):
     def getBlockSize(self):
         return self.__blockSize
     
-    def downloadPiece(self, piece):
-        if(piece >= 0 and piece < len(self.__pieces) and self.__pieces[piece] == self.__Cempty) :
-            self.__pieces[piece] = self.__Cdownloading
+    #def downloadPiece(self, piece):
+    #    if(piece >= 0 and piece < len(self.__pieces) and self.__pieces[piece] == self.__Cempty) :
+    #        self.__pieces[piece] = self.__Cdownloading
             
     def finishedPiece(self, piece):
+        if( self.__pieces[piece] == self.__Cfinished):
+            print("double donwload of piece {0}!".format(piece) )
         if(piece >= 0 and piece < len(self.__pieces) and self.__pieces[piece] != self.__Cfinished) :
             self.__pieces[piece] = self.__Cfinished
             self.__nFinishedPieces+=1

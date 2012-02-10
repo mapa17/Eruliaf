@@ -20,20 +20,23 @@ class Connection(object):
         
         self.chocking = True
         self.interested = False
-        
+        self.disconnected = False
+
         self.finishedPieces = set()
-        self.interestingPieces = set()
         
         self.__acumulatedData = 0
         self.finishedPieces = set()
-        self.interestingPieces = set()
-        self.__nextPieces = set()
         self.__currentPiece = -1
-       
+        self.__downloadablePieces = set()
+
         #self.connectionTime = 0 #Number of ticks this connection is UPLOADING data
         #self.minDuration = 0
         self.__remoteConnection = None
-    
+   
+    def disconnect(self):
+        self.disconnected = True
+        self.__remoteConnection.disconnected = True
+
     def connect(self):
         #This is the connection element on the other side
         self.__remoteConnection =  self.__destPeer.connectToPeer(self.__srcPeer)
@@ -86,9 +89,8 @@ class Connection(object):
             # Update interest and chock status for this connection
             # If a active download is going on, check for piece completion and assign new piece to download
     '''
-    def updateLocalState(self, finishedPieces, interestingPieces):
+    def updateLocalState(self, finishedPieces):
         self.finishedPieces = finishedPieces
-        self.interestingPieces = interestingPieces
         
         self.__uploadRate = self.__uploadRate # dont modify this right now, later simulate fluctuation
     
@@ -103,19 +105,25 @@ class Connection(object):
         return self.__remoteConnection.chocking
 
     def updateGlobalState(self):
+
+        if( self.disconnected == True ):
+            #Connection was disconnected, tell peer
+            self.__srcPeer.peerDisconnect(self)
+            return
+
         #Check if we are seeding , if so, we are __NEVER__ interested
         if(self.__srcPeer.getTorrent().isFinished() == False):
         
             #Check what the other peer has to offer
-            self.__nextPieces = self.interestingPieces & self.__remoteConnection.finishedPieces
-            if(len(self.__nextPieces) > 0):
-                Log.pLD(self.__srcPeer, "Getting interest in peer {0}".format(self.__destPeer.pid) )
+            self.__calcDownloadablePieceSet()        
+            if(len(self.__downloadablePieces) > 0):
+                Log.pLD(self.__srcPeer, "Having interst in {0} from {1}".format( len(self.__downloadablePieces), self.__destPeer.pid) )
                 self.interested = True
                 self.__setCurrentPiece()
                 #if( self.chocking == True ):
                 #    self.unchock(self.__uploadRate, 0)
             else:
-                Log.pLD(self.__srcPeer, "Loosing interest in peer {0} , therefore chocking conn.".format(self.__destPeer.pid) )
+                Log.pLD(self.__srcPeer, "Loosing interest in peer {0}".format(self.__destPeer.pid) )
                 #self.chocking = True
                 self.interested = False
         else:
@@ -136,7 +144,8 @@ class Connection(object):
             Log.pLD(self.__srcPeer, "Downloaded {0}/{1} of piece {2}".format(self.__acumulatedData, self.__srcPeer.getTorrent().pieceSizeBytes, self.__currentPiece) )
             while(self.__acumulatedData > self.__srcPeer.getTorrent().pieceSizeBytes):
                 Log.pLD(self.__srcPeer, "Finished downloading piece {0}".format(self.__currentPiece) )
-                self.__srcPeer.getTorrent().finishedPiece( self.__currentPiece )
+            
+                self.__srcPeer.finishedDownloadingPiece(self, self.__currentPiece )
                 self.__acumulatedData -= self.__srcPeer.getTorrent().pieceSizeBytes
                 self.__currentPiece = -1
                 #Set a next piece and utilize the data downloaded for this one. If there are no more pieces discard the downloaded data
@@ -147,27 +156,33 @@ class Connection(object):
             
             if(self.__currentPiece == -1):
                 self.__setCurrentPiece()
-        
+
+        #Remote peer lost interest in us, stop sending data
+        if( self.chocking == False and self.__remoteConnection.interested == False ):
+            Log.pLD(self.__srcPeer, "Remote peer [{0}] lost interest, Chock!".format(self.__destPeer.pid) )
+            self.chock()
+                    
         if( self.__remoteConnection.chocking == True):
             self.__downloadRate = 0
 
     #Select a piece for downloading
     def __setCurrentPiece(self):
-    
-        #shuffle the download list -> so we dont download the same piece from all peers
-        self.__nextPieces = random.sample(self.__nextPieces, len(self.__nextPieces))
+        self.__calcDownloadablePieceSet()
 
-        if( len(self.__nextPieces) == 0):
+        if( len(self.__downloadablePieces) == 0):
             return False
         if( self.__currentPiece != -1):
             Log.pLD(self.__srcPeer,"Still want piece {0} to from {1}".format(self.__currentPiece, self.__destPeer.pid) )
             return True #We allready have a piece slected
-
-        self.__currentPiece = self.__nextPieces.pop()
-        self.__srcPeer.getTorrent().downloadPiece(self.__currentPiece)
+    
+        #shuffle the download list -> so we dont download the same piece from all peers
+        self.__currentPiece = random.sample(self.__downloadablePieces, 1)[0]
         Log.pLD(self.__srcPeer,"Selecting piece {0} to get from {1}".format(self.__currentPiece, self.__destPeer.pid) )
         return True
-        
+    
+    def __calcDownloadablePieceSet(self):
+        self.__downloadablePieces = self.__srcPeer.piecesQueue & self.__remoteConnection.finishedPieces   
+
     def getDownloadRate(self):
         return self.__downloadRate
     

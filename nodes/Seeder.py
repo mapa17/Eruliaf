@@ -9,7 +9,7 @@ class Seeder(Peer):
 
     def __init__(self, torrent):
         torrent.setFinished()
-        super().__init__(torrent)
+        super().__init__(torrent, True)
         
     def __str__(self, *args, **kwargs):
         return "Seeder [pid {0}, nid {1} ]".format(self.pid, self.nid)
