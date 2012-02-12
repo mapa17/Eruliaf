@@ -29,8 +29,6 @@ class Connection(object):
         self.__currentPiece = -1
         self.__downloadablePieces = set()
 
-        #self.connectionTime = 0 #Number of ticks this connection is UPLOADING data
-        #self.minDuration = 0
         self.remoteConnection = None
    
     def disconnect(self):
@@ -86,7 +84,10 @@ class Connection(object):
         #    self.connectionTime += 1        
 
     def peerIsInterested(self):
-        return  self.remoteConnection.interested
+        try:
+            return self.remoteConnection.interested
+        except:
+            pass
 
     def peerIsChocking(self):
         return self.remoteConnection.chocking

@@ -28,7 +28,7 @@ class Seeder(Peer):
     def updateLocalConnectionState(self):
          
         if( len(self.__SuperSeedingPieceSet) != 0):
-            for i in self._peersConn : 
+            for i in self._peersConn.values() : 
                 if self.__SuperSeedingPieceSet.issubset(i[2].remoteConnection.finishedPieces) :
                     self.changeSeedingSet()             
         
