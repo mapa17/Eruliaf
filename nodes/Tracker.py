@@ -13,26 +13,26 @@ class Tracker(Node):
 
     def __init__(self):
         Node.__init__(self)
-        self.__peersConn = []
+        self._peersConn = []
         #self.__id = SSimulator().getNewPeerId()
 
     def __str__(self, *args, **kwargs):
         return "Tracker"
         
     def addPeer(self, peer):
-        self.__peersConn.append(peer)
+        self._peersConn.append(peer)
    
     def remPeer(self, peer):
-        self.__peersConn.remove(peer)
+        self._peersConn.remove(peer)
 
     #Returns a set of Peers
     def getPeerList(self):
         
         sampleSize = self.CpeerSampleSize
         
-        if(sampleSize > len(self.__peersConn) ):
-            sampleSize = len(self.__peersConn)
+        if(sampleSize > len(self._peersConn) ):
+            sampleSize = len(self._peersConn)
             
-        pL = random.sample(self.__peersConn, sampleSize)
+        pL = random.sample(self._peersConn, sampleSize)
         
         return pL

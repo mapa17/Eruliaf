@@ -21,7 +21,7 @@ class PeerFactory(SimElement):
     def spawnPeers(self):
         if( SSimulator().tick == 0 ):
             Log.w(Log.DEBUG, "Creating new peers ...")
-            for i in range ( 0, 5 ):
+            for i in range ( 0, 50 ):
                 p = Peer( Torrent( 1024*1024*1, self.__tracker ) ) #Create new peer
                 Log.w(Log.DEBUG, "New Peer {0}".format(p.pid) )
                 self.__tracker.addPeer(p)

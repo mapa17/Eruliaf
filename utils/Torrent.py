@@ -64,10 +64,11 @@ class Torrent(object):
                 
         return subSet
     
-    def setFinished(self):
+    def setFinished(self, flagPieces = True):
         self.__finishedTorrent = True
-        self.__nFinishedPieces = self.__nPieces
-        self.__pieces = [ self.__Cfinished ] * self.__nPieces #Set all to finished
+        if( flagPieces ):
+            self.__nFinishedPieces = self.__nPieces
+            self.__pieces = [ self.__Cfinished ] * self.__nPieces #Set all to finished
     
     def isFinished(self):
         return self.__finishedTorrent

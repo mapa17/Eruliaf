@@ -40,11 +40,9 @@ class Simulator(object):
             self.stage = s
             for e in self.__elements :
                 e.nextTick(self.tick, s)
-                
-        #TODO: simulate tick
 
     def testSimEnd(self):
-        if(self.tick == 100):
+        if(self.tick == 200):
             return True
             logging.log(logging.INFO, "Time to end the simulation ...")
         else:

@@ -31,15 +31,15 @@ class Connection(object):
 
         #self.connectionTime = 0 #Number of ticks this connection is UPLOADING data
         #self.minDuration = 0
-        self.__remoteConnection = None
+        self.remoteConnection = None
    
     def disconnect(self):
         self.disconnected = True
-        self.__remoteConnection.disconnected = True
+        self.remoteConnection.disconnected = True
 
     def connect(self):
         #This is the connection element on the other side
-        self.__remoteConnection =  self.__destPeer.connectToPeer(self.__srcPeer)
+        self.remoteConnection =  self.__destPeer.connectToPeer(self.__srcPeer)
     
     #Called by Peer to chock connection
     def chock(self):
@@ -48,20 +48,7 @@ class Connection(object):
         Log.pLD(self.__srcPeer, "chocking [{0}]".format(self.__destPeer.pid) )
 
         #self.__downloadRate = 0
-        #self.__remoteConnection.chockRemote()
-
-    '''
-    #Called from remote connection when chocking
-    def chockRemote(self):
-        #If for some reason we are not transferring data any more, halt everything and reset the download state of this piece
-        Log.pLD(self.__srcPeer,"Chocked from remote peer. ChockStatus [ {0} {1} ]".format(self.chocking, self.__remoteConnection.chocking ) )
-        self.__downloadRate = 0
-        #Mark the active piece as empty again! and discard what has been downloaded
-        if( self.__currentPiece != -1 ):
-            self.__srcPeer.getTorrent().setEmptyPiece(self.__currentPiece)
-            self.__currentPiece = -1
-            self.__acumulatedData = 0
-    '''
+        #self.remoteConnection.chockRemote()
 
     def unchock(self, uploadRate):
         self.__uploadRate = uploadRate
@@ -72,7 +59,7 @@ class Connection(object):
 
         ##If we have already been unchocked dont call the remove peer
         #if(self.chocking == False):
-        #    self.__remoteConnection.unchockRemote()
+        #    self.remoteConnection.unchockRemote()
         #    Log.pLD(self.__srcPeer, "Continue unchocking [{0}@{1}]".format(self.__destPeer.pid, uploadRate) )
         #else:
         #    Log.pLD(self.__srcPeer, "unchocking [{0}@{1}]".format(self.__destPeer.pid, uploadRate) )
@@ -95,14 +82,14 @@ class Connection(object):
         self.__uploadRate = self.__uploadRate # dont modify this right now, later simulate fluctuation
     
         #Check if we upload data
-        #if( self.chocking == False and self.__remoteConnection.interested == True):
+        #if( self.chocking == False and self.remoteConnection.interested == True):
         #    self.connectionTime += 1        
 
     def peerIsInterested(self):
-        return  self.__remoteConnection.interested
+        return  self.remoteConnection.interested
 
     def peerIsChocking(self):
-        return self.__remoteConnection.chocking
+        return self.remoteConnection.chocking
 
     def updateGlobalState(self):
 
@@ -117,7 +104,7 @@ class Connection(object):
             #Check what the other peer has to offer
             self.__calcDownloadablePieceSet()        
             if(len(self.__downloadablePieces) > 0):
-                Log.pLD(self.__srcPeer, "Having interst in {0} from {1}".format( len(self.__downloadablePieces), self.__destPeer.pid) )
+                Log.pLD(self.__srcPeer, "Having interest in {0} from {1}".format( len(self.__downloadablePieces), self.__destPeer.pid) )
                 self.interested = True
                 self.__setCurrentPiece()
                 #if( self.chocking == True ):
@@ -128,18 +115,17 @@ class Connection(object):
                 self.interested = False
         else:
             self.interested = False
-            return #As seeder return here, if uploaded or not is defined by the peer logic
         
         #Downloading happens if we are interested and the other peer is not chocking us
-        if( self.interested == True and self.__remoteConnection.chocking == False):
+        if( self.interested == True and self.remoteConnection.chocking == False):
                     
             #Check if we finished a complete piece and if so mark it as finished and get the next one
-            self.__acumulatedData += self.__remoteConnection.getUploadRate()
+            self.__acumulatedData += self.remoteConnection.getUploadRate()
            
             if(self.__downloadRate == 0):
-                self.__downloadRate = self.__remoteConnection.getUploadRate()
+                self.__downloadRate = self.remoteConnection.getUploadRate()
             else:
-                self.__downloadRate = ( self.__downloadRate + self.__remoteConnection.getUploadRate() ) / 2
+                self.__downloadRate = ( self.__downloadRate + self.remoteConnection.getUploadRate() ) / 2
           
             Log.pLD(self.__srcPeer, "Downloaded {0}/{1} of piece {2}".format(self.__acumulatedData, self.__srcPeer.getTorrent().pieceSizeBytes, self.__currentPiece) )
             while(self.__acumulatedData > self.__srcPeer.getTorrent().pieceSizeBytes):
@@ -152,17 +138,17 @@ class Connection(object):
                 if(self.__setCurrentPiece() == False):
                     self.__acumulatedData = 0   #This is simulating lost bandwidth due to running out of piece requests
                     Log.pLD(self.__srcPeer, "Piece request queue empty!" )
-                    return  
+                    self.interested = False
             
             if(self.__currentPiece == -1):
                 self.__setCurrentPiece()
 
         #Remote peer lost interest in us, stop sending data
-        if( self.chocking == False and self.__remoteConnection.interested == False ):
+        if( self.chocking == False and self.remoteConnection.interested == False ):
             Log.pLD(self.__srcPeer, "Remote peer [{0}] lost interest, Chock!".format(self.__destPeer.pid) )
             self.chock()
                     
-        if( self.__remoteConnection.chocking == True):
+        if( self.remoteConnection.chocking == True):
             self.__downloadRate = 0
 
     #Select a piece for downloading
@@ -172,8 +158,10 @@ class Connection(object):
         if( len(self.__downloadablePieces) == 0):
             return False
         if( self.__currentPiece != -1):
-            Log.pLD(self.__srcPeer,"Still want piece {0} to from {1}".format(self.__currentPiece, self.__destPeer.pid) )
-            return True #We allready have a piece slected
+            #Check if this piece is still available, if not choose a new one
+            if self.__currentPiece in self.__downloadablePieces:
+                Log.pLD(self.__srcPeer,"Still want piece {0} to from {1}".format(self.__currentPiece, self.__destPeer.pid) )
+                return True #We allready have a piece slected
     
         #shuffle the download list -> so we dont download the same piece from all peers
         self.__currentPiece = random.sample(self.__downloadablePieces, 1)[0]
@@ -181,7 +169,7 @@ class Connection(object):
         return True
     
     def __calcDownloadablePieceSet(self):
-        self.__downloadablePieces = self.__srcPeer.piecesQueue & self.__remoteConnection.finishedPieces   
+        self.__downloadablePieces = self.__srcPeer.piecesQueue & self.remoteConnection.finishedPieces   
 
     def getDownloadRate(self):
         return self.__downloadRate
