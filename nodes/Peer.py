@@ -26,7 +26,7 @@ class Peer(Node):
         super().__init__()
         self.pid = SSimulator().getNewPeerId()
         self._torrent = torrent
-        self.__maxTFTSlots = 4
+        self.__maxTFTSlots = 2
         self.__maxOUSlots = 1
         self.__nTFTSlots = 0
         self.__nOUSlots = 0
@@ -144,14 +144,22 @@ class Peer(Node):
                         
             unusedSlots = 0
            
-            if(self.__TFTSlotAge == self.TFTPeriod):
-                tftChoosen = self.runTFT(self.__maxTFTSlots - self.__nTFTSlots)
+            if( (self.__TFTSlotAge == self.TFTPeriod) and (self.__nTFTSlots < self.__maxTFTSlots) ):
+
+                nSlots = self.__maxTFTSlots - self.__nTFTSlots
+                if(nSlots + self.__nTFTSlots + self.__nOUSlots > self.__maxTFTSlots):
+                    nSlots = nSlots + self.__nTFTSlots + self.__nOUSlots - self.__maxTFTSlots
+                 
+                tftChoosen = self.runTFT(nSlots)
                 self.__TFTSlotAge = 0
                 self.__TFTUnchock(tftChoosen)
                 unusedSlots = self.__maxTFTSlots - self.__nTFTSlots - len(tftChoosen)
             
-            if( (self.__OUSlotAge == self.OUPeriod) or (unusedSlots>0) ) : 
-                ouChoosen = self.runOU(self.__maxOUSlots + unusedSlots - self.__nOUSlots)
+            if( (self.__OUSlotAge == self.OUPeriod) or (unusedSlots>0) or (self.__nOUSlots < self.__maxOUSlots) ) :
+                nSlots = self.__maxTFTSlots+self.__maxOUSlots - self.__nTFTSlots - self.__nOUSlots
+                if( nSlots < 0):
+                    pass
+                ouChoosen = self.runOU(nSlots)
                 self.__OUSlotAge = 0
                 self.__OUUnchock(ouChoosen)
             
@@ -230,7 +238,7 @@ class Peer(Node):
         for i in ouChoosen:
             self._peersConn[i[1]] = ( i[0],i[1],i[2], t + self.OUPeriod, self.OUT_SLOT  )
             self.__nOUSlots += 1
-            self._peersConn[i[1]][2].unchock(1024*20)
+            self._peersConn[i[1]][2].unchock(1024*5)
     
     def __TFTUnchock(self, tftChoosen):
 
@@ -240,7 +248,7 @@ class Peer(Node):
         for i in tftChoosen:
             self._peersConn[i[1]] = ( i[0],i[1],i[2], t + self.TFTPeriod, self.TFT_SLOT  )
             self.__nTFTSlots += 1
-            self._peersConn[i[1]][2].unchock(1024*20)
+            self._peersConn[i[1]][2].unchock(1024*5)
             
     def __printStats(self):
        
@@ -260,14 +268,15 @@ class Peer(Node):
         #Print PeerList
         t = []
         for i in self._peersConn.values():
-            t.append( "( {0}@{1}/{2} {3}|{4}|{5}|{6} , {7})".format(i[1], \
-                            i[2].getDownloadRate(),  \
+            t.append( "( {0}@{1}/{2} {3}|{4}|{5}|{6} , {7}|{8})".format(i[1], \
                             i[2].getUploadRate(), \
+                            i[2].getDownloadRate(),  \
                             1 if i[2].chocking == True else 0, \
                             1 if i[2].interested == True else 0, \
                             1 if i[2].peerIsChocking() == True else 0, \
                             1 if i[2].peerIsInterested() == True else 0, \
                             i[3], \
+                            "N" if i[4] == self.NO_SLOT else "T" if i[4] ==  self.TFT_SLOT else "O", \
                             ) )
 
         Log.pLI(self, "DL {0}/{1} i{2} TFT {3}, OU {4} , PeerList {5}".format(self._torrent.getNumberOfFinishedPieces(), \
@@ -312,14 +321,13 @@ class Peer(Node):
             Log.pLE(self, "Error in calculating the number of OU slots to schedule. Will skip OU at this step!")
             return set()
        
-        choosen = list()
         candidates = self.getOUCandidates()
 
         if( len(candidates) < nSlots ):
             Log.pLW(self, " not enough peers to populate all OU slots ... {0} unfilled.".format(nSlots - len(candidates)) )
             nSlots = len(candidates)      
         
-        choosen = random.sample(candidates, nSlots)
+        choosen = list( random.sample(candidates, nSlots) )
         return choosen
 
     def finishedDownloadingPiece(self, conn, piece):

@@ -148,9 +148,11 @@ class Connection(object):
         if( self.chocking == False and self.remoteConnection.interested == False ):
             Log.pLD(self.__srcPeer, "Remote peer [{0}] lost interest, Chock!".format(self.__destPeer.pid) )
             self.chock()
-                    
+        
+        #For now, keep the last download rate
         if( self.remoteConnection.chocking == True):
-            self.__downloadRate = 0
+            #self.__downloadRate = 0
+            pass
 
     #Select a piece for downloading
     def __setCurrentPiece(self):
