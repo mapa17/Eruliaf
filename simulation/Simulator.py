@@ -42,7 +42,7 @@ class Simulator(object):
                 e.nextTick(self.tick, s)
 
     def testSimEnd(self):
-        if(self.tick == 200):
+        if(self.tick == 500):
             return True
             logging.log(logging.INFO, "Time to end the simulation ...")
         else:

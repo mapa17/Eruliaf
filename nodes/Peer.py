@@ -22,7 +22,7 @@ class Peer(Node):
     TFT_SLOT = 1
     OUT_SLOT = 2
 
-    def __init__(self, torrent):
+    def __init__(self, torrent, maxUploadRate, maxDownloadRate):
         super().__init__()
         self.pid = SSimulator().getNewPeerId()
         self._torrent = torrent
@@ -33,6 +33,8 @@ class Peer(Node):
         self.__TFTSlotAge = 0
         self.__OUSlotAge = 0
         self.__minPeerListSize = 10 #TODO: change this to 30
+        self.__maxDownloadRate = maxDownloadRate
+        self.__maxUploadRate = maxUploadRate
         
         self.piecesQueue = set() #Set of pieces to download next
         
@@ -68,6 +70,8 @@ class Peer(Node):
             if (i.pid in self._peersConn) == False:
                 newConnection = Connection(self, i)
                 self._peersConn[i.pid] = ( 0, i.pid, newConnection, -1 , self.NO_SLOT)
+                newConnection.setUploadLimit(self.__maxUploadRate / ( self.__maxTFTSlots + self.__maxOUSlots ) )
+                newConnection.setDownloadLimit(self.__maxUploadRate / ( self.__maxTFTSlots + self.__maxOUSlots ) )
                 newConnection.connect()
                 Log.pLD(self, "adding Peer [{0}]".format(i.pid))
     
@@ -84,6 +88,8 @@ class Peer(Node):
             Log.pLD(self, "adding Peer [{0}]".format(peer.pid)) 
             newConnection = Connection(self, peer)
             self._peersConn[peer.pid] = ( 0, peer.pid, newConnection, -1 , self.NO_SLOT)
+            newConnection.setUploadLimit(self.__maxUploadRate / ( self.__maxTFTSlots + self.__maxOUSlots ) )
+            newConnection.setDownloadLimit(self.__maxUploadRate / ( self.__maxTFTSlots + self.__maxOUSlots ) )
             self._peersConn[peer.pid][2].connect()
         
         #Return the connection reference
@@ -238,7 +244,7 @@ class Peer(Node):
         for i in ouChoosen:
             self._peersConn[i[1]] = ( i[0],i[1],i[2], t + self.OUPeriod, self.OUT_SLOT  )
             self.__nOUSlots += 1
-            self._peersConn[i[1]][2].unchock(1024*5)
+            self._peersConn[i[1]][2].unchock()
     
     def __TFTUnchock(self, tftChoosen):
 
@@ -248,7 +254,7 @@ class Peer(Node):
         for i in tftChoosen:
             self._peersConn[i[1]] = ( i[0],i[1],i[2], t + self.TFTPeriod, self.TFT_SLOT  )
             self.__nTFTSlots += 1
-            self._peersConn[i[1]][2].unchock(1024*5)
+            self._peersConn[i[1]][2].unchock()
             
     def __printStats(self):
        
@@ -324,7 +330,7 @@ class Peer(Node):
         candidates = self.getOUCandidates()
 
         if( len(candidates) < nSlots ):
-            Log.pLW(self, " not enough peers to populate all OU slots ... {0} unfilled.".format(nSlots - len(candidates)) )
+            Log.pLD(self, " not enough peers to populate all OU slots ... {0} unfilled.".format(nSlots - len(candidates)) )
             nSlots = len(candidates)      
         
         choosen = list( random.sample(candidates, nSlots) )

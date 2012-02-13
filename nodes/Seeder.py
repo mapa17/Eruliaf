@@ -7,9 +7,9 @@ from nodes.Peer import Peer
 
 class Seeder(Peer):
 
-    def __init__(self, torrent):
+    def __init__(self, torrent, uploadRate, downloadRate):
         torrent.setFinished(False)
-        super().__init__(torrent)
+        super().__init__(torrent, uploadRate, downloadRate)
         
         self._isSeeder = True
         self._SuperSeedingSize = 20
