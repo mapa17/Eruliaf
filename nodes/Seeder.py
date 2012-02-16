@@ -44,6 +44,7 @@ class Seeder(Peer):
         #If we have already seeded the last piece, clear set
         if( self.topPiece ==  nPieces ):
             self.__SuperSeedingPieceSet = set()
+            self._torrent.setFinished()
             return
 
         newTop = self.topPiece + self._SuperSeedingSize

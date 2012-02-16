@@ -17,7 +17,7 @@ class Connection(object):
         self.__destPeer = dest
         self.__uploadRate = 0
         self.__downloadRate = 0
-        self._maxDownloadRate = 0
+        #self._maxDownloadRate = 0
         self._maxUploadRate = 0
         
         self.chocking = True
@@ -53,24 +53,24 @@ class Connection(object):
     def setUploadLimit(self, rate):
         self._maxUploadRate = int(rate)
 
-    def setDownloadLimit(self, rate):
-        self._maxDownloadRate = int(rate)
+    #def setDownloadLimit(self, rate):
+    #    self._maxDownloadRate = int(rate)
 
     def getDownloadRate(self):
         return self.__downloadRate
         
     def getUploadRate(self):
-        if( self.__uploadRate > self.remoteConnection.getDownloadRate() ):
-            self.__uploadRate = self.remoteConnection.getDownloadRate() 
+        #if( self.__uploadRate > self.remoteConnection.getDownloadRate() ):
+        #    self.__uploadRate = self.remoteConnection.getDownloadRate() 
         return self.__uploadRate
 
-    def unchock(self, uploadRate=-1, downloadRate=-1):
+    def unchock(self, uploadRate=-1):
         if(uploadRate > -1):
             self._maxUploadRate = int(uploadRate)
-        if(downloadRate > -1):
-            self._maxDownloadRate = int(downloadRate)
+        #if(downloadRate > -1):
+        #    self._maxDownloadRate = int(downloadRate)
         self.chocking = False
-        Log.pLD(self.__srcPeer, "unchocking [{0}@{1}/{2}]".format(self.__destPeer.pid, self._maxUploadRate, self._maxDownloadRate) )
+        Log.pLI(self.__srcPeer, "unchocking [{0}@{1}]".format(self.__destPeer.pid, self._maxUploadRate) )
 
     '''
     #Is called from remoteConnection when it unchocks this peer
@@ -86,16 +86,16 @@ class Connection(object):
     def updateLocalState(self, finishedPieces):
         self.finishedPieces = finishedPieces
         self.__calculateUploadRate()
-        self.__calculateDownloadRate()
+        #self.__calculateDownloadRate()
 
     #Have a simple up to 10% distortion rate
     def __calculateUploadRate(self):
         self.__uploadRate = self._maxUploadRate * ( 1.0 - ( random.random() % 0.1 ))
         self.__uploadRate = int(self.__uploadRate)
 
-    def __calculateDownloadRate(self):
-        self.__downloadRate = self._maxDownloadRate * ( 1.0 - ( random.random() % 0.1 ))
-        self.__downloadRate = int(self.__downloadRate)
+    #def __calculateDownloadRate(self):
+    #    self.__downloadRate = self._maxDownloadRate * ( 1.0 - ( random.random() % 0.1 ))
+    #    self.__downloadRate = int(self.__downloadRate)
 
     def peerIsInterested(self):
         try:
@@ -136,8 +136,9 @@ class Connection(object):
 
             #Limit maximum download rate
             currentDownloadRate = self.remoteConnection.getUploadRate()
-            if(currentDownloadRate > self._maxDownloadRate):
-                currentDownloadRate = self._maxDownloadRate
+            currentDownloadRate = self.__srcPeer.requestDownloadBandwidth(currentDownloadRate)
+            #if(currentDownloadRate > self._maxDownloadRate):
+            #    currentDownloadRate = self._maxDownloadRate
 
             #Check if we finished a complete piece and if so mark it as finished and get the next one
             self.__acumulatedData += currentDownloadRate
@@ -185,7 +186,7 @@ class Connection(object):
             #Check if this piece is still available, if not choose a new one
             if self.__currentPiece in self.__downloadablePieces:
                 Log.pLD(self.__srcPeer,"Still want piece {0} to from {1}".format(self.__currentPiece, self.__destPeer.pid) )
-                return True #We allready have a piece slected
+                return True #We already have a piece selected
     
         #shuffle the download list -> so we dont download the same piece from all peers
         self.__currentPiece = random.sample(self.__downloadablePieces, 1)[0]

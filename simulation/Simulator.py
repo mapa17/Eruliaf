@@ -49,6 +49,8 @@ class Simulator(object):
         self.__peerId = -1
         self._multithreading = False #Turn off multithreading by default!
 
+        self.SIM_END = 600 #Tick at which the simulation will be stoped
+        
         self.simQueue = queue.Queue()
         self._threads = []
         self._numberOfThreads = 4
@@ -90,7 +92,7 @@ class Simulator(object):
         self.simQueue.join()
 
     def testSimEnd(self):
-        if(self.tick == 500):
+        if(self.tick == self.SIM_END):
             logging.log(logging.INFO, "Time to end the simulation ...")
             return True
         else:

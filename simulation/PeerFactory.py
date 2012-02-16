@@ -9,6 +9,7 @@ from simulation.Simulator import Simulator
 from simulation.SSimulator import SSimulator
 from utils.Log import Log
 from nodes.Peer import Peer
+from nodes.Peer_C1 import Peer_C1
 from utils.Torrent import Torrent
 import random
 
@@ -23,9 +24,46 @@ class PeerFactory(SimElement):
         if( SSimulator().tick == 0 ):
             Log.w(Log.DEBUG, "Creating new peers ...")
             for i in range ( 0, 5 ):
-                uploadRate = random.randint( 1024*5, 1024*10 )
-                downloadRate = random.randint ( 1024*10, 1024*20 )
-                p = Peer( Torrent( 1024*1024*1, self.__tracker ) , uploadRate, downloadRate ) #Create new peer
-                Log.w(Log.DEBUG, "New Peer {0}".format(p.pid) )
-                self.__tracker.addPeer(p)
-                
+                self.addPeer()                
+
+            for i in range ( 0, 1):
+                self.addPeer_C1()
+
+        else:
+            if SSimulator().tick > (SSimulator().SIM_END - 100) :
+                return
+
+            if self.spawnPeer() == True:
+                self.addPeer()
+
+            if self.spawnPeer_C1() == True:
+                self.addPeer_C1()
+
+    def addPeer(self):
+        uploadRate = random.randint( 1024*5, 1024*10 )
+        downloadRate = random.randint ( 1024*10, 1024*20 )
+        p = Peer( Torrent( 1024*1024*1, self.__tracker ) , uploadRate, downloadRate ) #Create new peer
+        Log.w(Log.INFO, "New Peer {0}".format(p.pid) )
+        self.__tracker.addPeer(p)
+
+
+    def addPeer_C1(self):
+        uploadRate = random.randint( 1024*5, 1024*10 )
+        downloadRate = random.randint ( 1024*10, 1024*20 )
+        p = Peer_C1( Torrent( 1024*1024*1, self.__tracker ) , uploadRate, downloadRate ) #Create new peer
+        Log.w(Log.INFO, "New Peer_C1 {0}".format(p.pid) )
+        self.__tracker.addPeer(p)
+ 
+    def spawnPeer(self):
+        r = random.random()
+        if r < 0.02:
+            return True
+        else:
+            return False
+    
+    def spawnPeer_C1(self):
+        r = random.random()
+        if r < 0.02:
+            return True
+        else:
+            return False
