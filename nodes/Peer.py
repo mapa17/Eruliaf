@@ -25,6 +25,7 @@ class Peer(Node):
     def __init__(self, torrent, maxUploadRate, maxDownloadRate):
         super().__init__()
         self.pid = SSimulator().getNewPeerId()
+        self._birth = SSimulator().tick
         self._torrent = torrent
         self._maxTFTSlots = 2
         self._maxOUSlots = 1
@@ -44,11 +45,6 @@ class Peer(Node):
         self.registerSimFunction(Simulator.ST_UPDATE_LOCAL, self.updateLocalConnectionState )
         self.registerSimFunction(Simulator.ST_UPDATE_GLOBAL, self.updateGlobalConnectionState )
         self.registerSimFunction(Simulator.ST_LOGIC, self.peerLogic )
-       
-        #self.__wasUnchocked = False
-        #Start right away
-        #self.__TFTSlotAge = self.TFTPeriod
-        #self.__OUSlotAge = self.OUPeriod
     
     def __del__(self):
         Log.pLD("Peer is beeing destroyed")

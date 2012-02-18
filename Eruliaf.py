@@ -11,6 +11,7 @@ from utils.Torrent import Torrent
 from utils.Log import Log
 import logging
 from simulation.PeerFactory import PeerFactory
+from simulation.Observer import Observer
 
 if __name__ == '__main__':
     
@@ -19,7 +20,8 @@ if __name__ == '__main__':
     
     S = SSimulator()
     T = Tracker()
-    
+    O = Observer( T )    
+
     logging.log(Log.INFO, "Creating nodes ...")
     
     s = Seeder( Torrent(1024*1024*1, T) , 1024*20, 1024*10)

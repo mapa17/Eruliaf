@@ -31,35 +31,39 @@ class SimulationThread( threading.Thread ):
 class Simulator(object):
     _singelton = None
     _initialized = False
-    _stage = [0,1,2,3,4]
 
     #Simulation stages
     ST_INIT = 0
     ST_UPDATE_LOCAL = 1
     ST_UPDATE_GLOBAL = 2
     ST_LOGIC = 3
-    ST_STATIS = 4
+    ST_STATISTICS = 4
+    ST_SIMULATION_END = 666
+
+    _stage = [0,1,2,3,4]
 
     def __init__(self):        
         logging.log(logging.INFO, "Creating Simulator ...")
         self.tick = -1
         self.stage = -1
         self.__elements = []
+        self.__simEndElements = []
         self.__nodeId = -1
         self.__peerId = -1
         self._multithreading = False #Turn off multithreading by default!
 
         self.SIM_END = 600 #Tick at which the simulation will be stoped
+       
+        if( self._multithreading ):
+            self.simQueue = queue.Queue()
+            self._threads = []
+            self._numberOfThreads = 4
         
-        self.simQueue = queue.Queue()
-        self._threads = []
-        self._numberOfThreads = 4
-        
-        for i in range( 0, self._numberOfThreads):
-            self._threads.append( SimulationThread(self.simQueue, self) )
+            for i in range( 0, self._numberOfThreads):
+                self._threads.append( SimulationThread(self.simQueue, self) )
 
-        for t in self._threads:
-            t.start()
+            for t in self._threads:
+                t.start()
 
     def addSimulationElement(self, element):
         self.__elements.append(element)
@@ -70,26 +74,35 @@ class Simulator(object):
     def simTick(self):
         self.tick+=1
         
+        for s in Simulator._stage :
+            self.stage = s
+            self._execCurrentStage()
+
+
+    def _execCurrentStage(self):
+
         if self._multithreading == True : 
-            for s in Simulator._stage :
-                self.stage = s
-                for e in self.__elements :
-                    #self.simQueue.put_nowait(e)
-                    self.simQueue.put(e)
+            for e in self.__elements :
+                #self.simQueue.put_nowait(e)
+                self.simQueue.put(e)
 
                 self.simQueue.join()
         else:
-            for s in Simulator._stage :
-                self.stage = s
-                for e in self.__elements :
-                    e.nextTick(self.tick, s)
-        
+            for e in self.__elements :
+                e.nextTick(self.tick, self.stage)
+
+
     def endSimulation(self):
-        #Send all threads a zero (integer) so that they will terminate
-        for i in self._threads:
-            self.simQueue.put( 0 )
+
+        self.stage = Simulator.ST_SIMULATION_END
+        self._execCurrentStage()
+
+        if self._multithreading == True : 
+            #Send all threads a zero (integer) so that they will terminate
+            for i in self._threads:
+                self.simQueue.put( 0 )
         
-        self.simQueue.join()
+            self.simQueue.join()
 
     def testSimEnd(self):
         if(self.tick == self.SIM_END):

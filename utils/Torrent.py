@@ -4,6 +4,8 @@ Created on Feb 2, 2012
 @author: Pasieka Manuel , mapa17@posgrado.upv.es
 '''
 
+from simulation.SSimulator import SSimulator
+
 class Torrent(object):
 
     __blockSize = 512 #Size in bytes
@@ -25,7 +27,8 @@ class Torrent(object):
         self.__nFinishedPieces = 0
         self.__finishedTorrent = False
         self.tracker = tracker
-    
+        self._finishTick = -1 #Time the torrent finished download
+
     def getFinishedPieces(self):
         return set( self.getPieceSubSet(self.__Cfinished, self.__nFinishedPieces) ) #set of piece indexes
         
@@ -66,6 +69,7 @@ class Torrent(object):
     
     def setFinished(self, flagPieces = True):
         self.__finishedTorrent = True
+        self._finishTick = SSimulator().tick
         if( flagPieces ):
             self.__nFinishedPieces = self.__nPieces
             self.__pieces = [ self.__Cfinished ] * self.__nPieces #Set all to finished
@@ -87,8 +91,8 @@ class Torrent(object):
             self.__pieces[piece] = self.__Cfinished
             self.__nFinishedPieces+=1
             if(self.__nFinishedPieces == self.__nPieces) :
-                self.__finishedTorrent = True
-            
+                self.setFinished(False) 
+
     def setEmptyPiece(self, piece):
         if(piece >= 0 and piece < len(self.__pieces) ) :
             self.__pieces[piece] = self.__Cempty
