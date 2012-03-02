@@ -26,7 +26,7 @@ class PeerFactory(SimElement):
             for i in range ( 0, 5 ):
                 self.addPeer()                
 
-            for i in range ( 0, 1):
+            for i in range ( 0, 5):
                 self.addPeer_C1()
 
         else:
@@ -56,14 +56,14 @@ class PeerFactory(SimElement):
  
     def spawnPeer(self):
         r = random.random()
-        if r < 0.02:
+        if r < 0.05:
             return True
         else:
             return False
     
     def spawnPeer_C1(self):
         r = random.random()
-        if r < 0.02:
+        if r < 0.05:
             return True
         else:
             return False
