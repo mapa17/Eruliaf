@@ -24,7 +24,9 @@ if __name__ == '__main__':
 
     logging.log(Log.INFO, "Creating nodes ...")
     
-    s = Seeder( Torrent(1024*1024*1, T) , 1024*20, 1024*10)
+    tor = Torrent(1024*1024*1, T)
+    Log.w(Log.INFO, "Piece size [{0}] bytes".format(tor.pieceSizeBytes) )
+    s = Seeder( tor , 1024*20, 1024*10)
     
     logging.log(Log.INFO, "Creating {0}".format(s))
     #logging.log(Log.INFO, "Creating {0}".format(p1))

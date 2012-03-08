@@ -5,6 +5,7 @@ Created on Feb 2, 2012
 '''
 
 from simulation.SSimulator import SSimulator
+from utils.Log import Log
 
 class Torrent(object):
 

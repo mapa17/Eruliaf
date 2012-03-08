@@ -113,12 +113,12 @@ class Observer(SimElement):
         
         #Count number of peers and number of completed peers
         for p in self._tracker._peers:
-            if( isinstance(p, Peer) ):
+            if( p.__class__.__name__ == "Peer" ):
                 peerCnt += 1
                 if( p._torrent.isFinished() ):
                     peerCmpltCnt += 1
 
-            if( isinstance(p, Peer_C1) ):
+            if( p.__class__.__name__ == "Peer_C1" ):
                 peerCntC1 += 1
                 if( p._torrent.isFinished() ):
                     peerCmpltCntC1 += 1

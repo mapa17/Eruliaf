@@ -15,8 +15,10 @@ class Connection(object):
     def __init__(self, src, dest):
         self.__srcPeer = src
         self.__destPeer = dest
+
         self.__uploadRate = 0
         self.__downloadRate = 0
+        self._averageDownloadRate = 0
         #self._maxDownloadRate = 0
         self._maxUploadRate = 0
         
@@ -25,7 +27,8 @@ class Connection(object):
         self.disconnected = False
 
         self.finishedPieces = set()
-        
+       
+        self._freshUnchock = False 
         self.__acumulatedData = 0
         self.finishedPieces = set()
         self.__currentPiece = -1
@@ -46,23 +49,30 @@ class Connection(object):
         self.chocking = True
         self.__uploadRate = 0
         Log.pLD(self.__srcPeer, "chocking [{0}]".format(self.__destPeer.pid) )
-
         #self.__downloadRate = 0
         #self.remoteConnection.chockRemote()
 
     def setUploadLimit(self, rate):
         self._maxUploadRate = int(rate)
-
+        self.__calculateUploadRate()
+        
     #def setDownloadLimit(self, rate):
     #    self._maxDownloadRate = int(rate)
+    def getUploadLimit(self):
+        return self._maxUploadRate
 
     def getDownloadRate(self):
         return self.__downloadRate
-        
+    
+    def getAverageDownloadRate(self):
+        return self._averageDownloadRate
+       
+    #We upload data if we do not chock and the peer is interested 
     def getUploadRate(self):
-        #if( self.__uploadRate > self.remoteConnection.getDownloadRate() ):
-        #    self.__uploadRate = self.remoteConnection.getDownloadRate() 
-        return self.__uploadRate
+        if( (self.chocking == False) and  (self.remoteConnection.interested == True) ):
+            return self.__uploadRate
+        else:
+            return 0
 
     def unchock(self, uploadRate=-1):
         if(uploadRate > -1):
@@ -70,19 +80,13 @@ class Connection(object):
         #if(downloadRate > -1):
         #    self._maxDownloadRate = int(downloadRate)
         self.chocking = False
-        Log.pLI(self.__srcPeer, "unchocking [{0}@{1}]".format(self.__destPeer.pid, self._maxUploadRate) )
+        Log.pLD(self.__srcPeer, "unchocking [{0}@{1}]".format(self.__destPeer.pid, self._maxUploadRate) )
+        self.__calculateUploadRate()
+        self._freshUnchock = True
+        #self._averageDownloadRate = 0
 
-    '''
-    #Is called from remoteConnection when it unchocks this peer
-    def unchockRemote(self):
-        self.__srcPeer.unchockHappend()
-    '''
-
-    '''
-        This is called with stage 0 on every tick and has the following tasks:
-            # Update interest and chock status for this connection
-            # If a active download is going on, check for piece completion and assign new piece to download
-    '''
+    
+    #Is called at the beginning of ervery tick and calculates the upload bandwidth for this tick for this connection
     def updateLocalState(self, finishedPieces):
         self.finishedPieces = finishedPieces
         self.__calculateUploadRate()
@@ -98,14 +102,16 @@ class Connection(object):
     #    self.__downloadRate = int(self.__downloadRate)
 
     def peerIsInterested(self):
-        try:
-            return self.remoteConnection.interested
-        except:
-            pass
+        return self.remoteConnection.interested
 
     def peerIsChocking(self):
         return self.remoteConnection.chocking
 
+    '''
+        This is called on every tick and has the following tasks:
+            # Update interest and chock status for this connection
+            # If a active download is going on, check for piece completion and assign new piece to download
+    '''
     def updateGlobalState(self):
 
         if( self.disconnected == True ):
@@ -131,8 +137,12 @@ class Connection(object):
         else:
             self.interested = False
         
+    def runDownload(self):
+        #If nothing happens, nothing is downloaded
+        self.__downloadRate = 0
+        
         #Downloading happens if we are interested and the other peer is not chocking us
-        if( self.interested == True and self.remoteConnection.chocking == False):
+        if( (self.interested == True) and (self.remoteConnection.chocking == False) ):
 
             #Limit maximum download rate
             currentDownloadRate = self.remoteConnection.getUploadRate()
@@ -143,10 +153,7 @@ class Connection(object):
             #Check if we finished a complete piece and if so mark it as finished and get the next one
             self.__acumulatedData += currentDownloadRate
            
-            if(self.__downloadRate == 0):
-                self.__downloadRate = currentDownloadRate
-            else:
-                self.__downloadRate = ( self.__downloadRate + currentDownloadRate ) / 2
+            self.__downloadRate = currentDownloadRate
             
             #Make this int so we dont get too long floating number in output log
             self.__downloadRate = int(self.__downloadRate)
@@ -162,19 +169,40 @@ class Connection(object):
                 if(self.__setCurrentPiece() == False):
                     self.__acumulatedData = 0   #This is simulating lost bandwidth due to running out of piece requests
                     Log.pLD(self.__srcPeer, "Piece request queue empty!" )
-                    self.interested = False
+                    #On start of next round we will loose interest
+                    #self.interested = False
             
             if(self.__currentPiece == -1):
                 self.__setCurrentPiece()
 
         #Remote peer lost interest in us, stop sending data
-        if( self.chocking == False and self.remoteConnection.interested == False ):
-            Log.pLD(self.__srcPeer, "Remote peer [{0}] lost interest, Chock!".format(self.__destPeer.pid) )
-            self.chock()
+        #if( self.chocking == False and self.remoteConnection.interested == False ):
+        #    Log.pLD(self.__srcPeer, "Remote peer [{0}] lost interest, Chock!".format(self.__destPeer.pid) )
+        #    self.chock()
                     
-        if( self.remoteConnection.chocking == True):
-            #self.__downloadRate = 0
-            pass
+        #if( self.remoteConnection.chocking == True):
+        #    self.__downloadRate = 0
+        #    pass
+
+    def postDownloadState(self):
+        self.__uploadRate = self.remoteConnection.getDownloadRate() #Should be the real upload consumption
+        
+        #If the other peer was able to download this round, rate your download rate
+        #if( (self.interested == True) and (self.remoteConnection.chocking == False) ):
+        #If we unchock and this either a TFT or an OU Slot than take notice of our average download Rate 
+        if( (self.chocking == False) and ( (self.__srcPeer._peersConn[self.__destPeer.pid][4] == 1) or (self.__srcPeer._peersConn[self.__destPeer.pid][4] == 2) ) ):
+        #if( (self.chocking == False) and  (self.remoteConnection.interested == True) ):
+            self._averageDownloadRate = int( ( self.__downloadRate + self._averageDownloadRate ) / 2 )
+            '''
+            if( self._averageDownloadRate == 0):
+                self._averageDownloadRate = int(self.__downloadRate)
+            else:
+                if( self._freshUnchock == True ):
+                    self._averageDownloadRate = self.__downloadRate
+                    self._freshUnchock = False
+                else:
+                    self._averageDownloadRate = int( ( self.__downloadRate + self._averageDownloadRate ) / 2 )
+            '''
 
     #Select a piece for downloading
     def __setCurrentPiece(self):

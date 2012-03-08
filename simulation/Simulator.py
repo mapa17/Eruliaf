@@ -37,10 +37,12 @@ class Simulator(object):
     ST_UPDATE_LOCAL = 1
     ST_UPDATE_GLOBAL = 2
     ST_LOGIC = 3
-    ST_STATISTICS = 4
+    ST_FILETRANSFER = 4
+    ST_CONCLUTION = 5
+    ST_STATISTICS = 6
     ST_SIMULATION_END = 666
 
-    _stage = [0,1,2,3,4]
+    _stage = [0,1,2,3,4,5]
 
     def __init__(self):        
         logging.log(logging.INFO, "Creating Simulator ...")
@@ -73,6 +75,7 @@ class Simulator(object):
 
     def simTick(self):
         self.tick+=1
+        print("Simulating tick[{0}]\n".format(self.tick) )
         
         for s in Simulator._stage :
             self.stage = s

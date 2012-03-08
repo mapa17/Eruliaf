@@ -16,17 +16,17 @@ import random
 class PeerFactory(SimElement):
 
     def __init__(self, tracker):
-       super().__init__()
-       self.__tracker = tracker
-       self.registerSimFunction(Simulator.ST_INIT, self.spawnPeers )
+        super().__init__()
+        self.__tracker = tracker
+        self.registerSimFunction(Simulator.ST_INIT, self.spawnPeers )
 
     def spawnPeers(self):
         if( SSimulator().tick == 0 ):
             Log.w(Log.DEBUG, "Creating new peers ...")
-            for i in range ( 0, 5 ):
+            for i in range ( 0, 20 ):
                 self.addPeer()                
 
-            for i in range ( 0, 5):
+            for i in range ( 0, 1):
                 self.addPeer_C1()
 
         else:
@@ -43,7 +43,7 @@ class PeerFactory(SimElement):
         uploadRate = random.randint( 1024*5, 1024*10 )
         downloadRate = random.randint ( 1024*10, 1024*20 )
         p = Peer( Torrent( 1024*1024*1, self.__tracker ) , uploadRate, downloadRate ) #Create new peer
-        Log.w(Log.INFO, "New Peer {0}".format(p.pid) )
+        Log.w(Log.INFO, "New Peer {0} Up/Down [{1}/{2}]".format(p.pid, uploadRate, downloadRate) )
         self.__tracker.addPeer(p)
 
 
@@ -51,19 +51,19 @@ class PeerFactory(SimElement):
         uploadRate = random.randint( 1024*5, 1024*10 )
         downloadRate = random.randint ( 1024*10, 1024*20 )
         p = Peer_C1( Torrent( 1024*1024*1, self.__tracker ) , uploadRate, downloadRate ) #Create new peer
-        Log.w(Log.INFO, "New Peer_C1 {0}".format(p.pid) )
+        Log.w(Log.INFO, "New Peer_C1 {0} Up/Down [{1}/{2}]".format(p.pid, uploadRate, downloadRate) )
         self.__tracker.addPeer(p)
  
     def spawnPeer(self):
         r = random.random()
-        if r < 0.05:
+        if r < 0.1:
             return True
         else:
             return False
     
     def spawnPeer_C1(self):
         r = random.random()
-        if r < 0.05:
+        if r < 0.0:
             return True
         else:
             return False
