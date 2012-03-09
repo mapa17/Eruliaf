@@ -42,7 +42,7 @@ class Simulator(object):
     ST_STATISTICS = 6
     ST_SIMULATION_END = 666
 
-    _stage = [0,1,2,3,4,5]
+    _stage = [0,1,2,3,4,5,6]
 
     def __init__(self):        
         logging.log(logging.INFO, "Creating Simulator ...")

@@ -28,7 +28,7 @@ class Peer(Node):
         self.pid = SSimulator().getNewPeerId()
         self._birth = SSimulator().tick
         self._torrent = torrent
-        self._maxTFTSlots = 2
+        self._maxTFTSlots = 4
         self._maxOUSlots = 1
         self._nTFTSlots = 0
         self._nOUSlots = 0
@@ -50,10 +50,17 @@ class Peer(Node):
         self.registerSimFunction(Simulator.ST_LOGIC, self.peerLogic )
         self.registerSimFunction(Simulator.ST_FILETRANSFER, self._runDownloads )
         self.registerSimFunction(Simulator.ST_CONCLUTION, self._conclutionState )
-    
+        
+        #Decide when to run tft and ou algorithm next time
+        self._nextTFTPhaseStart = SSimulator().tick
+        self._nextOUPhaseStart = SSimulator().tick 
+        
         self._runTFTFlag = True 
         self._runOUFlag = True
-    
+ 
+        self._getMorePeersFlag = True
+        
+           
     def __del__(self):
         Log.pLD("Peer is being destroyed")
 
@@ -135,88 +142,79 @@ class Peer(Node):
         self._nTFTSlots = 0
         
         for (k, v) in self._peersConn.items():
-            #Terminate OU connections that lay waisted because the other side has no interest
-            if (v[4] == self.OU_SLOT) and (v[2].peerIsInterested() == False):
-                self._peersConn[k] = ( v[2].getAverageDownloadRate(), v[1], v[2], -1 , self.NO_SLOT)
-                self._peersConn[k][2].chock()
-                self._runOUFlag = True
-            
-            #Close TFT connections that we unchocked because we once had interest, but now we dont
-            elif (v[4] == self.TFT_POSSIBLE_SLOT) and (v[2].interested == False):
-                self._peersConn[k] = ( v[2].getAverageDownloadRate(), v[1], v[2], -1 , self.NO_SLOT)
-                self._peersConn[k][2].chock()
-
-            #If a possible better TFT got interested, run TFTAlgorithm
-            elif (v[4] == self.TFT_POSSIBLE_SLOT) and (v[2].interested == True):
-                self._runTFTFlag = True
-                self._peersConn[k] = ( v[2].getAverageDownloadRate(), v[1], v[2], v[3] , v[4]) #Update the UploadRate field in the tuple
-            
-            #We have no interest, he has no interest, drop
-            elif (v[4] == self.OU_SLOT) and (v[2].interested == False) and ( v[2].peerIsInterested() == False) :
-                self._runOUFlag = True
-                self._peersConn[k] = ( v[2].getAverageDownloadRate(), v[1], v[2], -1 , self.NO_SLOT) #Update the UploadRate field in the tuple    
-            
-            #We have no interest, he has no interest, drop
-            elif (v[4] == self.TFT_SLOT) and (v[2].interested == False) and ( v[2].peerIsInterested() == False) :
-                self._runTFTFlag = True
-                self._peersConn[k] = ( v[2].getAverageDownloadRate(), v[1], v[2], -1 , self.NO_SLOT) #Update the UploadRate field in the tuple
-
-            #A possible better TFT partner has become interested
-            elif( (v[4] == self.TFT_POSSIBLE_SLOT) and ( v[2].peerIsInterested() == True) ):
-                self._runTFTFlag = True
-            
-            #Chok connections who's TTL expired
-            elif ( v[3] <= t )  :
-                if ( v[4] == self.OU_SLOT) :
-                    self._runOUFlag
-                elif ( v[4] == self.TFT_SLOT) :
-                    self._runTFTFlag
-                    
-                #In all cases, chock and TTL = 0
-                self._peersConn[k] = ( v[2].getAverageDownloadRate(), v[1], v[2], -1 , self.NO_SLOT)
-                self._peersConn[k][2].chock()
-                
-            else: #If nothing else, update uploadrate so the peer can be rated
-                self._peersConn[k] = ( v[2].getAverageDownloadRate(), v[1], v[2], v[3] , v[4]) #Update the UploadRate field in the tuple
+               
+            #If nothing else, update uploadrate so the peer can be rated
+            self._peersConn[k] = ( v[2].getAverageDownloadRate(), v[1], v[2], v[3] , v[4]) #Update the UploadRate field in the tuple
                 
             if(v[4] == self.OU_SLOT):
                 self._nOUSlots += 1
                 
             if(v[4] == self.TFT_SLOT):
                 self._nTFTSlots += 1
+    
 
-    def peerLogic(self):
-
+    def _preLogicOperations(self):
+        
+        t = SSimulator().tick
+        
         if(len(self._peersConn) < self._minPeerListSize):
+            self._getMorePeersFlag = True
+        
+        if(self._getMorePeersFlag == True):
+            self._getMorePeersFlag = False
             self.getNewPeerList()
+
+        if( self._nextTFTPhaseStart == t):
+            self._nextTFTPhaseStart = t + self.TFTPeriod
+            self._runTFTFlag = True
+
+        if( self._nextOUPhaseStart == t):
+            self._nextOUPhaseStart = t + self.OUPeriod
+            self._runOUFlag = True
 
         if(self._nTFTSlots < self._maxTFTSlots):
             self._runTFTFlag = True
                            
         if(self._nOUSlots < self._maxOUSlots):
             self._runOUFlag = True
-             
+         
+    '''
+    How the un/chok algorithm should work
+    
+    The maxTFTSlot peers should be unchoked for 10sec and left to them to download/request pieces
+    These peers are selected based on their short term upload rate (not averaging too much) best, two time slots
+    
+    I think i can niglect this unchoking of better nodes (possible tft peers), because in order to download form them
+    the only thing i need is interest. If the other peer unchoks I can donwload, and by doing so rate the peer.
+    
+    I think its best to have synchronized tft slots, meaning all tft should be selected at once.
+    
+    Going back to the first implementation! 
+    '''
+                
+    def peerLogic(self):
+
+        self._preLogicOperations()
+    
         if(self._torrent.isFinished() == False):
             #Leecher
         
-            self._findBetherTFTParnet()
-         
             if( self._runTFTFlag == True):
                 self._runTFTFlag = False
                 nSlots = self._maxTFTSlots
-                chosen = self.runTFT(nSlots)
+                chosen = self.runTFT(nSlots, self._nextTFTPhaseStart)
             
             if( self._runOUFlag == True ):
                 self._runOUFlag = False
                 nSlots = self._maxOUSlots
-                chosen = self.runOU(nSlots)
+                chosen = self.runOU(nSlots, self._nextOUPhaseStart)
             
         else:
             #Seeder Part
             if( self._runOUFlag == True ):
                 self._runOUFlag = False
                 nSlots = self._maxOUSlots + self._maxTFTSlots
-                chosen = self.runOU(nSlots)
+                chosen = self.runOU(nSlots, self._nextOUPhaseStart)
 
     def _runDownloads(self):
         for i in self._peersConn.values() :
@@ -233,9 +231,6 @@ class Peer(Node):
         
         #Print statistics about the node
         self._printStats()
-    def _findBetherTFTParnet(self):
-        #DONT KNOWWWoW, how often to run TFT, or bether how often to change peers
-        pass
         
     #Is called by the connection passed as argument to tell the peer about a disconnected peer
     def peerDisconnect(self, conn):
@@ -243,10 +238,6 @@ class Peer(Node):
         copy = self._peersConn.copy()
         for (k, v) in copy.items():
             if v[2] ==  conn:
-#                if v[4] == self.OU_SLOT :
-#                    self._nOUSlots -= 1
-#                if v[4] == self.TFT_SLOT :
-#                    self._nTFTSlots -=1
                 del self._peersConn[k]
                 break #The connection can only have existed once
                 
@@ -285,40 +276,6 @@ class Peer(Node):
             i[2].disconnect()
 
     
-#    def _doChocking(self):
-#        t = SSimulator().tick
-#
-#        for i in self._peersConn.values() :
-#            if i[3] <= t :
-#                '''
-#                #Only call chock on open connections
-#                if i[4] == self.OU_SLOT :
-#                    self._nOUSlots -= 1
-#                    i[2].chock()
-#                if i[4] == self.TFT_SLOT :
-#                    self._nTFTSlots -=1
-#                    i[2].chock()
-#                '''
-#                if (i[4] == self.OU_SLOT) or (i[4] == self.TFT_SLOT):
-#                    i[2].chock()                    
-#                    self._peersConn[i[1]] = ( i[0],i[1],i[2], -1, self.NO_SLOT )
-
-#    def _OUUnchock(self, ouChoosen):
-#
-#        #Unchock OU
-#        for i in ouChoosen:
-#            self._peersConn[i[1]] = i
-#            self._nOUSlots += 1
-#            self._peersConn[i[1]][2].unchock()
-#    
-#    def _TFTUnchock(self, tftChoosen):
-#
-#        #Unchock TFT
-#        for i in tftChoosen:
-#            self._peersConn[i[1]] = i
-#            self._nTFTSlots += 1
-#            self._peersConn[i[1]][2].unchock()
-            
     def _printStats(self):
        
         #Print PeerList
@@ -349,52 +306,43 @@ class Peer(Node):
     '''
         The Tit-for-tat algorithm ranks peers on their upload speed provided to this node.
         Take the <nSlots> highest ranked peers and execute the TFT algorithm on them 
+        
+        It depends only on their upload rate, not any interest on their or our part. If we have no
+        interest our download will be low/zero and so we will rate the peer as useless in the next slot.
     '''
-    def runTFT(self, nSlots):
+    def runTFT(self, nSlots, TTL):
         Log.pLD(self, " Executing TFT Algorithm for {0}".format(nSlots) )
         #self._peersConn.sort() #Peer list in the form ( <UploadRate>, <PeerID>, <Connection> ) , sort will on the first field and on collision continue with the others
         
         t = SSimulator().tick
         chosen = list()
+        
+        #Now everyone is a candidate, take even current OU Slots, this makes sense to step up a peer from OU to TFT is they are good
         candidates = self.getTFTCandidates()
         
-        if(len(candidates) > 0):
-            candidates.sort(reverse=True) #Sort candidates based on their uploadRate, (highest uploadRate first)
-            #if(nSlots > len(candidates)):
-            #    nSlots = len(candidates)
-
-            while( (len(chosen) < nSlots) and (len(candidates) > 0) ):
-                p = candidates.pop(0)
-                
-                #Only unchok peers that are not already unchocked!
-                if( (p[4] != self.TFT_SLOT) and (p[2].peerIsInterested() == True) ):
-                    self._peersConn[p[1]] = ( p[0], p[1], p[2], t + self.TFTPeriod, self.TFT_SLOT )
-                    self._peersConn[p[1]][2].unchock()    
-                    chosen.append(p[1])
-                    
-                #This a possible peering partner, unchock
-                if( (p[4] != self.TFT_SLOT) and (p[2].peerIsInterested() == False) ):
-                    self._peersConn[p[1]] = ( p[0], p[1], p[2], t + self.TFTPeriod, self.TFT_POSSIBLE_SLOT )
-                    self._peersConn[p[1]][2].unchock()                    
+        if(len(candidates) == 0):
+            self._getMorePeersFlag = True
+            return chosen
         
+        candidates.sort(reverse=True) #Sort candidates based on their uploadRate, (highest uploadRate first)
+
+        shuffledFlag = False
+        while( (len(chosen) < nSlots) and (len(candidates) > 0) ):
+            p = candidates.pop(0)
             
-        #If not all FTF Slots have been used, try with any peer that has interest, regardless of their upload( similar to OU just shorter slots)           
-        if( len(chosen) < nSlots):
-            Log.pLI(self, "Not enough real TFT candidates, will try less proper peers".format() )
+            #If all the rest of the peers have zero upload, shuffle them
+            if((p[0] == 0) and (shuffledFlag == False)):
+                shuffledFlag = True #Only shuffle once
+                candidates.append(p)
+                candidates = random.sample(candidates, len(candidates)) #Array of peerId
+                p = candidates.pop(0)
             
-            candidates = list()
-            for i in self._peersConn.values():    
-                if(( i[2].peerIsInterested() == True ) and ( i[4] == self.NO_SLOT) ):
-                    candidates.append(i[1])
+            #Only unchok peers that are not already unchoked!
+            if( (p[4] != self.TFT_SLOT) ):
+                self._peersConn[p[1]][2].unchock()    
             
-            unusedSlots = nSlots - len(chosen)
-            unusedSlots = min(unusedSlots, len(candidates))
-            sample = list( random.sample(candidates, unusedSlots ) )
-            for i in sample:
-                p = self._peersConn[i]
-                self._peersConn[i] = ( p[0], p[1], p[2], t + self.TFTPeriod, self.TFT_SLOT )
-                self._peersConn[i][2].unchock()
-                chosen.append(i)
+            self._peersConn[p[1]] = ( p[0], p[1], p[2], TTL, self.TFT_SLOT )
+            chosen.append(p[1])
         
         #Do chocking of all TFT peers that currently are unchocked but not have been chosen in this round
         for p in self._peersConn.values():
@@ -404,8 +352,9 @@ class Peer(Node):
    
         self._nTFTSlots = len(chosen)
         return chosen
-        
-    def runOU(self, nSlots):
+    
+    #Simply get one peer that is not currently in a FTF slot and run OU 
+    def runOU(self, nSlots, TTL):
         Log.pLD(self, "Executing OU Algorithm for {0}".format(nSlots) )
         #print("[{0}] peers [ {1} ]".format(self.pid, self._peersConn))
        
@@ -413,38 +362,31 @@ class Peer(Node):
         chosen = list()
        
         #Calculate the number of current OU Slots and possible candidates that are interested but not in OU or TFT
-        candidates = [] #Array of peerId
+        candidates = self.getOUCandidates()
+        if(len(candidates) < nSlots):
+            self._getMorePeersFlag = True
+            nSlots = len(candidates)
+            if(nSlots == 0):
+                return chosen
         
-        for i in self._peersConn.values():
+        candidates = random.sample(candidates, len(candidates)) #Array of peerId
+        
+        while( len(chosen) < nSlots ):
+            p = candidates.pop(0)
             
-            #Add peers which are already in OU
-            if( i[4] == self.OU_SLOT ):
-                chosen.append(i[1])
+            #Only unchok peers that are not already unchoked!
+            if( (p[4] != self.OU_SLOT) ):
+                self._peersConn[p[1]][2].unchock()    
+            
+            self._peersConn[p[1]] = ( p[0], p[1], p[2], TTL, self.OU_SLOT )
+            chosen.append(p[1])
+            
+        #Do chocking of all OU peers that currently are unchoked but not have been chosen in this round
+        for p in self._peersConn.values():
+            if( (p[4] == self.OU_SLOT) and (chosen.count(p[1]) == 0) ):
+                self._peersConn[p[1]] = ( p[0], p[1], p[2], -1, self.NO_SLOT )
+                self._peersConn[p[1]][2].chock()
                 
-            if(( i[2].peerIsInterested() == True ) and ( i[4] != self.TFT_SLOT) ):
-                candidates.append(i[1])
-       
-
-        unusedSlots = nSlots - len(chosen)
-        if( unusedSlots > 0 ):
-            unusedSlots = min(unusedSlots, len(candidates) ) #Cant select more than there are
-            t1 = list( random.sample(candidates, unusedSlots) )
-            for i in t1:
-                p = self._peersConn[i]
-                self._peersConn[i] = ( p[0], p[1], p[2], t + self.OUPeriod, self.OU_SLOT )
-                self._peersConn[i][2].unchock()
-                chosen.append(p[1]) 
-                
-        elif( unusedSlots < 0):
-            #There are too many OU slots taken, remove some by random
-            unusedSlots = unusedSlots * (-1)
-            t1 = list( random.sample(chosen, unusedSlots ) )
-            for i in t1:
-                p = self._peersConn[i]
-                self._peersConn[i] = ( p[0], p[1], p[2], -1, self.NO_SLOT )
-                self._peersConn[i][2].chock()
-                chosen.remove(p[1])
-        
         self._nOUSlots = len(chosen) 
         return chosen
 
@@ -494,30 +436,22 @@ class Peer(Node):
     #    return unchocked
 
 
-    #Get a list of peers that we are currently not downloading in OU or TFT and are interested to receive data
-#    def getOUCandidates(self):
-#        #def f(x): return ( ( x[2].peerIsInterested() == True ) and ( x[3] <= SSimulator().tick ) )
-#        #candidates = list( filter( f, self._peersConn ) )
-#        t = SSimulator().tick
-#        candidates = list()
-#        for i in self._peersConn.values():
-#            if(( i[2].peerIsInterested() == True ) and ( i[3] <= t) ):
-#                candidates.append(i)
-#
-#        return candidates
-
-    #Get a list of peers that we are interested in, not matter about their interest or chock status
-    #Skip peers which already run in OU and peers that have not uploaded anything (new peers for example)
-    #Skip peers to which we have never uploaded anything
-    def getTFTCandidates(self):
-        #def f(x): return ( ( x[0] > 0 ) and ( x[2].peerIsInterested() == True) and ( x[3] <= SSimulator().tick ) )
-        #candidates = list( filter( f, self._peersConn ) )
-        
+    #Simply convert the peer list to a array and through away peers that are already in TFT Slots
+    def getOUCandidates(self):
         candidates = list()
         for i in self._peersConn.values():
-            if( ( i[2].interested == True ) and ( i[4] != self.OU_SLOT ) and ( i[0] > 0 ) ):
-            #if( ( i[4] != self.OU_SLOT ) and ( i[0] > 0 ) ):
-                candidates.append(i)
+            if(i[4] == self.TFT_SLOT):
+                continue
+            
+            candidates.append(i)
+
+        return candidates
+
+    #Simply convert the peer dictionary to an array 
+    def getTFTCandidates(self):
+        candidates = list()
+        for i in self._peersConn.values():
+            candidates.append(i)
 
         return candidates
  

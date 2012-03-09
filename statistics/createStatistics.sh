@@ -10,6 +10,7 @@ then
 	R CMD BATCH downloadTime.R
 	R CMD BATCH Conn.R
 	R CMD BATCH peerCnt.R
+	R CMD BATCH DownloadRate.R
 
 	convert *.png Statistic_Summary.pdf
 	rm *.Rout Rplots.pdf 2>/dev/null
@@ -19,7 +20,7 @@ then
 elif [ "$1" == "clear" ]
 then
 	echo "Clearing directory!"
-	rm *.png *.Rout *.pdf 2>/dev/null
+	rm *.csv *.png *.Rout *.pdf 2>/dev/null
 fi
 exit
 

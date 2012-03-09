@@ -24,6 +24,7 @@ class Observer(SimElement):
         self.peerCntPath =  statsPath + "peerCnt.csv"
         self.peerCntPathC1 =  statsPath + "peerCntC1.csv"
         self.connStats = statsPath + "Conn.csv"
+        self.downRate = statsPath + "DownloadRate.csv"
         
         #Stats
         self._downloadTime = False
@@ -31,6 +32,7 @@ class Observer(SimElement):
         self._conn = False
         self._bandwidthDistribution = False
         self._updownBandwidthRation = False
+        self._downloadRate = False
 
         self._readConfig()
         self._createOutputFiles()
@@ -40,9 +42,16 @@ class Observer(SimElement):
 
     def logic(self):
         #Run for every peer
-        for p in self._tracker._peers: 
+        for p in self._tracker._peers:
+            
+            if( p.__class__.__name__ == "Seeder" ):
+                continue
+            
             if( self._downloadTime ):
                 self._statDownloadTime(p)
+                
+            if( self._downloadRate == True):
+                self._statDownloadRate(p)
         
         #Run once per tick
         if( self._peerCnt == True ):
@@ -56,8 +65,8 @@ class Observer(SimElement):
         self._peerCnt = True
         self._conn = True
         self._bandwidthDistribution = False
-        self._updownBandwidthRation = False
-
+        self._downloadRate = True
+        
     #Log the number of total TFT/OU Connections for each peer class
     def _statConn(self):
         peerTFT = [0,0]
@@ -66,12 +75,15 @@ class Observer(SimElement):
         peerOUMax = [0,0]
         peerCnt = [0,0]
         
+        pos = 0
+        
         #Count number of peers and number of completed peers
         for p in self._tracker._peers:
-            if( isinstance(p, Peer) ):
+            
+            if( p.__class__.__name__ == "Peer" ):
                 pos = 0
             
-            if( isinstance(p, Peer_C1) ):
+            if( p.__class__.__name__ == "Peer_C1" ):
                 pos = 1
             
             peerCnt[pos] += 1
@@ -86,6 +98,21 @@ class Observer(SimElement):
         fd = self._fd_conn
         fd.write("{0};{1};{2};{3};{4};{5};{6}\n".format(self.t, "Peer", peerTFTMax[0], peerOUMax[0], peerTFT[0], peerOU[0], peerCnt[0]) )
         fd.write("{0};{1};{2};{3};{4};{5};{6}\n".format(self.t, "Peer_C1", peerTFTMax[1], peerOUMax[1], peerTFT[1], peerOU[1], peerCnt[1]) )
+
+    #Prints statistics about the actual down/upload rate of each peer once every tick
+    def _statDownloadRate(self, peer):
+        #Count number of peers and number of completed peers
+        if( peer.__class__.__name__ == "Peer" ):
+            name = "Peer"
+           
+        if( peer.__class__.__name__ == "Peer_C1" ):
+            name = "Peer_C1"
+            
+        # <Tick> <peer Type> <id> <MaxUpload> <MaxDownload> <CurrentUpload> <CurrentDownload>\n"
+
+        #Write Stats to file
+        fd = self._fd_downRate
+        fd.write("{0};{1};{2};{3};{4};{5};{6}\n".format(self.t, name, peer.pid, peer._maxUploadRate, peer._maxDownloadRate, peer._uploadRateLastTick, peer._downloadRateLastTick) )
         
 
     #Log the download time for each completed peer
@@ -93,10 +120,10 @@ class Observer(SimElement):
         
         self.t = SSimulator().tick
         
-        if( isinstance(peer, Peer) ):
+        if( peer.__class__.__name__ == "Peer" ):
             fd = self._fd_DownloadTime_Peer
 
-        if( isinstance(peer, Peer_C1) ):
+        if( peer.__class__.__name__ == "Peer_C1" ):
             fd = self._fd_DownloadTime_Peer_C1
         
         #Check if this peer finished its download this round if so, write it to file
@@ -152,6 +179,12 @@ class Observer(SimElement):
             formatDesc = "# Log format <Tick> <peer Type> <Total # of max TFT Slots> <Total # of max OU Slots> <Total # of used TFT Slots> <Total # of used OU Slots> <# of peers>\n"
             self._fd_conn = open( self.connStats, "w" )
             self._fd_conn.write(formatDesc)
+       
+        if( self._downloadRate == True):
+            formatDesc = "# Log format <Tick> <peer Type> <Total # of max TFT Slots> <Total # of max OU Slots> <Total # of used TFT Slots> <Total # of used OU Slots> <# of peers>\n"
+            self._fd_downRate = open( self.downRate, "w" )
+            self._fd_downRate.write(formatDesc)
+
 
     def _closeOutputFiles(self):
         if( self._downloadTime == True ):
@@ -164,3 +197,6 @@ class Observer(SimElement):
             
         if( self._conn == True ):
             self._fd_conn.close()
+            
+        if( self._downloadRate == True ):
+            self._fd_downRate.close()
