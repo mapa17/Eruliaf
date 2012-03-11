@@ -50,7 +50,7 @@ class Peer_C1(Peer):
                     self._maxTFTSlots = 0
                 else:
                     self._nextOUPhaseStart = t + self.OUPeriod
-                    self._maxOUSlots = self._OUPhaseCnter%4 
+                    self._maxOUSlots = self._OUPhaseCnter%4 + 1
                     self._maxTFTSlots = 12
                     
                 self._OUPhaseCnter += 1
@@ -68,8 +68,11 @@ class Peer_C1(Peer):
                 self._runTFTFlag = True 
         else:
             #Seeder Part
-            self._nextOUPhaseStart = t + self.OUPeriod
-            self._runOUFlag = True
+            if( self._nextOUPhaseStart == t):
+                self._maxOUSlots = self._OUPhaseCnter%4 + 1
+                self._nextOUPhaseStart = t + self.OUPeriod
+                self._runOUFlag = True
+                
             
         #Print statistics about the node
         #self._printStats()    
@@ -83,7 +86,11 @@ class Peer_C1(Peer):
             raise(ValueError)
         
         #Calculate bandwidth for OU and than for every slot
-        uploadBandWidth = self._maxUploadRate * ( self._maxOUSlots / (self._maxOUSlots + self._maxTFTSlots) )
+        #uploadBandWidth = self._maxUploadRate * ( self._maxOUSlots / (self._maxOUSlots + self._maxTFTSlots) )
+        if( self._maxOUSlots > 4):
+            uploadBandWidth = self._maxUploadRate * ( self._maxOUSlots / (self._maxOUSlots + self._maxTFTSlots) )
+        else:
+            uploadBandWidth = self._maxUploadRate * ( 4 / (4 + self._maxTFTSlots) )
         uploadBandWidth /= self._maxOUSlots
         
         #Run the normal OU and than modify the upload limit and the ttl of the connection
@@ -97,6 +104,9 @@ class Peer_C1(Peer):
     #Solution is a simply greedy one. Order peers depending on their Rating and chose as many as possible to either
     #Fill up the download rate or the number of slots
     def runTFT(self, nSlots, TTL):
+        
+        if(nSlots == 0):
+            return list()
         
         candidates = self.getTFTCandidates()
         if len(candidates) == 0:
@@ -113,25 +123,28 @@ class Peer_C1(Peer):
        
         chosen = []
          
-        maxUpload = ( self._maxUploadRate * ( self._maxTFTSlots/(self._maxTFTSlots + self._maxOUSlots) ) )
+        #Always calculate with 4 OU Slots
+        #maxUpload = ( self._maxUploadRate * ( self._maxTFTSlots/(self._maxTFTSlots + self._maxOUSlots) ) )
+        maxUpload = ( self._maxUploadRate * ( self._maxTFTSlots/(self._maxTFTSlots + 4) ) )
         acUploadRate = 0
 
-        nSlots = min(nSlots, len(rated))
+        #nSlots = min(nSlots, len(rated))
 
-        while( (acUploadRate < maxUpload ) and (len(chosen) < nSlots) ):
+        while( (acUploadRate < maxUpload ) and (len(chosen) < nSlots) and (len(rated) > 0) ):
             idx = rated.pop()[1] #Index of the elements in candidates
             p = candidates[idx] 
-           
-            #Only count peers that we upload to, the other unchocks dont count as active TFT slots 
-            if(p[2].peerIsInterested() == True):
-                acUploadRate += p[0]
-
+            
+            #Skip peers that would take too much upload
+            if( (acUploadRate + p[2].getUploadLimit()) > maxUpload ):
+                continue
+            
             #Only unchok peers that are not already unchocked!
             if(p[4] != self.TFT_SLOT):
                 self._peersConn[p[1]][2].unchock()
             
             self._peersConn[p[1]] = ( p[0],p[1],p[2], TTL , self.TFT_SLOT )
             chosen.append(p[1])
+            acUploadRate += p[2].getUploadLimit()
         
         
         #Do chocking of all TFT peers that currently are unchocked but not have been chosen in this round
