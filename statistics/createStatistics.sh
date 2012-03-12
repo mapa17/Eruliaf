@@ -7,10 +7,7 @@ then
 	#Cleanup
 	rm *.png *.Rout *.pdf 2>/dev/null
 
-	R CMD BATCH downloadTime.R
-	R CMD BATCH Conn.R
-	R CMD BATCH peerCnt.R
-	R CMD BATCH DownloadRate.R
+	R CMD BATCH Statistics.R
 
 	convert *.png Statistic_Summary.pdf
 	rm *.Rout Rplots.pdf 2>/dev/null

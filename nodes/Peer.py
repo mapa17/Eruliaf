@@ -26,7 +26,8 @@ class Peer(Node):
     def __init__(self, torrent, maxUploadRate, maxDownloadRate):
         super().__init__()
         self.pid = SSimulator().getNewPeerId()
-        self._birth = SSimulator().tick
+        self._downloadStart = SSimulator().tick
+        self._downloadEnd = -1
         self._torrent = torrent
         self._maxTFTSlots = 4
         self._maxOUSlots = 1
@@ -112,6 +113,8 @@ class Peer(Node):
         self._activeDownloadBandwidthUsage = 0
 
         if self._torrent.isFinished() == True :
+            if( self._downloadEnd == -1):
+                self._downloadEnd = SSimulator().tick
             #So check if we want to leave or stay as a seeder
             if( self._leaveTorrent() == True ):
                 self._torrent.tracker.remPeer(self)
