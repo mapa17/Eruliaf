@@ -6,6 +6,7 @@ Created on Feb 2, 2012
 
 import logging.config
 from simulation.SSimulator import SSimulator
+from simulation.SConfig import SConfig
 
 class Log(object):
 
@@ -16,7 +17,10 @@ class Log(object):
 
 
     def __init__(self):
-        logging.config.fileConfig("log.conf")
+        path = SConfig().value("logCfg")
+        print("Trying to load logconfig {0}".format( path ) )
+        logging.config.fileConfig( path )
+        #logging.config.fileConfig( "./log.conf" )
         logging.addLevelName(self.WARN, "WARN")
             
     #Peer Logging Info

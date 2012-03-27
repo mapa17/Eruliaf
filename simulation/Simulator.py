@@ -18,7 +18,7 @@ class SimulationThread( threading.Thread ):
 
     def run(self):
         while(True):
-            e = self.eventQueue.get()
+            e = self.eventQueue.value()
             if( isinstance(e, int ) ):
                 #print("Closing thread ...")
                 self.eventQueue.task_done()

@@ -200,9 +200,9 @@ if( length(arg) == 3)
 	data$upRatio <- data$Upload / data$MaxUpload
 	data$downRatio  <- data$Download / data$MaxDownload
 	
-	#DownloadStats(data)
-	#ConnectionStats(data)
-	#PeerCountStats(data)
+	DownloadStats(data)
+	ConnectionStats(data)
+	PeerCountStats(data)
 	pData = DownloadTime(data, prefix)
 	
 	write.table(pData, file=histFile, sep=";", append=TRUE, col.names=FALSE, row.names = FALSE)

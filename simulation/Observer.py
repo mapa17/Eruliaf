@@ -9,6 +9,7 @@ from simulation.Simulator import Simulator
 from simulation.SimElement import SimElement
 from nodes.Peer import Peer
 from nodes.Peer_C1 import Peer_C1
+from simulation import SConfig
 
 class Observer(SimElement):
 
@@ -18,7 +19,7 @@ class Observer(SimElement):
         self._peers = []
         self._tracker = tracker
 
-        self.stats = "./statistics/statistics.csv"
+        self.stats = SConfig().value("statsFile") # "./statistics/statistics.csv"
         
         self._createOutputFiles()
 
