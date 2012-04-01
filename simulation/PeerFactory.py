@@ -12,7 +12,7 @@ from nodes.Peer import Peer
 from nodes.Peer_C1 import Peer_C1
 from utils.Torrent import Torrent
 import random
-from simulation import SConfig
+from simulation.SConfig import SConfig
 
 class PeerFactory(SimElement):
 
@@ -21,21 +21,22 @@ class PeerFactory(SimElement):
         self.__tracker = tracker
         self.registerSimFunction(Simulator.ST_INIT, self.spawnPeers )
         
-        random.seed( SConfig().value("randSeed") )
-        self._peerSpawnRate = SConfig().value("SpwanRate" , "PeerFactor_Peer")
-        self._peerC1SpawnRate = SConfig().value("SpwanRate" , "PeerFactor_PeerC1")
+        random.seed( int(SConfig().value("randSeed"))  )
+        self._peerSpawnRate = float( SConfig().value("SpwanRate" , "PeerFactor_Peer") )
+        self._peerC1SpawnRate = float( SConfig().value("SpwanRate" , "PeerFactor_PeerC1") )
+        self._simEnd = int( SConfig().value("SimEnd") )
 
     def spawnPeers(self):
         if( SSimulator().tick == 0 ):
             Log.w(Log.DEBUG, "Creating new peers ...")
-            for i in range ( 0, SConfig().value("nInitialPeers" , "PeerFactor_Peer") ):
+            for i in range ( 0, int(SConfig().value("nInitialPeers" , "PeerFactor_Peer")) ):
                 self.addPeer()                
 
-            for i in range ( 0, SConfig().value("nInitialPeers" , "PeerFactor_PeerC1")):
+            for i in range ( 0, int( SConfig().value("nInitialPeers" , "PeerFactor_PeerC1")) ):
                 self.addPeer_C1()
 
         else:
-            if SSimulator().tick > ( SConfig().value("SimEnd") - 100) :
+            if SSimulator().tick > ( self._simEnd - 100) :
                 return
 
             if self.spawnPeer() == True:
@@ -45,27 +46,27 @@ class PeerFactory(SimElement):
                 self.addPeer_C1()
 
     def addPeer(self):
-        uMax = SConfig().value("UploadRateMax" , "PeerFactor_Peer")
-        uMin = SConfig().value("UploadRateMin" , "PeerFactor_Peer")
-        dMax = SConfig().value("DownloadRateMax" , "PeerFactor_Peer")
-        dMin = SConfig().value("DownloadRateMin" , "PeerFactor_Peer")
+        uMax = int( SConfig().value("UploadRateMax" , "PeerFactor_Peer") )
+        uMin = int( SConfig().value("UploadRateMin" , "PeerFactor_Peer") )
+        dMax = int( SConfig().value("DownloadRateMax" , "PeerFactor_Peer") )
+        dMin = int( SConfig().value("DownloadRateMin" , "PeerFactor_Peer") )
          
         uploadRate = random.randint( uMin, uMax )
         downloadRate = random.randint ( dMin, dMax )
-        p = Peer( Torrent( SConfig().value("TorrentSize" ), self.__tracker ) , uploadRate, downloadRate ) #Create new peer
+        p = Peer( Torrent( int(SConfig().value("TorrentSize" )), self.__tracker ) , uploadRate, downloadRate ) #Create new peer
         Log.w(Log.INFO, "New Peer {0} Up/Down [{1}/{2}]".format(p.pid, uploadRate, downloadRate) )
         self.__tracker.addPeer(p)
 
 
     def addPeer_C1(self):
-        uMax = SConfig().value("UploadRateMax" , "PeerFactor_PeerC1")
-        uMin = SConfig().value("UploadRateMin" , "PeerFactor_PeerC1")
-        dMax = SConfig().value("DownloadRateMax" , "PeerFactor_PeerC1")
-        dMin = SConfig().value("DownloadRateMin" , "PeerFactor_PeerC1")
+        uMax = int( SConfig().value("UploadRateMax" , "PeerFactor_PeerC1") )
+        uMin = int( SConfig().value("UploadRateMin" , "PeerFactor_PeerC1") )
+        dMax = int( SConfig().value("DownloadRateMax" , "PeerFactor_PeerC1") )
+        dMin = int( SConfig().value("DownloadRateMin" , "PeerFactor_PeerC1") )
          
         uploadRate = random.randint( uMin, uMax )
         downloadRate = random.randint ( dMin, dMax )
-        p = Peer_C1( Torrent( SConfig().value("TorrentSize" ), self.__tracker ) , uploadRate, downloadRate ) #Create new peer
+        p = Peer_C1( Torrent( int(SConfig().value("TorrentSize" )), self.__tracker ) , uploadRate, downloadRate ) #Create new peer
         Log.w(Log.INFO, "New Peer_C1 {0} Up/Down [{1}/{2}]".format(p.pid, uploadRate, downloadRate) )
         self.__tracker.addPeer(p)
  

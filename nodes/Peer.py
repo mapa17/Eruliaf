@@ -24,6 +24,8 @@ class Peer(Node):
     TFT_POSSIBLE_SLOT = 3
 
     def __init__(self, torrent, maxUploadRate, maxDownloadRate):
+        maxUploadRate = int(maxUploadRate)
+        maxDownloadRate = int(maxDownloadRate)
         super().__init__()
         self.pid = SSimulator().getNewPeerId()
         self._downloadStart = SSimulator().tick

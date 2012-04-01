@@ -8,6 +8,7 @@ import logging
 #from utils.Log import Log
 import queue
 import threading
+from simulation.SConfig import SConfig
 #from simulation.SimElement import SimElement
 
 class SimulationThread( threading.Thread ):
@@ -54,7 +55,7 @@ class Simulator(object):
         self.__peerId = -1
         self._multithreading = False #Turn off multithreading by default!
 
-        self.SIM_END = 600 #Tick at which the simulation will be stoped
+        self._simEnd = int( SConfig().value("SimEnd") ) #Tick at which the simulation will be stopped
        
         if( self._multithreading ):
             self.simQueue = queue.Queue()
@@ -108,7 +109,7 @@ class Simulator(object):
             self.simQueue.join()
 
     def testSimEnd(self):
-        if(self.tick == self.SIM_END):
+        if(self.tick == self._simEnd):
             logging.log(logging.INFO, "Time to end the simulation ...")
             return True
         else:

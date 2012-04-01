@@ -5,7 +5,7 @@
 # USAGE
 ###
 
-#Call the script with ./[ScriptName] [PATH_TO_CSV_DATA_FILES] [ITERATION_START] [# of ITERATIONS] 
+#Call the script with ./[ScriptName] [PATH_TO_CSV_DATA_FILES] [WORK_DIR] [SUMMARY_FILE] [PREFIX] [# of ITERATIONS] [NUM_THREADS]
 #e.g. ./createStatistics.py statsData/ 1 1  #Process iteration 1.csv
 #e.g. ./createStatistics.py statsData/ 2 100 #process iteration 2.csv - 102s.csv
 
@@ -14,45 +14,116 @@ import re
 import sys
 import subprocess
 import logging
+import threading
+import queue
 
-logging.basicConfig(level=logging.INFO, format='%(levelname)s : %(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(levelname)s : %(message)s')
+
+#rScript = os.path.abspath("./Statistics.R")
+#rScript = "/work/Eigene/uni/Erasmus/Thesis/Eruliaf/statistics/Statistics.R"
+#dataDir = ""
+#workDir = ""
+#statsSummary = ""  
+#prefix = ""
+#nIterations = 0 
+#nThreads = 0
+
+q = queue.Queue()
+
+def worker():
+    while(q.empty() == False):
+        i = q.get()
+        
+        #Generate tables using R script file
+        file2 = dataDir + '/' + prefix + str(i) + '.csv'
+        scenario_summary2 = workDir + '/' + prefix + str(i) + '_summary.csv'
+        args2 = "Rscript {} {} {} {} {}".format( rScript, file2, workDir, scenario_summary2, prefix + str(i))
+        cmd2 = args2.split(" ")
+        logging.debug("Calling R script with {} in {}".format(cmd2, workDir))
+        call_command(cmd2, cwd=workDir)
+    
+        #Generate summary pdf for this scenario out of the different png files
+        args2 = "convert {} {}".format( prefix + str(i) + "_*.png", prefix + str(i) + "_summary.pdf" )
+        cmd2 = args2.split(" ")
+        logging.debug("Calling convert with {0}".format(cmd2))
+        call_command(cmd2, workDir)
+        
+        q.task_done()
 
 def main():
-    histFile = "hist_summary.csv"
-    rScript = os.getcwd() + '/' + "Statistics.R"
+    logging.info('Being called to generate Statistics: {0}'.format(sys.argv) )
     
-    #logging.info('Generating Statistics: %s' % sys.argv )
+    #print('Being called to generate Statistics: {0}'.format(sys.argv) )
+    #sys.exit(0)
     
-    if(len(sys.argv) < 4):
+    if(len(sys.argv) != 7):
         logging.error("Input error!")
         logging.error( usage() )
         sys.exit(1)
     
+    #Make variables global so that they can be accessed in worker function
+    #rScript = os.path.abspath("./Statistics.R")
+    global rScript
+    global dataDir
+    global workDir
+    global statsSummary  
+    global prefix
+    global nIterations 
+    global nThreads
+    
+    rScript = os.path.abspath("./Statistics.R")
+    #rScript = "/work/Eigene/uni/Erasmus/Thesis/Eruliaf/statistics/Statistics.R"
     dataDir = os.path.abspath( sys.argv[1] )
-    workDir = dataDir + '/out'
+    workDir = os.path.abspath( sys.argv[2] )
     if( os.path.isdir   ( workDir ) == False ):
         os.mkdir(workDir) 
-       
-    itStart = int(sys.argv[2])
-    nIterations = int(sys.argv[3]) 
+    statsSummary = os.path.abspath( sys.argv[3] )  
+    prefix = sys.argv[4]
+    nIterations = int(sys.argv[5]) 
+    nThreads = int(sys.argv[6])
+    expStatsSummary = os.path.dirname(statsSummary) + "/" + prefix + os.path.basename(statsSummary) #prepend prefix to the statsSummary file path
     
-    if (checkInput(dataDir, itStart, nIterations, rScript) == False):
+    if (checkInput(dataDir, prefix, nIterations, rScript) == False):
         logging.error("Something was wrong with input arguments ...")
         sys.exit(1)
-    
-    #R CMD BATCH --slave "--args [STATS_FILE] [HISTORY_OUTPUT_FILE] [PREFIX] OR [HISTORY_FILE]" Statistics.R
+
     for i in range(nIterations):
-        file = dataDir + '/' + str(itStart + i) + '.csv'
-        args = "--args {0} {1} {2}".format(file, histFile, itStart +i )
-        cmd = ["R", "CMD", "BATCH", "--slave", args, rScript ]
-        print("Calling R script with {0}".format(cmd))
-        call_command(cmd, workDir)
+        q.put(i, False)
     
-    #Now generate summary histogram
-    args = "--args {0}".format( histFile )
-    cmd = ["R", "CMD", "BATCH", "--slave", args, rScript ]
-    call_command(cmd, workDir)
-    print("Calling R script with {0}".format(cmd))    
+    threadList = []
+    #Use the worker function
+    for i in range(nThreads):
+        threadList.append( threading.Thread(target=worker) )
+        threadList[-1].daemon = True #Make them daemon threads so we dont care about cleaning up
+        threadList[-1].start()
+
+    logging.debug("Waiting for all simulations to finish!")
+    q.join()
+       
+    #Unify the different scenario summaries
+    args = "/bin/cat {} > {}".format( workDir+"/" + prefix + "*_summary.csv", expStatsSummary)
+    #args = "cat {} > {}".format( "*.csv", statsSummary)
+    #cmd = args.split(" ")
+    cmd = args #Execution will hang if cmd is passed as array!
+    logging.debug("Calling subprocess with {0}".format(cmd))
+    
+    #(rV,out,err) = call_command(cmd, workDir )
+    #Dont use normal call_command because we dont want to redirect std-output to file!
+    process = subprocess.Popen(cmd, stderr=subprocess.PIPE, cwd = workDir , shell=True) #Have to enable Shell or * will not be expanded!
+    stdout, stderr = process.communicate()
+    #print(stderr)
+    
+    #Now generate summary histogram 
+    args = "Rscript {} {} {}".format( rScript, expStatsSummary , expStatsSummary.split(".")[0] + '.png')
+    cmd = args.split(" ")
+    logging.debug("Calling subprocess with {0}".format(cmd))
+    (rV,out,err) = call_command(cmd, workDir)
+        
+        
+    logging.info("Finished script with exit value {0}".format(0))
+    sys.exit(0)
+        
+        
 
 def checkInput(dataDir, itStart, nIterations, rScript):
     
@@ -65,7 +136,7 @@ def checkInput(dataDir, itStart, nIterations, rScript):
         return False
     
     for i in range(nIterations):
-        path = dataDir + "/" + str(itStart+i) + '.csv'
+        path = dataDir + "/" + itStart + str(i) + '.csv'
         if( os.path.isfile( path ) == False):
             logging.error("Statistics file {0} not found!".format(path) )
             return False
@@ -74,17 +145,29 @@ def checkInput(dataDir, itStart, nIterations, rScript):
     
 
 def usage():
-    return ( "Usage: {0} [FOLDER_OF_STAT_FILES] [ITERATION_START] [# ITERATIONS]".format(sys.argv[0]) )
+    return ( "Usage: {0} [PATH_TO_CSV_DATA_FILES] [WORK_DIR] [SUMMARY_FILE] [PREFIX] [# of ITERATIONS] [NUM_THREADS]".format(sys.argv[0]) )
     
-def call_command(command, cwd = os.getcwd() ):
+def call_command(command, cwd = os.getcwd() , silent = False, shell=False):
     process = subprocess.Popen(command,
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE,
-                               cwd = cwd
+                               cwd = cwd,
+                               shell = shell
                                )
     stdout, stderr = process.communicate()
     
-    return (process.returncode, stdout, stderr) 
+    #Transform the output into an array, containing the lines produced as elements
+    out = stdout.decode("utf-8").split('\n')
+    err = stderr.decode("utf-8").split('\n')
+    for idx,v in enumerate(out):
+        out[idx] = v.strip()
+    for idx,v in enumerate(err):
+        err[idx] = v.strip()
+        
+    if(silent == False):
+        logging.debug("stdout {}\nstderr {}".format(out,err))
+    
+    return (process.returncode, out, err) 
 
 if __name__ == "__main__":
     main()

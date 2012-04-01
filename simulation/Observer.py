@@ -9,7 +9,7 @@ from simulation.Simulator import Simulator
 from simulation.SimElement import SimElement
 from nodes.Peer import Peer
 from nodes.Peer_C1 import Peer_C1
-from simulation import SConfig
+from simulation.SConfig import SConfig
 
 class Observer(SimElement):
 

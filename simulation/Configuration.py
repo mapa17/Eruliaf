@@ -12,11 +12,11 @@ class Configuration(object):
         
         self._config = configparser.SafeConfigParser()
         self._config.readfp(open(path))
-        self._config.read(path)
+        #self._config.read(path)
 
         print("Loading config file {0}".format(path))
         
-        self.cfgValue = {}
+        #self.cfgValue = {}
     
     def value(self, key, section="General"):
         return self._config.get(section, key) 

@@ -151,21 +151,27 @@ insert <- function(v, e, pos)
 	}
 }
 
-#Script has to be called like : R CMD BATCH --slave "--args [STATS_FILE] [HISTORY_OUTPUT_FILE] [PREFIX] OR [HISTORY_FILE]" Statistics.R
+#Script has to be called like : Rscript Statistics.R  [STATS_FILE] [OUTPUT_DIR] [HISTORY_OUTPUT_FILE] [PREFIX] OR [HISTORY_DATA_FILE] [HISTORY_OUTPUT_FILE] 
 #Whereby STATS_FILE points to the csv input file and PREFIX will be
 
 #Check arguments ( argument TRUE will filter all system arguments )
-arg = commandArgs(TRUE)
+arg = commandArgs()
 
+writeLines( paste("Received " , length(arg) , " arguments", sep="") )
 writeLines( paste("Received args ... ", arg, sep="") )
+#Own arguments start with arg[6]
 
-if(length(arg) < 1){
-	writeLines( "Missing argument! You have to specify the statistics file to load as first argument!" )
-	quit("no")
+if(length(arg) < 9){
+	writeLines( "Missing arguments!" )
+	#quit("no")
 }
 
-if( length(arg) == 1 ){
-	dataFile = arg[1]
+#writeLines("Enough arguments!")
+#writeLines(paste("arg[6] ", arg[6], sep=""))
+
+if( length(arg) == 7 ){
+	dataFile = arg[6]
+	outputFile = arg[7]
 	writeLines( paste("Assuming script was called to generate summary histogram! On hist data ", dataFile, sep="") )
 	
 	#Load data
@@ -176,15 +182,18 @@ if( length(arg) == 1 ){
 	
 	#Create plot and store file
 	hist = ggplot(data, aes(x=DownloadTime, fill=Type)) + xlab("Download time") + ylab("Peers") + geom_histogram(position=position_dodge()) + opts(title="Download time") + scale_fill_hue( name="Peers", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") )
-	ggsave(file="hist_summary.png", plot=hist , dpi=100)
+	ggsave(file=outputFile, plot=hist , dpi=100)
 }
 
-if( length(arg) == 3)
+if( length(arg) == 9)
 {
-	dataFile = arg[1]
-	histFile = arg[2]
-	prefix = arg[3]
+	dataFile = arg[6]
+	workingDir = arg[7]
+	histFile = arg[8]
+	prefix = arg[9]
 	writeLines( paste("Assuming script was called to generate simulation statistics! On statistic data ", dataFile, " with histfile ", histFile , " and prefix ", prefix ,sep="") )
+	
+	setwd(workingDir)
 	
 	#Load data
 	data = read.csv(dataFile, comment.char='#', sep=';', header=F )
@@ -200,7 +209,7 @@ if( length(arg) == 3)
 	data$upRatio <- data$Upload / data$MaxUpload
 	data$downRatio  <- data$Download / data$MaxDownload
 	
-	DownloadStats(data)
+	DownloadStats(data, prefix)
 	ConnectionStats(data)
 	PeerCountStats(data)
 	pData = DownloadTime(data, prefix)

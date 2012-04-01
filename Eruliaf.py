@@ -11,6 +11,7 @@ from nodes.Tracker import Tracker
 from utils.Torrent import Torrent
 from utils.Log import Log
 import logging
+import random
 from simulation.PeerFactory import PeerFactory
 from simulation.Observer import Observer
 from simulation.SConfig import SConfig
@@ -26,19 +27,22 @@ if __name__ == '__main__':
         
     #Load Config
     SConfig.setPath( sys.argv[1] )
+    C = SConfig()
     
-    #print("Stats fiel from config {0}".format(SConfig().value("logCfg") ))
-    #sys.exit(0)
+    print("Starting Simulation with config {0}".format(sys.argv[1] ))
+    #import time
+    #time.sleep(5)
+    random.seed(int(SConfig().value("randSeed")))
     newLog = Log() #Create this log for the whole project
-    logging.log(Log.INFO, "Starting simulation")
+    logging.log(Log.INFO, "Starting simulation") 
     
     S = SSimulator()
     T = Tracker()
     O = Observer( T )    
     
     logging.log(Log.INFO, "Creating nodes ...")
-    
-    tor = Torrent( SConfig().value("TorrentSize") , T)
+        
+    tor = Torrent( int(SConfig().value("TorrentSize")) , T)
     Log.w(Log.INFO, "Piece size [{0}] bytes".format(tor.pieceSizeBytes) )
     s = Seeder( tor , SConfig().value("SeederUpload"), SConfig().value("SeederDownload") )
     

@@ -7,19 +7,29 @@ Created on Feb 2, 2012
 import logging.config
 from simulation.SSimulator import SSimulator
 from simulation.SConfig import SConfig
+import os
 
 class Log(object):
 
-    WARN = 13
+    WARN = 13 #Make it compatible with java log
     INFO = logging.INFO
     DEBUG = logging.DEBUG
     ERROR = logging.ERROR
 
 
     def __init__(self):
-        path = SConfig().value("logCfg")
-        print("Trying to load logconfig {0}".format( path ) )
-        logging.config.fileConfig( path )
+        #path = SConfig().value("logCfg")
+        logFile = str(SConfig().value("logFile"))
+        logLevel = str(SConfig().value("logLevel"))
+        print("Creating logfile {0} with logLevel = {1}".format( logFile, logLevel) )
+        
+        logging.basicConfig(filename=logFile,
+                            filemode='w',
+                            format='%(filename)s %(levelname)s - %(message)s',
+                            level=logLevel)
+
+        
+        #logging.config.fileConfig( path )
         #logging.config.fileConfig( "./log.conf" )
         logging.addLevelName(self.WARN, "WARN")
             
