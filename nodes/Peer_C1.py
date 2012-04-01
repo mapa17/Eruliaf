@@ -11,10 +11,13 @@ import random
 from simulation.Simulator import Simulator
 from utils.Log import Log
 from nodes.Peer import Peer
+from simulation.SConfig import SConfig
 
 class Peer_C1(Peer):
     def __init__(self, torrent, maxUploadRate, maxDownloadRate):
         super().__init__(torrent, maxUploadRate, maxDownloadRate)
+
+        self._leaveRate = float( SConfig().value("LeaveRate", "PeerC1") )
 
         #self.__slotUploadRate = maxUploadRate / 16 
         self._maxTFTSlots = 0

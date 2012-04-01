@@ -5,7 +5,7 @@
 # USAGE
 ###
 
-#Call the script with ./[ScriptName] [PATH_TO_CSV_DATA_FILES] [WORK_DIR] [SUMMARY_FILE] [PREFIX] [# of ITERATIONS] [NUM_THREADS]
+#Call the script with ./[ScriptName] [PATH_TO_CSV_DATA_FILES] [WORK_DIR] [SUMMARY_DIR] [PREFIX] [# of ITERATIONS] [NUM_THREADS]
 #e.g. ./createStatistics.py statsData/ 1 1  #Process iteration 1.csv
 #e.g. ./createStatistics.py statsData/ 2 100 #process iteration 2.csv - 102s.csv
 
@@ -66,7 +66,7 @@ def main():
     global rScript
     global dataDir
     global workDir
-    global statsSummary  
+    global statsSummaryDir  
     global prefix
     global nIterations 
     global nThreads
@@ -77,11 +77,11 @@ def main():
     workDir = os.path.abspath( sys.argv[2] )
     if( os.path.isdir   ( workDir ) == False ):
         os.mkdir(workDir) 
-    statsSummary = os.path.abspath( sys.argv[3] )  
+    statsSummaryDir = os.path.abspath( sys.argv[3] )  
     prefix = sys.argv[4]
     nIterations = int(sys.argv[5]) 
     nThreads = int(sys.argv[6])
-    expStatsSummary = os.path.dirname(statsSummary) + "/" + prefix + os.path.basename(statsSummary) #prepend prefix to the statsSummary file path
+    statsSummaryFile = os.path.dirname(statsSummaryDir) + "/" + prefix + "summary.csv"
     
     if (checkInput(dataDir, prefix, nIterations, rScript) == False):
         logging.error("Something was wrong with input arguments ...")
@@ -101,8 +101,8 @@ def main():
     q.join()
        
     #Unify the different scenario summaries
-    args = "/bin/cat {} > {}".format( workDir+"/" + prefix + "*_summary.csv", expStatsSummary)
-    #args = "cat {} > {}".format( "*.csv", statsSummary)
+    args = "/bin/cat {} > {}".format( workDir+"/" + prefix + "*_summary.csv", statsSummaryFile)
+    #args = "cat {} > {}".format( "*.csv", statsSummaryDir)
     #cmd = args.split(" ")
     cmd = args #Execution will hang if cmd is passed as array!
     logging.debug("Calling subprocess with {0}".format(cmd))
@@ -114,7 +114,7 @@ def main():
     #print(stderr)
     
     #Now generate summary histogram 
-    args = "Rscript {} {} {}".format( rScript, expStatsSummary , expStatsSummary.split(".")[0] + '.png')
+    args = "Rscript {} {} {} {}".format( rScript, statsSummaryFile , statsSummaryDir, prefix)
     cmd = args.split(" ")
     logging.debug("Calling subprocess with {0}".format(cmd))
     (rV,out,err) = call_command(cmd, workDir)
@@ -145,7 +145,7 @@ def checkInput(dataDir, itStart, nIterations, rScript):
     
 
 def usage():
-    return ( "Usage: {0} [PATH_TO_CSV_DATA_FILES] [WORK_DIR] [SUMMARY_FILE] [PREFIX] [# of ITERATIONS] [NUM_THREADS]".format(sys.argv[0]) )
+    return ( "Usage: {0} [PATH_TO_CSV_DATA_FILES] [WORK_DIR] [SUMMARY_DIR] [PREFIX] [# of ITERATIONS] [NUM_THREADS]".format(sys.argv[0]) )
     
 def call_command(command, cwd = os.getcwd() , silent = False, shell=False):
     process = subprocess.Popen(command,

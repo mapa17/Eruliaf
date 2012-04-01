@@ -10,6 +10,7 @@ from nodes.Connection import Connection
 import random
 from simulation.Simulator import Simulator
 from utils.Log import Log
+from simulation.SConfig import SConfig
 
 class Peer(Node):
 
@@ -45,6 +46,8 @@ class Peer(Node):
         self.piecesQueue = set() #Set of pieces to download next
         
         self._peersConn = {} #Empty dictionary key=peerID
+       
+        self._leaveRate = float( SConfig().value("LeaveRate", "Peer") )
        
         self._isSeeder = False 
 
@@ -271,7 +274,7 @@ class Peer(Node):
             return False
 
         i = random.random() * 100
-        if ( i < 10 ) :
+        if ( i < self._leaveRate ) :
             return True
         else:
             return False

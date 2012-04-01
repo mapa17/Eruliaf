@@ -123,11 +123,11 @@ def generateStatistics(config):
     statsScript = os.path.abspath(statsScript)
     statsOutput = config.get("General", "statsOutput")
     statsOutput = os.path.abspath(statsOutput)
-    statsSummaryFile = config.get("General", "statsSummaryFile")
-    statsSummaryFile = os.path.abspath(statsSummaryFile)
+    statsSummaryDir = config.get("General", "statsSummaryDir")
+    statsSummaryDir = os.path.abspath(statsSummaryDir)
     
     
-    args = [sys.executable, statsScript, runDir, statsOutput, statsSummaryFile, prefix, str(nIterations) , str(nThreads) ]
+    args = [sys.executable, statsScript, runDir, statsOutput, statsSummaryDir, prefix, str(nIterations) , str(nThreads) ]
     logging.debug("Generating statistics calling {0}!".format(args))
     
     call_command(args, cwd=os.path.dirname(statsScript) )

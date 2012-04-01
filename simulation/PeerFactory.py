@@ -22,17 +22,17 @@ class PeerFactory(SimElement):
         self.registerSimFunction(Simulator.ST_INIT, self.spawnPeers )
         
         random.seed( int(SConfig().value("randSeed"))  )
-        self._peerSpawnRate = float( SConfig().value("SpwanRate" , "PeerFactor_Peer") )
-        self._peerC1SpawnRate = float( SConfig().value("SpwanRate" , "PeerFactor_PeerC1") )
+        self._peerSpawnRate = float( SConfig().value("SpwanRate" , "Peer") )
+        self._peerC1SpawnRate = float( SConfig().value("SpwanRate" , "PeerC1") )
         self._simEnd = int( SConfig().value("SimEnd") )
 
     def spawnPeers(self):
         if( SSimulator().tick == 0 ):
             Log.w(Log.DEBUG, "Creating new peers ...")
-            for i in range ( 0, int(SConfig().value("nInitialPeers" , "PeerFactor_Peer")) ):
+            for i in range ( 0, int(SConfig().value("nInitialPeers" , "Peer")) ):
                 self.addPeer()                
 
-            for i in range ( 0, int( SConfig().value("nInitialPeers" , "PeerFactor_PeerC1")) ):
+            for i in range ( 0, int( SConfig().value("nInitialPeers" , "PeerC1")) ):
                 self.addPeer_C1()
 
         else:
@@ -46,10 +46,10 @@ class PeerFactory(SimElement):
                 self.addPeer_C1()
 
     def addPeer(self):
-        uMax = int( SConfig().value("UploadRateMax" , "PeerFactor_Peer") )
-        uMin = int( SConfig().value("UploadRateMin" , "PeerFactor_Peer") )
-        dMax = int( SConfig().value("DownloadRateMax" , "PeerFactor_Peer") )
-        dMin = int( SConfig().value("DownloadRateMin" , "PeerFactor_Peer") )
+        uMax = int( SConfig().value("UploadRateMax" , "Peer") )
+        uMin = int( SConfig().value("UploadRateMin" , "Peer") )
+        dMax = int( SConfig().value("DownloadRateMax" , "Peer") )
+        dMin = int( SConfig().value("DownloadRateMin" , "Peer") )
          
         uploadRate = random.randint( uMin, uMax )
         downloadRate = random.randint ( dMin, dMax )
@@ -59,10 +59,10 @@ class PeerFactory(SimElement):
 
 
     def addPeer_C1(self):
-        uMax = int( SConfig().value("UploadRateMax" , "PeerFactor_PeerC1") )
-        uMin = int( SConfig().value("UploadRateMin" , "PeerFactor_PeerC1") )
-        dMax = int( SConfig().value("DownloadRateMax" , "PeerFactor_PeerC1") )
-        dMin = int( SConfig().value("DownloadRateMin" , "PeerFactor_PeerC1") )
+        uMax = int( SConfig().value("UploadRateMax" , "PeerC1") )
+        uMin = int( SConfig().value("UploadRateMin" , "PeerC1") )
+        dMax = int( SConfig().value("DownloadRateMax" , "PeerC1") )
+        dMin = int( SConfig().value("DownloadRateMin" , "PeerC1") )
          
         uploadRate = random.randint( uMin, uMax )
         downloadRate = random.randint ( dMin, dMax )

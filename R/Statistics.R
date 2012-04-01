@@ -151,7 +151,7 @@ insert <- function(v, e, pos)
 	}
 }
 
-#Script has to be called like : Rscript Statistics.R  [STATS_FILE] [OUTPUT_DIR] [HISTORY_OUTPUT_FILE] [PREFIX] OR [HISTORY_DATA_FILE] [HISTORY_OUTPUT_FILE] 
+#Script has to be called like : Rscript Statistics.R  [STATS_FILE] [OUTPUT_DIR] [SUMMARY_FILE] [PREFIX] OR [SUMMARY_FILE] [SUMMART_OUTPUT_DIR] [PREFIX]
 #Whereby STATS_FILE points to the csv input file and PREFIX will be
 
 #Check arguments ( argument TRUE will filter all system arguments )
@@ -169,10 +169,14 @@ if(length(arg) < 9){
 #writeLines("Enough arguments!")
 #writeLines(paste("arg[6] ", arg[6], sep=""))
 
-if( length(arg) == 7 ){
+if( length(arg) == 8 ){
 	dataFile = arg[6]
-	outputFile = arg[7]
-	writeLines( paste("Assuming script was called to generate summary histogram! On hist data ", dataFile, sep="") )
+	outputDir = arg[7]
+	prefix = arg[8]
+	outputDir = paste( outputDir, prefix, sep="/")
+	ecdfFile = paste( outputDir, "ECDF.png", sep="")
+	histFile = paste( outputDir, "histogram.png", sep="")
+	writeLines( "Assuming script was called to generate summary statistics!" )
 	
 	#Load data
 	data = read.csv(dataFile, comment.char='#', sep=';', header=F )
@@ -182,7 +186,15 @@ if( length(arg) == 7 ){
 	
 	#Create plot and store file
 	hist = ggplot(data, aes(x=DownloadTime, fill=Type)) + xlab("Download time") + ylab("Peers") + geom_histogram(position=position_dodge()) + opts(title="Download time") + scale_fill_hue( name="Peers", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") )
-	ggsave(file=outputFile, plot=hist , dpi=100)
+	ggsave(file=histFile, plot=hist , dpi=100)
+	
+	#Create ECDF
+	data.reduced = data[data$DownloadTime != -1, ] #Remove peers that did not complete their download
+	#Adds a ecdf column to the data, containing the ecdf value for each line
+	#Note: the ddply is used to group the data depening on the Type coloum ( so is like generating two tables, calculating ecdf for each and than join them again)
+	data.reduced <- ddply(data.reduced, .(Type), transform , ecdf = ecdf(DownloadTime)(DownloadTime) )
+	data.ecdf = ggplot(data=data.reduced) + geom_step(aes(x=DownloadTime, y=ecdf, color=Type) ) + xlab("Download Time") + ylab("ECDF") + opts(title="Download time") + scale_color_hue( name="Peers", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") )
+	ggsave(file=ecdfFile, plot=data.ecdf , dpi=100)
 }
 
 if( length(arg) == 9)
