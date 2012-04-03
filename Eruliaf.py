@@ -42,7 +42,7 @@ if __name__ == '__main__':
     
     logging.log(Log.INFO, "Creating nodes ...")
         
-    tor = Torrent( int(SConfig().value("TorrentSize")) , T)
+    tor = Torrent( T )
     Log.w(Log.INFO, "Piece size [{0}] bytes".format(tor.pieceSizeBytes) )
     s = Seeder( tor , SConfig().value("SeederUpload"), SConfig().value("SeederDownload") )
     

@@ -6,12 +6,15 @@ Created on Feb 2, 2012
 
 from simulation.SSimulator import SSimulator
 from utils.Log import Log
+from simulation.SConfig import SConfig
+
+#We only simulate the exchange of pieces, there are no blocks.
+#There for we have the problem that if the piece size gets too big, nodes will take a lot longer
+#than one TFT slot period to download a single piece!!!
+#To prevent this make the piece size an scenario argument and than calculate the nPieces accordingly!
 
 class Torrent(object):
-
-    __blockSize = 512 #Size in bytes
-    __nPieces = 500 #Number of pieces per torrent is fixed, what is variable is the number of blocks per piece
-#    __pieceSize = calculated in __init__() ... number of blocks per piece
+    __nPieces = -1 #Number of pieces per torrent is fixed, what is variable is the number of blocks per piece
 
     __Cempty = 0
     __Cdownloading = 1
@@ -21,15 +24,18 @@ class Torrent(object):
 
     #Create torrent bitMap File
     #size ... in Bytes
-    def __init__(self, size, tracker):
-        self.pieceSizeBytes = size/self.__nPieces
-        self.pieceSize = self.pieceSizeBytes/self.__blockSize
+    def __init__(self, tracker):
+        
+        self.pieceSizeBytes= int( SConfig().value("PieceSize") )
+        self.torrentSize = int( SConfig().value("TorrentSize") )
+        self.__nPieces = int( self.torrentSize / self.pieceSizeBytes )  
         self.__pieces = [ self.__Cempty ] * self.__nPieces #Initialize the piece list
         self.__nFinishedPieces = 0
         self.__finishedTorrent = False
         self.tracker = tracker
         self._finishTick = -1 #Time the torrent finished download
 
+        
     def getFinishedPieces(self):
         return set( self.getPieceSubSet(self.__Cfinished, self.__nFinishedPieces) ) #set of piece indexes
         

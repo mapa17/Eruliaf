@@ -17,7 +17,6 @@ class Peer(Node):
     pid = -1
     TFTPeriod = 10    # number of ticks a TFT slot is active
     OUPeriod = 30     # number of ticks a UO slot is active
-    __minPieceInterestSize =  20
 
     NO_SLOT = -1
     TFT_SLOT = 1
@@ -59,13 +58,16 @@ class Peer(Node):
         
         #Decide when to run tft and ou algorithm next time
         self._nextTFTPhaseStart = SSimulator().tick
-        self._nextOUPhaseStart = SSimulator().tick 
+        self._nextOUPhaseStart = SSimulator().tick
+        
+        self._nextPieceQueueUpdate = SSimulator().tick
         
         self._runTFTFlag = True 
         self._runOUFlag = True
  
         self._getMorePeersFlag = True
         
+        self._minPieceInterestSize =  int(self._torrent.getNumberOfPieces() * 0.05) #Try to get 5% of the most rarest pieces
            
     def __del__(self):
         Log.pLD("Peer is being destroyed")
@@ -127,9 +129,10 @@ class Peer(Node):
                 self.removeSimElement()
                 Log.pLI(self, "Leaving torrent ...")
         else:
-            if( (len(self.piecesQueue) < self.__minPieceInterestSize ) ):
+            if( (SSimulator().tick >= self._nextPieceQueueUpdate)  or (len(self.piecesQueue) == 0) ):
                 Log.pLD(self, "Getting new piece list for downloading ..." )
-                self.piecesQueue = self.pieceSelection(self.__minPieceInterestSize*3) #Simulates the queuing of piece requests to other peers
+                self.piecesQueue = self.pieceSelection(self._minPieceInterestSize) #Simulates the queuing of piece requests to other peers
+                self._nextPieceQueueUpdate = SSimulator().tick + 5 #Shedule next update
         
         #Call updateLocalState() on each connection and update their averageDownloadRate
         finishedPieces = self._torrent.getFinishedPieces()
@@ -172,11 +175,11 @@ class Peer(Node):
             self._getMorePeersFlag = False
             self.getNewPeerList()
 
-        if( self._nextTFTPhaseStart == t):
+        if( self._nextTFTPhaseStart <= t):
             self._nextTFTPhaseStart = t + self.TFTPeriod
             self._runTFTFlag = True
 
-        if( self._nextOUPhaseStart == t):
+        if( self._nextOUPhaseStart <= t):
             self._nextOUPhaseStart = t + self.OUPeriod
             self._runOUFlag = True
 
@@ -417,7 +420,7 @@ class Peer(Node):
             for k in finished:
                 pieceHistogram[k] = ( pieceHistogram[k][0] + 1, pieceHistogram[k][1])
 
-        #Filter elements that none has
+        #Filter elements that no one has
         def f(x): return ( x[0] != 0 )
         pieceHistogram = list( filter(f, pieceHistogram ) )
 

@@ -53,7 +53,7 @@ class PeerFactory(SimElement):
          
         uploadRate = random.randint( uMin, uMax )
         downloadRate = random.randint ( dMin, dMax )
-        p = Peer( Torrent( int(SConfig().value("TorrentSize" )), self.__tracker ) , uploadRate, downloadRate ) #Create new peer
+        p = Peer( Torrent( self.__tracker ) , uploadRate, downloadRate ) #Create new peer
         Log.w(Log.INFO, "New Peer {0} Up/Down [{1}/{2}]".format(p.pid, uploadRate, downloadRate) )
         self.__tracker.addPeer(p)
 
@@ -66,7 +66,7 @@ class PeerFactory(SimElement):
          
         uploadRate = random.randint( uMin, uMax )
         downloadRate = random.randint ( dMin, dMax )
-        p = Peer_C1( Torrent( int(SConfig().value("TorrentSize" )), self.__tracker ) , uploadRate, downloadRate ) #Create new peer
+        p = Peer_C1( Torrent( self.__tracker ) , uploadRate, downloadRate ) #Create new peer
         Log.w(Log.INFO, "New Peer_C1 {0} Up/Down [{1}/{2}]".format(p.pid, uploadRate, downloadRate) )
         self.__tracker.addPeer(p)
  
