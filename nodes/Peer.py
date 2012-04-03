@@ -412,19 +412,23 @@ class Peer(Node):
 
     #Implementing Rarest piece first piece selection
     def pieceSelection(self, nPieces):
-        emptyPieces = self._torrent.getEmptyPieces( self._torrent.getNumberOfPieces() )
+        emptyPieces = self._torrent.getEmptyPieces(  )
         pieceHistogram = [ (0,x) for x in range(0, self._torrent.getNumberOfPieces()) ]
         for i in self._peersConn.values():
             #Get a set of finished pieces
-            finished = i[2].remoteConnection.finishedPieces & emptyPieces
-            for k in finished:
+            candidates = i[2].remoteConnection.finishedPieces & emptyPieces
+            for k in candidates:
                 pieceHistogram[k] = ( pieceHistogram[k][0] + 1, pieceHistogram[k][1])
 
         #Filter elements that no one has
-        def f(x): return ( x[0] != 0 )
-        pieceHistogram = list( filter(f, pieceHistogram ) )
-
-        #Sort the histogram on the number of counts of finished pieces, least common are at the end
+        #def f(x): return ( x[0] != 0 )
+        #pieceHistogram = list( filter(f, pieceHistogram ) )
+        temp = []
+        for i in pieceHistogram:
+            if(i[0] > 0):
+                temp.append(i)
+        pieceHistogram = temp
+        #Sort the histogram on the number of counts of finished pieces, least common are at the beginning
         pieceHistogram.sort()
 
         if nPieces > len(pieceHistogram):

@@ -29,78 +29,60 @@ class Torrent(object):
         self.pieceSizeBytes= int( SConfig().value("PieceSize") )
         self.torrentSize = int( SConfig().value("TorrentSize") )
         self.__nPieces = int( self.torrentSize / self.pieceSizeBytes )  
-        self.__pieces = [ self.__Cempty ] * self.__nPieces #Initialize the piece list
-        self.__nFinishedPieces = 0
+        self._emptyPieces = set(range(self.__nPieces))
+        self._completedPieces = set()
+        self._nFinishedPieces = 0
         self.__finishedTorrent = False
         self.tracker = tracker
         self._finishTick = -1 #Time the torrent finished download
 
         
     def getFinishedPieces(self):
-        return set( self.getPieceSubSet(self.__Cfinished, self.__nFinishedPieces) ) #set of piece indexes
-        
-    #def getDownloadingPieces(self, n):
-    #    return set( self.getPieceSubSet(self.__Cdownloading, n) ) #Set of piece indexes
+        return self._completedPieces
     
-    def getEmptyPieces(self, n):
-        return set( self.getPieceSubSet(self.__Cempty, n) ) #Set of piece indexes
+    def getEmptyPieces(self):
+        return self._emptyPieces
         
     def getNumberOfPieces(self):
         return self.__nPieces
         
     def getNumberOfFinishedPieces(self):
-        return self.__nFinishedPieces
+        return self._nFinishedPieces
 
     #def getNumberOfDownloadingPieces(self):
     #    dl = self.getDownloadingPieces(self.__nPieces)
     #    return len( dl )
 
     def getNumberOfNotFinishedPieces(self):
-        return self.__nPieces - self.__nFinishedPieces #This are empty AND downloading pieces
+        return self.__nPieces - self._nFinishedPieces #This are empty AND downloading pieces
         
-        '''
-            Returns a set of the indexes of the pieces in the specified state
-        '''
-    def getPieceSubSet(self, state, n):
-        subSet = []
-        
-        for i,d in enumerate(self.__pieces) :
-            
-            if(len(subSet) == n):
-                break
-                
-            if( d == state ) :
-                subSet.append(i)
-                
-        return subSet
-    
     def setFinished(self, flagPieces = True):
         self.__finishedTorrent = True
         self._finishTick = SSimulator().tick
         if( flagPieces ):
-            self.__nFinishedPieces = self.__nPieces
-            self.__pieces = [ self.__Cfinished ] * self.__nPieces #Set all to finished
+            self._nFinishedPieces = self.__nPieces
+            self._completedPieces = set( range(self.__nPieces) )
     
     def isFinished(self):
         return self.__finishedTorrent
                 
-    def getBlockSize(self):
-        return self.__blockSize
-    
     #def downloadPiece(self, piece):
     #    if(piece >= 0 and piece < len(self.__pieces) and self.__pieces[piece] == self.__Cempty) :
     #        self.__pieces[piece] = self.__Cdownloading
             
     def finishedPiece(self, piece):
-        if( self.__pieces[piece] == self.__Cfinished):
+        if( piece in self._completedPieces ):
             print("double donwload of piece {0}!".format(piece) )
-        if(piece >= 0 and piece < len(self.__pieces) and self.__pieces[piece] != self.__Cfinished) :
-            self.__pieces[piece] = self.__Cfinished
-            self.__nFinishedPieces+=1
-            if(self.__nFinishedPieces == self.__nPieces) :
+        elif( piece >= 0 and piece < self.__nPieces ) :
+            self._emptyPieces.remove(piece)
+            self._completedPieces.add(piece)
+            self._nFinishedPieces += 1
+            if(self._nFinishedPieces == self.__nPieces) :
                 self.setFinished(False) 
 
     def setEmptyPiece(self, piece):
-        if(piece >= 0 and piece < len(self.__pieces) ) :
-            self.__pieces[piece] = self.__Cempty
+        if(piece >= 0 and piece < self.__nPieces ) :
+            if( piece in self._completedPieces):
+                self._completedPieces.remove(piece)
+            self._emptyPieces.add(piece)
     

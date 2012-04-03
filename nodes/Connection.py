@@ -216,12 +216,12 @@ class Connection(object):
         if( self._currentPiece != -1):
             #Check if this piece is still available, if not choose a new one
             if self._currentPiece in self._downloadablePieces:
-                Log.pLD(self._srcPeer,"Still want piece {0} to from {1}".format(self._currentPiece, self._destPeer.pid) )
+                #Log.pLD(self._srcPeer,"Still want piece {0} to from {1}".format(self._currentPiece, self._destPeer.pid) )
                 return True #We already have a piece selected
     
         #shuffle the download list -> so we dont download the same piece from all peers
         self._currentPiece = random.sample(self._downloadablePieces, 1)[0]
-        Log.pLD(self._srcPeer,"Selecting piece {0} to get from {1}".format(self._currentPiece, self._destPeer.pid) )
+        #Log.pLD(self._srcPeer,"Selecting piece {0} to get from {1}".format(self._currentPiece, self._destPeer.pid) )
         return True
     
     def __calcDownloadablePieceSet(self):
