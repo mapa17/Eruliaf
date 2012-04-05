@@ -3,43 +3,89 @@ library(ggplot2)
 
 #Create and store plots about the Average Upload/Download Bandwidth Usage
 DownloadStats <- function(data, prefix) {
-	maxTick = max(data$Tick)
+	maxTick = data$Tick[length(data$Tick)]
 	tick <- 0:(maxTick*2-1)
 	upRate <- 1:(maxTick*2)
 	downRate <- 1:(maxTick*2)
 	type <- 1:(maxTick*2)
+	tftouUpRatio <- 1:(maxTick*2)
+	tftouDownRatio <- 1:(maxTick*2)
+	shareRatio <- 1:(maxTick*2)
+
+#c("Tick","Type","Pid","Start","End","MaxUpload","MaxDownload","Upload","Download","MaxTFT","MaxOU","TFT","OU","TFTDown","TFTUp","OUDown","OUUp" )
 	for(i in 0:(maxTick-1)){
+	
+		#Ignore Seeders
+		#tick[i*2 + 1] <- i
+		#type[i*2 +1] <- "Peer"
+		#downRate[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") ,]$Download/data[(data$Tick == i) & (data$Type=="Peer"),]$MaxDownload )
+		#upRate[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") ,]$Upload/data[(data$Tick == i) & (data$Type=="Peer"),]$MaxUpload )
+		#tftouUpRatio[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") ,]$tftouUpRatio )
+		#tftouDownRatio[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") ,]$tftouDownRatio )
+		#shareRatio[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") ,]$shareRatio )
+		
+		#tick[i*2+1 + 1] <- i
+		#type[i*2+1 + 1] <- "Peer_C1"
+		#downRate[i*2+1 + 1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") ,]$Download/data[(data$Tick == i) & (data$Type=="Peer_C1"),]$MaxDownload )
+		#upRate[i*2+1 + 1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") ,]$Upload/data[(data$Tick == i) & (data$Type=="Peer_C1"),]$MaxUpload )
+		#tftouUpRatio[i*2+1 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") ,]$tftouUpRatio )
+		#tftouDownRatio[i*2+1 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") ,]$tftouDownRatio )
+		#shareRatio[i*2+1 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") ,]$shareRatio )
 		
 		tick[i*2 + 1] <- i
 		type[i*2 +1] <- "Peer"
-		downRate[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") ,]$Download/data[(data$Tick == i) & (data$Type=="Peer"),]$MaxDownload )
-		upRate[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") ,]$Upload/data[(data$Tick == i) & (data$Type=="Peer"),]$MaxUpload )
+		downRate[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") & (data$End == -1),]$Download/data[(data$Tick == i) & (data$Type=="Peer") & (data$End == -1),]$MaxDownload )
+		upRate[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") & (data$End == -1),]$Upload/data[(data$Tick == i) & (data$Type=="Peer") & (data$End == -1),]$MaxUpload )
+		tftouUpRatio[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") & (data$End == -1),]$tftouUpRatio )
+		tftouDownRatio[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") & (data$End == -1),]$tftouDownRatio )
+		shareRatio[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") & (data$End == -1),]$shareRatio )
 		
 		tick[i*2+1 + 1] <- i
 		type[i*2+1 + 1] <- "Peer_C1"
-		downRate[i*2+1 + 1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") ,]$Download/data[(data$Tick == i) & (data$Type=="Peer_C1"),]$MaxDownload )
-		upRate[i*2+1 + 1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") ,]$Upload/data[(data$Tick == i) & (data$Type=="Peer_C1"),]$MaxUpload )
+		downRate[i*2+1 + 1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") & (data$End == -1) ,]$Download/data[(data$Tick == i) & (data$Type=="Peer_C1") & (data$End == -1),]$MaxDownload )
+		upRate[i*2+1 + 1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") & (data$End == -1),]$Upload/data[(data$Tick == i) & (data$Type=="Peer_C1") & (data$End == -1),]$MaxUpload )
+		tftouUpRatio[i*2+1 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") & (data$End == -1),]$tftouUpRatio )
+		tftouDownRatio[i*2+1 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") & (data$End == -1),]$tftouDownRatio )
+		shareRatio[i*2+1 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") & (data$End == -1),]$shareRatio )
+		
 	
 	}
-	pData <- data.frame(tick, type, upRate, downRate )
+	pData <- data.frame(tick, type, upRate, downRate, tftouUpRatio, tftouDownRatio, shareRatio )
 	
-	upload = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=upRate, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="Upload usage") + scale_color_manual( name="Peers", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") , values=c("red", "blue") )
 	
-	download = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=downRate, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="Download usage") + scale_color_manual( name="Peers", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") , values=c("red", "blue") )
+	#Generate Plots
+	pData.upload = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=upRate, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="Upload usage") + scale_color_manual( name="Peers (without seeders)", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") , values=c("red", "blue") )
 	
+	pData.download = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=downRate, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="Download usage") + scale_color_manual( name="Peers (without seeders)", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") , values=c("red", "blue") )
+	
+	pData.shareRatio = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=shareRatio, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="Download / Upload") + scale_color_manual( name="Peers (without seeders)", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") , values=c("red", "blue") ) 
+
+	pData.tftouUpRatio = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=tftouUpRatio, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="TFT/OU Upload") + scale_color_manual( name="Peers (without seeders)", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") , values=c("red", "blue") )
+	pData.tftouDownRatio = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=tftouDownRatio, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="TFT/OU Download") + scale_color_manual( name="Peers (without seeders)", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") , values=c("red", "blue") )
+	
+	#Save Plots
 	path = paste(prefix, "uploadRatio.png", sep="_")
-	ggsave(file=path, plot = upload, dpi=100)
+	ggsave(file=path, plot = pData.upload, dpi=100)
 	
 	path = paste(prefix, "downloadRatio.png", sep="_")
-	ggsave(file=path, plot=download, dpi=100)
+	ggsave(file=path, plot=pData.download, dpi=100)
 
+	path = paste(prefix, "shareRatio.png", sep="_")
+	ggsave(file=path, plot=pData.shareRatio, dpi=100)
+	
+	path = paste(prefix, "tftouUpRatio.png", sep="_")
+	ggsave(file=path, plot=pData.tftouUpRatio, dpi=100)
+
+	path = paste(prefix, "tftouDownRatio.png", sep="_")
+	ggsave(file=path, plot=pData.tftouDownRatio, dpi=100)
+	
 	return(pData)
 }
 
 #Create and store plots about the average number of TFT and OU Slots
 ConnectionStats <- function(data)
 {
-	maxTick = max(data$Tick)
+	maxTick = data$Tick[length(data$Tick)]
 	tick <- 0:(maxTick*2-1)
 	type <- 1:(maxTick*2)
 	avgTFT <- 1:(maxTick*2)
@@ -48,18 +94,18 @@ ConnectionStats <- function(data)
 		
 		tick[i*2 + 1] <- i
 		type[i*2 +1] <- "Peer"
-		avgTFT[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") ,]$TFT )
-		avgOU[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") ,]$OU )
+		avgTFT[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") & (data$End == -1),]$TFT )
+		avgOU[i*2 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer") & (data$End == -1),]$OU )
 		
 		tick[i*2+1 + 1] <- i
 		type[i*2+1 + 1] <- "Peer_C1"
-		avgTFT[i*2+1 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") ,]$TFT )
-		avgOU[i*2+1 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") ,]$OU )
+		avgTFT[i*2+1 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") & (data$End == -1),]$TFT )
+		avgOU[i*2+1 +1] <- mean( data[ (data$Tick == i) & (data$Type=="Peer_C1") & (data$End == -1),]$OU )
 	}
 	pData <- data.frame(tick, type, avgTFT, avgOU )
 	
-	ouPlot = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=avgOU, colour=type) ) + xlab("Ticks") + ylab("OU Slots") + opts(title="Average number of OU Slots") + scale_color_manual( name="Peers", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") , values=c("red", "blue") )
-	tftPlot = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=avgTFT, colour=type) ) + xlab("Ticks") + ylab("TFT Slots") + opts(title="Average number of TFT Slots") + scale_color_manual( name="Peers", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") , values=c("red", "blue") )
+	ouPlot = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=avgOU, colour=type) ) + xlab("Ticks") + ylab("OU Slots") + opts(title="Average number of OU Slots") + scale_color_manual( name="Peers (without seeders)", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") , values=c("red", "blue") )
+	tftPlot = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=avgTFT, colour=type) ) + xlab("Ticks") + ylab("TFT Slots") + opts(title="Average number of TFT Slots") + scale_color_manual( name="Peers (without seeders)", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") , values=c("red", "blue") )
 
 	path = paste(prefix, "Connections_OU.png", sep="_")
 	ggsave(file=path , plot = ouPlot, dpi=100)
@@ -73,7 +119,7 @@ ConnectionStats <- function(data)
 
 PeerCountStats <- function(data)
 {
-	maxTick = max(data$Tick)
+	maxTick = data$Tick[length(data$Tick)]
 	tick <- 0:(maxTick*2-1)
 	type <- 1:(maxTick*2)
 	online <- 1:(maxTick*2)
@@ -215,16 +261,27 @@ if( length(arg) == 9)
 	#<Total # of max TFT Slots> <Total # of max OU Slots> <Total # of used TFT Slots> <Total # of used OU Slots>\n"
 	
 	#Name data
-	colnames(data) <- c("Tick","Type","Pid","Start","End","MaxUpload","MaxDownload","Upload","Download","MaxTFT","MaxOU","TFT","OU" )
+	colnames(data) <- c("Tick","Type","Pid","Start","End","MaxUpload","MaxDownload","Upload","Download","MaxTFT","MaxOU","TFT","OU","TFTDown","TFTUp","OUDown","OUUp" )
 	
 	#Calculate averages
-	data$upRatio <- data$Upload / data$MaxUpload
-	data$downRatio  <- data$Download / data$MaxDownload
+	data$upUsage <- data$Upload / data$MaxUpload
+	data$downUsage  <- data$Download / data$MaxDownload
+	data$shareRatio <- data$Download / data$Upload
+	data$tftouUpRatio <- data$TFTUp / data$OUUp
+	data$tftouDownRatio <- data$TFTDown / data$OUDown
 	
-	DownloadStats(data, prefix)
+	#Remove irregularities , NaN and inf are set to zero
+	data[ is.nan(data$tftouUpRatio),]$tftouUpRatio = 0
+	data[ is.nan(data$tftouDownRatio),]$tftouDownRatio = 0
+	data[ is.nan(data$shareRatio),]$shareRatio = 0
+	data[ is.infinite(data$tftouUpRatio),]$tftouUpRatio = 0
+	data[ is.infinite(data$tftouDownRatio),]$tftouDownRatio = 0
+	data[ is.infinite(data$shareRatio),]$shareRatio = 0
+	
+	#DownloadStats(data, prefix)
 	ConnectionStats(data)
-	PeerCountStats(data)
-	pData = DownloadTime(data, prefix)
+	#PeerCountStats(data)
+	#pData = DownloadTime(data, prefix)
 	
 	write.table(pData, file=histFile, sep=";", append=TRUE, col.names=FALSE, row.names = FALSE)
 }

@@ -71,8 +71,8 @@ def main():
     global nIterations 
     global nThreads
     
-    rScript = os.path.abspath("./Statistics.R")
-    #rScript = "/work/Eigene/uni/Erasmus/Thesis/Eruliaf/statistics/Statistics.R"
+    #rScript = os.path.abspath("./Statistics.R")
+    rScript = "/work/Eigene/uni/Erasmus/Thesis/Eruliaf/R/Statistics.R"
     dataDir = os.path.abspath( sys.argv[1] )
     workDir = os.path.abspath( sys.argv[2] )
     if( os.path.isdir   ( workDir ) == False ):
@@ -97,7 +97,7 @@ def main():
         threadList[-1].daemon = True #Make them daemon threads so we dont care about cleaning up
         threadList[-1].start()
 
-    logging.debug("Waiting for all simulations to finish!")
+    logging.debug("Waiting for all scripts to finish!")
     q.join()
        
     #Unify the different scenario summaries

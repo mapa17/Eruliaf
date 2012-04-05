@@ -46,15 +46,18 @@ class Observer(SimElement):
         if( peer.__class__.__name__ == "Peer_C1" ):
             name = "Peer_C1"
             
-        # Log format <Tick> <peer Type> <id> <downloadStart> <DownloadEnd>
+        # Log format :
+        #<Tick> <peer Type> <id> <downloadStart> <DownloadEnd>
         #<Max Upload Rate> <Max Download Rate> <Current Upload Rate> <Current Download Rate>
         #<Total # of max TFT Slots> <Total # of max OU Slots> <Total # of used TFT Slots> <Total # of used OU Slots>
+        #<Total #Bytes TFT Download> <Total #Bytes TFT Upload> <Total #Bytes OU Download> <Total #Bytes OU Upload>
 
         #Write Stats to file
         fd = self._fd_statists
-        fd.write("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10};{11};{12}\n".format(self.t, name, peer.pid, peer._downloadStart, peer._downloadEnd, \
+        fd.write("{};{};{};{};{};{};{};{};{};{};{};{};{};{};{};{};{}\n".format(self.t, name, peer.pid, peer._downloadStart, peer._downloadEnd, \
                     peer._maxUploadRate, peer._maxDownloadRate, peer._uploadRateLastTick, peer._downloadRateLastTick, \
-                    peer._maxTFTSlots, peer._maxOUSlots, peer._nTFTSlots, peer._nOUSlots ) )
+                    peer._maxTFTSlots, peer._maxOUSlots, peer._nTFTSlots, peer._nOUSlots, \
+                    peer._TFTByteDownload, peer._TFTByteUpload, peer._OUByteDownload, peer._OUByteUpload ) )
         
 
     def _endSimulation(self):
@@ -62,9 +65,7 @@ class Observer(SimElement):
 
     def _createOutputFiles(self):
 
-        formatDesc = "# Log format <Tick> <peer Type> <id> <downloadStart> <DownloadEnd> \
-        #<Max Upload Rate> <Max Download Rate> <Current Upload Rate> <Current Download Rate> \
-        <Total # of max TFT Slots> <Total # of max OU Slots> <Total # of used TFT Slots> <Total # of used OU Slots>\n"
+        formatDesc = "# Log format : <Tick> <peer Type> <id> <downloadStart> <DownloadEnd>\n#<Max Upload Rate> <Max Download Rate> <Current Upload Rate> <Current Download Rate> \n#<Total # of max TFT Slots> <Total # of max OU Slots> <Total # of used TFT Slots> <Total # of used OU Slots> \n#<#Bytes TFT Download> <#Bytes TFT Upload> <#Bytes OU Download> <#Bytes OU Upload>\n"
         self._fd_statists = open( self.stats, "w" )
         self._fd_statists.write(formatDesc)
             

@@ -42,6 +42,12 @@ class Peer(Node):
         self._uploadRateLastTick = 0 #Upload rate calculated in _postLogic for each tick
         self._downloadRateLastTick = 0 #Download rate calculated in _postLogic for each tick
 
+        #Keep track of downloaded data
+        self._TFTByteUpload = 0
+        self._TFTByteDownload = 0
+        self._OUByteUpload = 0
+        self._OUByteDownload = 0
+
         self.piecesQueue = set() #Set of pieces to download next
         
         self._peersConn = {} #Empty dictionary key=peerID
@@ -235,10 +241,29 @@ class Peer(Node):
         #Calculate the total upload and download usage
         self._downloadRateLastTick = 0
         self._uploadRateLastTick = 0
+        
+        self._TFTByteDownload = 0
+        self._TFTByteUpload = 0
+        self._OUByteDownload = 0
+        self._OUByteUpload = 0
+        
         for i in self._peersConn.values() :
+            #Let the connection calculate how much it send and received
             i[2].postDownloadState()
-            self._downloadRateLastTick += i[2].getDownloadRate()
-            self._uploadRateLastTick += i[2].getUploadRate() 
+            
+            down = i[2].getDownloadRate()
+            up = i[2].getUploadRate()
+            
+            #Accumulate for statistics the mount of data send or received, and if it was on a TFT or OU slot
+            if( (i[4] == self.TFT_SLOT) or (i[4] == self.TFT_POSSIBLE_SLOT) ):
+                self._TFTByteDownload += down
+                self._TFTByteUpload += up
+            else:
+                self._OUByteDownload += down
+                self._OUByteUpload += up
+                
+            self._downloadRateLastTick += down
+            self._uploadRateLastTick += up
         
         #Print statistics about the node
         self._printStats()
