@@ -39,16 +39,26 @@ def worker():
         scenario_summary2 = workDir + '/' + prefix + str(i) + '_summary.csv'
         args2 = "Rscript {} {} {} {} {}".format( rScript, file2, workDir, scenario_summary2, prefix + str(i))
         cmd2 = args2.split(" ")
-        logging.debug("Calling R script with {} in {}".format(cmd2, workDir))
-        call_command(cmd2, cwd=workDir)
-    
-        #Generate summary pdf for this scenario out of the different png files
-        args2 = "convert {} {}".format( prefix + str(i) + "_*.png", prefix + str(i) + "_summary.pdf" )
-        cmd2 = args2.split(" ")
-        logging.debug("Calling convert with {0}".format(cmd2))
-        call_command(cmd2, workDir)
+        logging.info("Calling R script with {} in {}".format(cmd2, workDir))
+        (rV,out,err) = call_command(cmd2, cwd=workDir)
         
-        q.task_done()
+        if( rV > 0):
+            logging.error("Generating scenario statistics failed!\n{}".format(err))
+            q.task_done()
+            return
+        else:
+            #Generate summary pdf for this scenario out of the different png files
+            args2 = "convert {} {}".format( prefix + str(i) + "_*.png", statsSummaryDir + "/" + prefix + str(i) + "_summary.pdf" )
+            cmd2 = args2.split(" ")
+            logging.debug("Calling convert with {0}".format(cmd2))
+            (rV,out,err) = call_command(cmd2, workDir)
+        
+            if( rV > 0):
+                logging.error("Calling convert failed!\n{}".format(err))
+                q.task_done()
+                return
+            else:
+                q.task_done()
 
 def main():
     logging.info('Being called to generate Statistics: {0}'.format(sys.argv) )
@@ -81,7 +91,7 @@ def main():
     prefix = sys.argv[4]
     nIterations = int(sys.argv[5]) 
     nThreads = int(sys.argv[6])
-    statsSummaryFile = os.path.dirname(statsSummaryDir) + "/" + prefix + "summary.csv"
+    statsSummaryFile = statsSummaryDir + "/" + prefix + "summary.csv"
     
     if (checkInput(dataDir, prefix, nIterations, rScript) == False):
         logging.error("Something was wrong with input arguments ...")
@@ -97,7 +107,7 @@ def main():
         threadList[-1].daemon = True #Make them daemon threads so we dont care about cleaning up
         threadList[-1].start()
 
-    logging.debug("Waiting for all scripts to finish!")
+    logging.info("Waiting for all scripts to finish!")
     q.join()
        
     #Unify the different scenario summaries
@@ -111,16 +121,22 @@ def main():
     #Dont use normal call_command because we dont want to redirect std-output to file!
     process = subprocess.Popen(cmd, stderr=subprocess.PIPE, cwd = workDir , shell=True) #Have to enable Shell or * will not be expanded!
     stdout, stderr = process.communicate()
-    #print(stderr)
+    if(process.returncode > 0):
+        logging.error("Collecting summary failed!\n{}".format(stderr))
+        sys.exit(1)
+    
+    logging.info("Finished processing scenarios, start to fuse data to create summary ... ".format())    
     
     #Now generate summary histogram 
     args = "Rscript {} {} {} {}".format( rScript, statsSummaryFile , statsSummaryDir, prefix)
     cmd = args.split(" ")
     logging.debug("Calling subprocess with {0}".format(cmd))
     (rV,out,err) = call_command(cmd, workDir)
+    if( rV > 0):
+        logging.error("Creating summary statistics failed!\n{}".format(err))
+        sys.exit(1)
         
-        
-    logging.info("Finished script with exit value {0}".format(0))
+    logging.info("Finished script".format())
     sys.exit(0)
         
         

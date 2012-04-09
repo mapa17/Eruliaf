@@ -48,7 +48,7 @@ class Peer_C1(Peer):
             if( self._nextOUPhaseStart == t):
                 
                 if(self._OUPhaseCnter < 3):
-                    self._nextOUPhaseStart = t + (self.OUPeriod / 3) #In the bootstrap phase use OU soly for discovery not altruistic
+                    self._nextOUPhaseStart = t + (self.OUPeriod / 3) #In the bootstrap phase use OU soly for discovery not altruistic, for that make OU Period shorter
                     self._maxOUSlots = int( 16 / 2**self._OUPhaseCnter) # 16,8,4
                     self._maxTFTSlots = 0
                 else:
@@ -113,6 +113,7 @@ class Peer_C1(Peer):
         
         candidates = self.getTFTCandidates()
         if len(candidates) == 0:
+            self._getMorePeersFlag = True
             return list()
 
         rated = []
@@ -149,6 +150,9 @@ class Peer_C1(Peer):
             chosen.append(p[1])
             acUploadRate += p[2].getUploadLimit()
         
+        #If we are not able to use all our upload capacity something is wrong. Maybe we have a too small neighborhood; -> get more peers
+        if(acUploadRate < maxUpload):
+            self._getMorePeersFlag = True
         
         #Do chocking of all TFT peers that currently are unchocked but not have been chosen in this round
         for i in self._peersConn.values():

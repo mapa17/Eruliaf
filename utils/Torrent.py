@@ -72,7 +72,7 @@ class Torrent(object):
             
     def finishedPiece(self, piece):
         if( piece in self._completedPieces ):
-            print("double donwload of piece {0}!".format(piece) )
+            Log.w(Log.WARN, "double donwload of piece {0}!".format(piece))
         elif( piece >= 0 and piece < self.__nPieces ) :
             self._emptyPieces.remove(piece)
             self._completedPieces.add(piece)

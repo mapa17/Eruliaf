@@ -35,7 +35,8 @@ class Peer(Node):
         self._maxOUSlots = 1
         self._nTFTSlots = 0
         self._nOUSlots = 0
-        self._minPeerListSize = 30 #TODO: change this to 30
+        self._minPeerListSize = 30
+        self._maxPeerListSize = 55
         self._maxDownloadRate = maxDownloadRate
         self._maxUploadRate = maxUploadRate
         self._activeDownloadBandwidthUsage = 0
@@ -67,6 +68,7 @@ class Peer(Node):
         self._nextOUPhaseStart = SSimulator().tick
         
         self._nextPieceQueueUpdate = SSimulator().tick
+        self._leaveNextRound = False
         
         self._runTFTFlag = True 
         self._runOUFlag = True
@@ -83,7 +85,11 @@ class Peer(Node):
     
     #Getting list of peer from tracker and add unknown ones to our own peer list 
     def getNewPeerList(self):
-        #print("Getting a new peer list from the tracker ...")
+        
+        #Dont create too many connections to other peers ( because of performance problems )        
+        if(len(self._peersConn) >= self._maxPeerListSize):
+            return
+        
         newPeers = self._torrent.tracker.getPeerList()
 
         #Filter unwanted peers , for example itself
@@ -125,15 +131,18 @@ class Peer(Node):
     def updateLocalConnectionState(self):   
         self._activeDownloadBandwidthUsage = 0
 
+        if(self._leaveNextRound == True):
+            self._torrent.tracker.remPeer(self)
+            self._disconnectConnections()
+            self.removeSimElement()
+            Log.pLI(self, "Leaving torrent ...")
+            
         if self._torrent.isFinished() == True :
             if( self._downloadEnd == -1):
                 self._downloadEnd = SSimulator().tick
             #So check if we want to leave or stay as a seeder
             if( self._leaveTorrent() == True ):
-                self._torrent.tracker.remPeer(self)
-                self._disconnectConnections()
-                self.removeSimElement()
-                Log.pLI(self, "Leaving torrent ...")
+                self._leaveNextRound = True #Leave next round, if not, the peer wont be seen by the observer as finished!
         else:
             if( (SSimulator().tick >= self._nextPieceQueueUpdate)  or (len(self.piecesQueue) == 0) ):
                 Log.pLD(self, "Getting new piece list for downloading ..." )
@@ -301,7 +310,7 @@ class Peer(Node):
         if self._isSeeder:
             return False
 
-        i = random.random() * 100
+        i = random.random()
         if ( i < self._leaveRate ) :
             return True
         else:

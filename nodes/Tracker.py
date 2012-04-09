@@ -10,7 +10,7 @@ import random
 
 class Tracker(Node):
 
-    CpeerSampleSize = 10
+    CpeerSampleSize = 30
 
     def __init__(self):
         Node.__init__(self)

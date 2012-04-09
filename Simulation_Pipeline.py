@@ -32,7 +32,21 @@ def main():
     config = configparser.SafeConfigParser(allow_no_value=True)
     logging.debug("Reading config {0} ...".format(configFile))
     config.readfp(open(configFile))
+   
+    #Generate Dir
+    d = os.path.abspath(config.get("General", "runDirectory"))
+    if not os.path.exists(d):
+        os.makedirs( d )
     
+    d = os.path.abspath(config.get("General", "statsOutput"))
+    if not os.path.exists(d):
+        os.makedirs( d )
+    
+    d = os.path.abspath(config.get("General", "statsSummaryDir"))
+    if not os.path.exists(d):
+        os.makedirs( d )
+
+    #Generate Configs    
     generateConfigs(config)
     
     runSimulations(config)
