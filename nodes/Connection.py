@@ -87,7 +87,7 @@ class Connection(object):
         #self._averageDownloadRate = 0
 
     
-    #Is called at the beginning of ervery tick and calculates the upload bandwidth for this tick for this connection
+    #Is called at the beginning of every tick and calculates the upload bandwidth for this tick for this connection
     def updateLocalState(self, finishedPieces):
         self.finishedPieces = finishedPieces
         self.__calculateUploadRate()

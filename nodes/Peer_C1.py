@@ -97,11 +97,74 @@ class Peer_C1(Peer):
         uploadBandWidth /= self._maxOUSlots
         
         #Run the normal OU and than modify the upload limit and the ttl of the connection
-        chosen = super().runOU(nSlots, TTL)
+        chosen = self._runOU(nSlots, TTL)
         for idx in chosen:
             self._peersConn[idx][2].setUploadLimit(uploadBandWidth)
         
         return chosen
+
+    #Slightly modified OU algorithm that prefers interested peers over a complete random peer 
+    def _runOU(self, nSlots, TTL):
+        Log.pLD(self, "Executing OU Algorithm for {0}".format(nSlots) )
+        #print("[{0}] peers [ {1} ]".format(self.pid, self._peersConn))
+       
+        t = SSimulator().tick
+        chosen = list()
+       
+        #Calculate the number of current OU Slots and possible candidates that are interested but not in OU or TFT
+        candidates = self.getOUCandidates()
+        if(len(candidates) < nSlots):
+            self._getMorePeersFlag = True
+            nSlots = len(candidates)
+            if(nSlots == 0):
+                return chosen
+        
+        #candidates = random.sample(candidates, len(candidates)) #Array of peerId
+        random.shuffle(candidates)
+        candidates2 = list(candidates)
+        
+        while( (len(chosen) < nSlots) and (len(candidates) > 0) ):
+            p = candidates.pop(0)
+            
+            #Prefer interested peers
+            if( p[2].peerIsInterested() == False):
+                continue
+
+            #Only unchok peers that are not already unchoked!
+            if( (p[4] != self.OU_SLOT) ):
+                self._peersConn[p[1]][2].unchock()    
+            
+            self._peersConn[p[1]] = ( p[0], p[1], p[2], TTL, self.OU_SLOT )
+            chosen.append(p[1])
+        
+        #If there are not enough interested peers, take some random peers
+        if(len(chosen) < nSlots):
+            candidates = candidates2
+            while( (len(chosen) < nSlots) and (len(candidates) > 0) ):
+                p = candidates.pop(0)
+                
+                #Dont add peers twice
+                if( (p[1] in chosen) == True):
+                    continue
+    
+                #Only unchok peers that are not already unchoked!
+                if( (p[4] != self.OU_SLOT) ):
+                    self._peersConn[p[1]][2].unchock()    
+                
+                self._peersConn[p[1]] = ( p[0], p[1], p[2], TTL, self.OU_SLOT )
+                chosen.append(p[1])
+
+        
+        #Do chocking of all OU peers that currently are unchoked but not have been chosen in this round
+        for p in self._peersConn.values():
+            if( (p[4] == self.OU_SLOT) and (chosen.count(p[1]) == 0) ):
+                self._peersConn[p[1]] = ( p[0], p[1], p[2], -1, self.NO_SLOT )
+                self._peersConn[p[1]][2].chock()
+                
+        self._nOUSlots = len(chosen) 
+        return chosen
+
+
 
     #Solve a continuous Knapsack problem with value being the downloadRate and weight the upload Rate
     #Solution is a simply greedy one. Order peers depending on their Rating and chose as many as possible to either

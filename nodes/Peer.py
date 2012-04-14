@@ -36,7 +36,7 @@ class Peer(Node):
         self._nTFTSlots = 0
         self._nOUSlots = 0
         self._minPeerListSize = 30
-        self._maxPeerListSize = 55
+        self._maxPeerListSize = 55 #This is only used in order to not call the Tracker for new peers. This is not limiting other peers to connect to this one
         self._maxDownloadRate = maxDownloadRate
         self._maxUploadRate = maxUploadRate
         self._activeDownloadBandwidthUsage = 0

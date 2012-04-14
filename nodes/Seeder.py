@@ -17,9 +17,8 @@ class Seeder(Peer):
         self.topPiece = 0
         self.changeSeedingSet()
         
-        #Seeder should know more peers and update its peer list regularly
+        #Seeder should know more peers
         self._maxPeerListSize = 100
-        self._updatePeerListCnter = 15
 
         
     def __str__(self, *args, **kwargs):
@@ -38,10 +37,6 @@ class Seeder(Peer):
         
         super().updateLocalConnectionState()
         
-        self._updatePeerListCnter -= 1
-        if(self._updatePeerListCnter <= 0):
-            self._updatePeerListCnter = 15
-            self._getMorePeersFlag = True
 
     def changeSeedingSet(self) :
         nPieces = self._torrent.getNumberOfPieces()
