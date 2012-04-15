@@ -16,15 +16,20 @@ logging.basicConfig(level=logging.DEBUG, format='%(levelname)s : %(message)s')
 
 import threading
 import queue
- 
-
 
 def main():
     if( len(sys.argv) < 2):
         logging.error("Error in Arguments!\nUsage {0}".format(usage()))
         sys.exit(1)
     
-    configFile = os.path.abspath( sys.argv[1] )
+    #The iteration prefix can be specified as the first argument
+    if( len(sys.argv) == 2):
+        configFile = os.path.abspath( sys.argv[1] )
+        prefix = ""
+    else:
+        prefix = sys.argv[1]
+        configFile = os.path.abspath( sys.argv[2] )
+    
     if( os.path.isfile(configFile) == False):
         logging.error("Config file {0} could not be read!".format(configFile))
         sys.exit(2)
@@ -32,6 +37,37 @@ def main():
     config = configparser.SafeConfigParser(allow_no_value=True)
     logging.debug("Reading config {0} ...".format(configFile))
     config.readfp(open(configFile))
+   
+    #Read config values
+    global nIterations
+    global runDir
+    global prefix
+    global scenarioFile
+    global randSeedBase
+    global logCfg
+    global scenario
+    global nThreads
+    global statsScript
+    global statsOutput
+    global statsSummaryDir
+    nIterations = int( config.get("General", "nIterations") )
+    runDir = config.get("General", "runDirectory")
+    runDir = os.path.abspath(runDir)
+    if(prefix == ""): 
+        prefix = config.get("General", "iterationPrefix")
+    scenarioFile = config.get("General", "scenario")
+    randSeedBase = int(config.get("General", "randSeedBase"))
+    logCfg = config.get("General", "logCfg")
+    logCfg = os.path.abspath(logCfg)
+    scenario = configparser.SafeConfigParser(allow_no_value=True)
+    scenario.readfp(open(scenarioFile))   
+    nThreads = int( config.get("General", "nThreads") )
+    statsScript = config.get("General", "statsScript")
+    statsScript = os.path.abspath(statsScript)
+    statsOutput = config.get("General", "statsOutput")
+    statsOutput = os.path.abspath(statsOutput)
+    statsSummaryDir = config.get("General", "statsSummaryDir")
+    statsSummaryDir = os.path.abspath(statsSummaryDir)
    
     #Generate Dir
     d = os.path.abspath(config.get("General", "runDirectory"))
@@ -60,17 +96,6 @@ def generateConfigs(config):
     #print("{0}".format(config.sections() ) )
     #print("{0}".format(config.items("General") ) )
     
-    nIterations = int( config.get("General", "nIterations") )
-    runDir = config.get("General", "runDirectory")
-    runDir = os.path.abspath(runDir)
-    prefix = config.get("General", "iterationPrefix")
-    scenarioFile = config.get("General", "scenario")
-    randSeedBase = int(config.get("General", "randSeedBase"))
-    logCfg = config.get("General", "logCfg")
-    logCfg = os.path.abspath(logCfg)
-    scenario = configparser.SafeConfigParser(allow_no_value=True)
-    scenario.readfp(open(scenarioFile))
-    
     for i in  range(nIterations):
         cfgPath = "{0}/{1}{2}.cfg".format(runDir, prefix, i)
         logging.debug("Generating config {0}".format(cfgPath))
@@ -84,8 +109,6 @@ def generateConfigs(config):
         scenario.set("General", "logCfg", logCfg )
         
         scenario.set("General", "randSeed", str(randSeedBase + i) )
-        
-        
         
         cfg = open(cfgPath , "w")
         scenario.write(cfg)
@@ -107,10 +130,6 @@ def runSimulations(config):
     
     logging.debug("Run simulations!")
     
-    nThreads = int( config.get("General", "nThreads") )
-    nIterations = int( config.get("General", "nIterations") )
-    runDir = config.get("General", "runDirectory")
-    prefix = config.get("General", "iterationPrefix")
     threadList = []
     for i in range(nThreads):
         threadList.append( threading.Thread(target=worker) )
@@ -128,28 +147,17 @@ def runSimulations(config):
     logging.debug("All threads finished!")
 
 def generateStatistics(config):
-    nThreads = int( config.get("General", "nThreads") )
-    nIterations = int( config.get("General", "nIterations") )
-    runDir = config.get("General", "runDirectory")
-    runDir = os.path.abspath(runDir)
-    prefix = config.get("General", "iterationPrefix")
-    statsScript = config.get("General", "statsScript")
-    statsScript = os.path.abspath(statsScript)
-    statsOutput = config.get("General", "statsOutput")
-    statsOutput = os.path.abspath(statsOutput)
-    statsSummaryDir = config.get("General", "statsSummaryDir")
-    statsSummaryDir = os.path.abspath(statsSummaryDir)
-    
-    
     args = [sys.executable, statsScript, runDir, statsOutput, statsSummaryDir, prefix, str(nIterations) , str(nThreads) ]
     logging.debug("Generating statistics calling {0}!".format(args))
     
-    call_command(args, cwd=os.path.dirname(statsScript) )
+    #call_command(args, cwd=os.path.dirname(statsScript) )
+    args = '{} {} {} {} {} "{}" {} {}'.format(sys.executable, statsScript, runDir, statsOutput, statsSummaryDir, prefix, str(nIterations) , str(nThreads))
+    subprocess.getstatusoutput(args)
     
     logging.info("Finished creating statistics!")
     
 def usage():
-    return ( "{0} [SIMULATION_CONFIG] ".format(sys.argv[0]) )
+    return ( "{0} [SIMULATION_PREFIX] SIMULATION_CONFIG ".format(sys.argv[0]) )
     
 def call_command(command, cwd = os.getcwd() , silent = False, shell=False):
     process = subprocess.Popen(command,

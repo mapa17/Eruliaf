@@ -157,10 +157,10 @@ proccessData <- function(data, prefix)
 	
 	pData.download = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=downRate, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="Download usage") + cm + o
 	
-	pData.shareRatio = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=shareRatio, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="Download / Upload") + cm + o 
+	pData.shareRatio = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=shareRatio, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="Download / Upload Ratio") + cm + o 
 	
-	pData.tftouUpRatio = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=tftouUpRatio, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="TFT/OU Upload") + cm + o
-	pData.tftouDownRatio = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=tftouDownRatio, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="TFT/OU Download") + cm + o
+	pData.tftouUpRatio = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=tftouUpRatio, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="TFT/OU Upload Ratio") + cm + o
+	pData.tftouDownRatio = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=tftouDownRatio, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="TFT/OU Download Ratio") + cm + o
 
 	pData.connPlot = ggplot(pData, aes(x=tick) ) + geom_area(aes(y=online, fill=type) , alpha=0.4 , position="identity" ) + geom_line( aes(y=completed, colour=type) ,position="identity") + ylab("Peers") + xlab("Ticks") + opts(title="Total and completed Peers") + fm + cm2 + o
 	pData.ouPlot = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=avgnOUSlots, colour=type) ) + xlab("Ticks") + ylab("OU Slots") + opts(title="Average number of OU Slots") + cm + o
