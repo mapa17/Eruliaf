@@ -18,6 +18,19 @@ import threading
 import queue
 
 def main():
+    
+    global nIterations
+    global runDir
+    global prefix
+    global scenarioFile
+    global randSeedBase
+    global logCfg
+    global scenario
+    global nThreads
+    global statsScript
+    global statsOutput
+    global statsSummaryDir
+    
     if( len(sys.argv) < 2):
         logging.error("Error in Arguments!\nUsage {0}".format(usage()))
         sys.exit(1)
@@ -34,22 +47,11 @@ def main():
         logging.error("Config file {0} could not be read!".format(configFile))
         sys.exit(2)
     
+    #Read config values
     config = configparser.SafeConfigParser(allow_no_value=True)
     logging.debug("Reading config {0} ...".format(configFile))
     config.readfp(open(configFile))
-   
-    #Read config values
-    global nIterations
-    global runDir
-    global prefix
-    global scenarioFile
-    global randSeedBase
-    global logCfg
-    global scenario
-    global nThreads
-    global statsScript
-    global statsOutput
-    global statsSummaryDir
+    
     nIterations = int( config.get("General", "nIterations") )
     runDir = config.get("General", "runDirectory")
     runDir = os.path.abspath(runDir)

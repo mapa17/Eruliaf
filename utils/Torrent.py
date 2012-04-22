@@ -36,7 +36,8 @@ class Torrent(object):
         self.tracker = tracker
         self._finishTick = -1 #Time the torrent finished download
 
-        
+    
+    #Returns a set of the piece number of all completed pieces
     def getFinishedPieces(self):
         return self._completedPieces
     

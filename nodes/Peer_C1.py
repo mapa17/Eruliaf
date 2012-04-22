@@ -12,6 +12,7 @@ from simulation.Simulator import Simulator
 from utils.Log import Log
 from nodes.Peer import Peer
 from simulation.SConfig import SConfig
+import math
 
 class Peer_C1(Peer):
     def __init__(self, torrent, maxUploadRate, maxDownloadRate):
@@ -29,9 +30,22 @@ class Peer_C1(Peer):
 
         self._TFTSlotList = list()
         self._OUSlotList = list()
+        
+        #Reduce the OU Period from 30 in the BitTorrent Specification to 10 
+        self.OUPeriod = 10
+        
+        self._maxOUUploadRate = 0
+        self._maxTFTUploadRate = 0
 
     def __str__(self, *args, **kwargs):
         return "Peer_C1 [pid {0}]".format(self.pid)
+
+    def updateLocalConnectionState(self):
+        
+        if( self._getMorePeersFlag == True):
+            self._dropPeers(self._maxPeerListSize - 20) #Drop some peers to have space for new ones
+            
+        super().updateLocalConnectionState()
 
     #Override Prelogic to decide when to start TFT and OU algorithm and how long ease phase runs
     def _preLogicOperations(self):
@@ -44,36 +58,27 @@ class Peer_C1(Peer):
 
         if(self._torrent.isFinished() == False):
             #Leecher
-            
-            if( self._nextOUPhaseStart == t):
                 
-                if(self._OUPhaseCnter < 3):
-                    self._nextOUPhaseStart = t + (self.OUPeriod / 3) #In the bootstrap phase use OU soly for discovery not altruistic, for that make OU Period shorter
-                    self._maxOUSlots = int( 16 / 2**self._OUPhaseCnter) # 16,8,4
-                    self._maxTFTSlots = 0
-                else:
-                    self._nextOUPhaseStart = t + self.OUPeriod
-                    self._maxOUSlots = self._OUPhaseCnter%4 + 1
-                    self._maxTFTSlots = 12
-                    
+            #TFT and OU Have to be called together because the maximal upload usage depends on each other        
+            if( (self._nextOUPhaseStart == t) or (self._nextTFTPhaseStart == t) ):
+
+                (self._maxTFTSlots, self._maxOUSlots, self._maxTFTUploadRate, self._maxOUUploadRate ) = self._calculateSlotCountAndUploadRate( self._pieceAvailability , self._OUPhaseCnter)                 
+
                 self._OUPhaseCnter += 1
+                self._nextOUPhaseStart = t + self.OUPeriod
                 self._runOUFlag = True
 
  
-            if( self._nextTFTPhaseStart == t):
                 self._TFTPhaseCnter += 1
                 self._nextTFTPhaseStart = t + self.TFTPeriod
                 self._runTFTFlag = True
 
-            else:
-                #Normal Mode
-                self._runOUFlag = True
-                self._runTFTFlag = True 
         else:
             #Seeder Part
             if( self._nextOUPhaseStart == t):
                 self._maxOUSlots = self._OUPhaseCnter%4 + 1
                 self._nextOUPhaseStart = t + self.OUPeriod
+                self._maxOUUploadRate = self._maxUploadRate 
                 self._runOUFlag = True
                 
             
@@ -82,19 +87,16 @@ class Peer_C1(Peer):
 
     #Simply chosen nSlotElement nodes and distributes the OU Upload equally between them
     def runOU(self, nSlots, TTL):
-        if(nSlots == 0):
-            return list()
+        #if(nSlots == 0):
+        #    return list()
+        #return chosen #DO NOT RETURN HERE OR THE CHOCKING AT THE END OF THE FUNCTION WONT BE APPLIED
     
         if(nSlots < 0):
             raise(ValueError)
         
         #Calculate bandwidth for OU and than for every slot
         #uploadBandWidth = self._maxUploadRate * ( self._maxOUSlots / (self._maxOUSlots + self._maxTFTSlots) )
-        if( self._maxOUSlots > 4):
-            uploadBandWidth = self._maxUploadRate * ( self._maxOUSlots / (self._maxOUSlots + self._maxTFTSlots) )
-        else:
-            uploadBandWidth = self._maxUploadRate * ( 4 / (4 + self._maxTFTSlots) )
-        uploadBandWidth /= self._maxOUSlots
+        uploadBandWidth = self._maxOUUploadRate / self._maxOUSlots
         
         #Run the normal OU and than modify the upload limit and the ttl of the connection
         chosen = self._runOU(nSlots, TTL)
@@ -116,8 +118,9 @@ class Peer_C1(Peer):
         if(len(candidates) < nSlots):
             self._getMorePeersFlag = True
             nSlots = len(candidates)
-            if(nSlots == 0):
-                return chosen
+            #if(nSlots == 0):
+            #    return chosen
+            #DO NOT RETURN HERE OR THE CHOCKING AT THE END OF THE FUNCTION WONT BE APPLIED
         
         #candidates = random.sample(candidates, len(candidates)) #Array of peerId
         random.shuffle(candidates)
@@ -171,13 +174,10 @@ class Peer_C1(Peer):
     #Fill up the download rate or the number of slots
     def runTFT(self, nSlots, TTL):
         
-        if(nSlots == 0):
-            return list()
-        
         candidates = self.getTFTCandidates()
         if len(candidates) == 0:
             self._getMorePeersFlag = True
-            return list()
+            #return list() #DO NOT RETURN HERE OR THE CHOCKING AT THE END OF THE FUNCTION WONT BE APPLIED
 
         rated = []
         for (idx,i) in enumerate(candidates) :
@@ -191,8 +191,8 @@ class Peer_C1(Peer):
         chosen = []
          
         #Always calculate with 4 OU Slots
-        #maxUpload = ( self._maxUploadRate * ( self._maxTFTSlots/(self._maxTFTSlots + self._maxOUSlots) ) )
-        maxUpload = ( self._maxUploadRate * ( self._maxTFTSlots/(self._maxTFTSlots + 4) ) )
+        
+        maxUpload = self._maxTFTUploadRate
         acUploadRate = 0
 
         #nSlots = min(nSlots, len(rated))
@@ -233,6 +233,54 @@ class Peer_C1(Peer):
             return self._maxUploadRate / 3 
         else:
             return -1
+
+    def _calculateSlotCountAndUploadRate(self, pieceAvailability, ouPhaseCnter):
+        nMaxTFTSlots = 0
+        nMaxOUSlots = 0
+        
+        x = pieceAvailability
+        
+        #Add some random behavior
+        x += random.randint(-5,5);
+        if( x < 0): x = 0
+        if( x > 100): x = 100
+        
+        
+        nMaxTFTSlots = int( math.atan(0.20*(x-15.0)) * 8 )  # http://www.wolframalpha.com/input/?i=plot%2C+int%28+atan%280.20%28x-15%29%29+*+8+%29+%2C+x+%3D+%5B0%2C100%5D
+        if(nMaxTFTSlots < 0): nMaxTFTSlots = 0
+        nMaxOUSlots = int( (8 - (( math.atan(0.15*x - 2) * 0.5 ) + 0.5)*4) + 1) # http://www.wolframalpha.com/input/?i=plot+%2C+int%28+%288+-+%28%28+atan%280.15*x+-+2%29+*+0.5+%29+%2B+0.5%29*4%29+%2B+1%29+%2C+x%3D%5B0%2C+100%5D
+        
+        #Calculate max upload rates per connection . Simple seperation of upload depending on the number of slots.
+        #This does not mean that each TFT or OU connection gets the same upload bandwidth. Its limiting absolute bandwidth only!
+        maxTFTUpload = ( self._maxUploadRate * ( nMaxTFTSlots / (nMaxTFTSlots + nMaxOUSlots) ) )
+        maxOUUpload = ( self._maxUploadRate * ( nMaxOUSlots / (nMaxTFTSlots + nMaxOUSlots) ) )
+        
+        
+        #On top of this, put a vibration on the OU slots in order to have a peer discovery with different upload bandwidth to find cheap and expesive peers
+        if(x > 15):
+            nMaxOUSlots = nMaxOUSlots / ((ouPhaseCnter  % 4) + 1) #Circulate nMaxOUSlots between 1 and 4 slots
+            nMaxOUSlots = int(nMaxOUSlots)
+
+            
+        return (nMaxTFTSlots, nMaxOUSlots, maxTFTUpload, maxOUUpload)
+    
+    def _dropPeers(self, maxPeers):
+        p = list(self._peersConn)
+        nDrop = len(p) - maxPeers
+        if(nDrop < 0):
+            return #Nothing to do
+        
+        while(nDrop > 0):
+            pID = random.sample(p, 1)[0]
+            #print("Dropping peer {} from {}".format(pID, p))
+            p.remove(pID)
+                
+            c = self._peersConn[pID]
+            if(c[4] != Peer.NO_SLOT):
+                continue #Do not drop active connection of any kind
+            
+            self._peersConn[pID][2].disconnect()
+            nDrop-=1
 
     #def _calculateDownloadRate(self, connection):
     #    return self._maxDownloadRate / ( self._maxTFTSlots + self._maxOUSlots ) 

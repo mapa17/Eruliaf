@@ -49,24 +49,34 @@ proccessData <- function(data, prefix)
 	completed <- 1:(maxTick*2)
 	avgnTFTSlots <- 1:(maxTick*2)
 	avgnOUSlots <- 1:(maxTick*2)
-	upRate <- 1:(maxTick*2)
-	downRate <- 1:(maxTick*2)
+	#upRate <- 1:(maxTick*2)
+	#downRate <- 1:(maxTick*2)
 	type <- 1:(maxTick*2)
+	tftUpRate <- 1:(maxTick*2)
+	ouUpRate <- 1:(maxTick*2)
+	tftDownRate <- 1:(maxTick*2)
+	ouDownRate <- 1:(maxTick*2)
 	tftouUpRatio <- 1:(maxTick*2)
 	tftouDownRatio <- 1:(maxTick*2)
 	shareRatio <- 1:(maxTick*2)
-	minNPieces <-  1:(maxTick*2)
-	maxNPieces <-  1:(maxTick*2)
-	meanNPieces <-  1:(maxTick*2)
-	sdNPieces <-  1:(maxTick*2)
-	nConnections <-  1:(maxTick*2)
+	minNPieces <- 1:(maxTick*2)
+	maxNPieces <- 1:(maxTick*2)
+	meanNPieces <- 1:(maxTick*2)
+	sdNPieces <- 1:(maxTick*2)
+	nConnections <- 1:(maxTick*2)
 	sdNConnections <- 1:(maxTick*2)
+	maxDownload <- 1:(maxTick*2)
+	maxUpload <- 1:(maxTick*2)
+	download <- 1:(maxTick*2)
+	upload <- 1:(maxTick*2)
 	
 	#Seperate the frame depending on type and completed or downloading peers
 	dP = data[ (data$Type=="Peer"), ]
 	dPr = dP[ (dP$End == -1), ]
 	dPC1 = data[ (data$Type=="Peer_C1"), ]
 	dPC1r = dPC1[ (dPC1$End == -1), ]
+	
+	#Calculate means and other values for two types of peers and every tick
 	for(i in 0:(maxTick-1)){
 		
 		#Get a subtable for this tick only
@@ -78,8 +88,14 @@ proccessData <- function(data, prefix)
 		completed[i*2 +1] <- nrow( dPt[ (dPt$End != -1) , ] )
 		avgnTFTSlots[i*2 +1] <- mean( dPrt$TFT )
 		avgnOUSlots[i*2 +1] <- mean( dPrt$OU )
-		downRate[i*2 +1] <- mean( dPrt$Download/dPrt$MaxDownload )
-		upRate[i*2 +1] <- mean( dPrt$Upload/dPrt$MaxUpload )
+		maxDownload[i*2 +1] <- mean( dPrt$MaxDownload )
+		maxUpload[i*2 +1] <- mean( dPrt$MaxUpload )
+		download[i*2 +1] <- mean( dPrt$Download , na.rm = TRUE)
+		upload[i*2 +1] <- mean( dPrt$Upload , na.rm = TRUE)
+		tftUpRate[i*2 +1] <- mean( dPrt$TFTUp )
+		tftDownRate[i*2 +1] <- mean( dPrt$TFTDown )
+		ouUpRate[i*2 +1] <- mean( dPrt$OUUp )
+		ouDownRate[i*2 +1] <- mean( dPrt$OUDown , na.rm = TRUE )
 		tftouUpRatio[i*2 +1] <- mean( dPrt$tftouUpRatio , na.rm = TRUE)
 		tftouDownRatio[i*2 +1] <- mean( dPrt$tftouDownRatio , na.rm = TRUE)
 		shareRatio[i*2 +1] <- mean( dPrt$shareRatio , na.rm = TRUE)
@@ -87,8 +103,8 @@ proccessData <- function(data, prefix)
 		#maxNPieces[i*2 +1] <- max(dPrt$nDownloadedPieces)
 		meanNPieces[i*2 +1] <- mean(dPrt$nDownloadedPieces)
 		sdNPieces[i*2 +1] <- sd(dPrt$nDownloadedPieces)
-		nConnections[i*2 +1] <- mean(dPrt$nConnections)
-		sdNConnections[i*2 +1] <- sd(dPrt$nConnections)
+		nConnections[i*2 +1] <- mean(dPrt$nConnections , na.rm = TRUE)
+		sdNConnections[i*2 +1] <- sd(dPrt$nConnections , na.rm = TRUE)
 		
 		#Get a subtable for this tick only
 		dPC1t = dPC1[ (dPC1$Tick == i), ]
@@ -99,8 +115,12 @@ proccessData <- function(data, prefix)
 		completed[i*2+1 +1] <- nrow( dPC1t[ (dPC1t$End != -1), ] )
 		avgnTFTSlots[i*2+1 +1] <- mean( dPC1rt$TFT )
 		avgnOUSlots[i*2+1 +1] <- mean( dPC1rt$OU )
-		downRate[i*2+1 + 1] <- mean( dPC1rt$Download/dPC1rt$MaxDownload )
-		upRate[i*2+1 + 1] <- mean( dPC1rt$Upload/dPC1rt$MaxUpload )
+		download[i*2+1 + 1] <- mean( dPC1rt$Download , na.rm = TRUE)
+		upload[i*2+1 + 1] <- mean( dPC1rt$Upload , na.rm = TRUE)
+		tftUpRate[i*2+1 + 1] <- mean( dPC1rt$TFTUp )
+		tftDownRate[i*2+1 + 1] <- mean( dPC1rt$TFTDown )
+		ouUpRate[i*2+1 + 1] <- mean( dPC1rt$OUUp )
+		ouDownRate[i*2+1 + 1] <- mean( dPC1rt$OUDown )
 		tftouUpRatio[i*2+1 +1] <- mean( dPC1rt$tftouUpRatio , na.rm = TRUE)
 		tftouDownRatio[i*2+1 +1] <- mean( dPC1rt$tftouDownRatio , na.rm = TRUE)
 		shareRatio[i*2+1 +1] <- mean( dPC1rt$shareRatio , na.rm = TRUE)
@@ -110,6 +130,8 @@ proccessData <- function(data, prefix)
 		sdNPieces[i*2+1 +1] <- sd(dPC1rt$nDownloadedPieces)
 		nConnections[i*2+1 +1] <- mean(dPC1rt$nConnections)
 		sdNConnections[i*2+1 +1] <- sd(dPC1rt$nConnections)
+		maxDownload[i*2+1 +1] <- mean( dPC1rt$MaxDownload , na.rm = TRUE)
+		maxUpload[i*2+1 +1] <- mean( dPC1rt$MaxUpload , na.rm = TRUE)
 	}
 	
 	#Remove irregularities , NaN and inf are set to zero
@@ -128,12 +150,31 @@ proccessData <- function(data, prefix)
 	fv = is.infinite(tftouUpRatio)
 	if( TRUE %in% fv) tftouUpRatio[fv] = 0
 	
-	pData <- data.frame(tick, type, online, completed, avgnTFTSlots, avgnOUSlots, upRate, downRate, tftouUpRatio, tftouDownRatio, shareRatio, minNPieces, maxNPieces, meanNPieces, sdNPieces, nConnections, sdNConnections)
+	pData <- data.frame(tick, type, online, completed, avgnTFTSlots, avgnOUSlots, tftouUpRatio,
+		tftouDownRatio, shareRatio, minNPieces, maxNPieces, meanNPieces, sdNPieces, nConnections, sdNConnections,
+		tftUpRate, tftDownRate, ouUpRate, ouDownRate, maxDownload, maxUpload, upload, download)
+
 	pData$lsdNPieces <- pData$meanNPieces - pData$sdNPieces
 	pData$usdNPieces <- pData$meanNPieces + pData$sdNPieces
 	pData$lsdNConnections <- pData$nConnections - pData$sdNConnections
 	pData$usdNConnections <- pData$nConnections + pData$sdNConnections
 	
+	pData$downRate <- pData$download / pData$maxDownload
+	pData$upRate <- pData$upload / pData$maxUpload
+
+	#Scale to maximum up/down rate
+	pData$tftUpRate <- pData$tftUpRate/pData$maxUpload
+	pData$ouUpRate <- pData$ouUpRate/pData$maxUpload
+	pData$tftDownRate <- pData$tftDownRate/pData$maxDownload
+	pData$ouDownRate <- pData$ouDownRate/pData$maxDownload
+		
+	return(pData)
+}
+
+
+
+createPlots <- function(pData)
+{
 	#Prepare legends
 	o = opts(legend.position="bottom")
 	g = guide_legend(title.position="left" , direction="horizontal" )
@@ -148,23 +189,30 @@ proccessData <- function(data, prefix)
 	cm4 = scale_color_manual( name="# connected Peers" , breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") , values=c("red", "blue") , guide=g )
 	fm4 = scale_fill_manual( name="Standard deviation", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") , values=c("red", "blue") , guide=g)
 	
+	s = stat_smooth()
+	
 	#Generate Plots
 	pData.pieceAvailability = ggplot(pData, aes(x=tick) ) + ylab("# Pieces") + xlab("Ticks") + opts(title="Piece availability") + fm3 + cm3 + o + geom_smooth(aes(y=meanNPieces, ymin = lsdNPieces, ymax = usdNPieces, colour=type, fill=type), data=pData, stat="identity")
 	
-	pData.neighbourhoodSize = ggplot(pData, aes(x=tick) ) + ylab("# Peers") + xlab("Ticks") + opts(title="Neighbourhood size") + fm4 + cm4 + o + geom_smooth(aes(y=nConnections, ymin = lsdNConnections, ymax = usdNConnections, colour=type, fill=type), data=pData, stat="identity")
+	pData.NeighbourHoodSize = ggplot(pData, aes(x=tick) ) + ylab("# Peers") + xlab("Ticks") + opts(title="Neighbourhood size") + fm4 + cm4 + o + geom_smooth(aes(y=nConnections, ymin = lsdNConnections, ymax = usdNConnections, colour=type, fill=type), data=pData, stat="identity")
 	
-	pData.upload = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=upRate, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="Upload usage") + cm + o 
+	pData.upload = ggplot(pData, aes(x=tick, y=upRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Upload") + opts(title="Upload usage") + cm + o + s
+	pData.download = ggplot(pData, aes(x=tick, y=downRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Download") + opts(title="Download usage") + cm + o + s 
 	
-	pData.download = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=downRate, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="Download usage") + cm + o
+	pData.TFTUploadRate = ggplot(pData, aes(x=tick , y=tftUpRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Upload") + opts(title="TFT Upload Rate") + cm + o + s
+	pData.OUUploadRate = ggplot(pData, aes(x=tick, y=ouUpRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Upload") + opts(title="OU Upload Rate") + cm + o + s 
 	
-	pData.shareRatio = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=shareRatio, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="Download / Upload Ratio") + cm + o 
+	pData.TFTDownloadRate = ggplot(pData, aes(x=tick, y=tftDownRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Download") + opts(title="TFT Download Rate") + cm + o + s 
+	pData.OUDownloadRate = ggplot(pData, aes(x=tick, y=ouDownRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Download") + opts(title="OU Download Rate") + cm + o + s
 	
-	pData.tftouUpRatio = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=tftouUpRatio, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="TFT/OU Upload Ratio") + cm + o
-	pData.tftouDownRatio = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=tftouDownRatio, colour=type) ) + xlab("Ticks") + ylab("Ratio") + opts(title="TFT/OU Download Ratio") + cm + o
-
+	pData.shareRatio = ggplot(pData, aes(x=tick, y=shareRatio, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio") + opts(title="Download / Upload Ratio") + cm + o + s 
+	
+	pData.tftouUpRatio = ggplot(pData, aes(x=tick, y=tftouUpRatio, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio") + opts(title="TFT/OU Upload Ratio") + cm + o + s
+	pData.tftouDownRatio = ggplot(pData, aes(x=tick, y=tftouDownRatio, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio") + opts(title="TFT/OU Download Ratio") + cm + o + s
+	
 	pData.connPlot = ggplot(pData, aes(x=tick) ) + geom_area(aes(y=online, fill=type) , alpha=0.4 , position="identity" ) + geom_line( aes(y=completed, colour=type) ,position="identity") + ylab("Peers") + xlab("Ticks") + opts(title="Total and completed Peers") + fm + cm2 + o
-	pData.ouPlot = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=avgnOUSlots, colour=type) ) + xlab("Ticks") + ylab("OU Slots") + opts(title="Average number of OU Slots") + cm + o
-	pData.tftPlot = ggplot(pData, aes(x=tick) ) + geom_line(aes(y=avgnTFTSlots, colour=type) ) + xlab("Ticks") + ylab("TFT Slots") + opts(title="Average number of TFT Slots") + cm + o
+	pData.ouPlot = ggplot(pData, aes(x=tick, y=avgnOUSlots, colour=type) ) + geom_line() + xlab("Ticks") + ylab("OU Slots") + opts(title="Average number of OU Slots") + cm + o + s
+	pData.tftPlot = ggplot(pData, aes(x=tick, y=avgnTFTSlots, colour=type) ) + geom_line() + xlab("Ticks") + ylab("TFT Slots") + opts(title="Average number of TFT Slots") + cm + o + s
 	
 	
 	#Save Plots	
@@ -176,7 +224,7 @@ proccessData <- function(data, prefix)
 	
 	path = paste(prefix, "Peer_Count.png", sep="_")
 	ggsave(file=path , plot=pData.connPlot, dpi=100)
-
+	
 	path = paste(prefix, "uploadRatio.png", sep="_")
 	ggsave(file=path, plot = pData.upload, dpi=100)
 	
@@ -195,13 +243,21 @@ proccessData <- function(data, prefix)
 	path = paste(prefix, "pieceAvailability.png", sep="_")
 	ggsave(file=path, plot=pData.pieceAvailability, dpi=100)
 	
-	path = paste(prefix, "neighbourHoodSize.png", sep="_")
-	ggsave(file=path, plot=pData.neighbourhoodSize, dpi=100)
+	path = paste(prefix, "NeighbourHoodSize.png", sep="_")
+	ggsave(file=path, plot=pData.NeighbourHoodSize, dpi=100)
 	
+	path = paste(prefix, "TFTUploadRate.png", sep="_")
+	ggsave(file=path, plot=pData.TFTUploadRate, dpi=100)
 	
-	return(pData)
+	path = paste(prefix, "OUUploadRate.png", sep="_")
+	ggsave(file=path, plot=pData.OUUploadRate, dpi=100)
+	
+	path = paste(prefix, "TFTDownloadRate.png", sep="_")
+	ggsave(file=path, plot=pData.TFTDownloadRate, dpi=100)
+	
+	path = paste(prefix, "OUDownloadRate.png", sep="_")
+	ggsave(file=path, plot=pData.OUDownloadRate, dpi=100)
 }
-
 
 #Generate a copy of an vector v, with elment e insert at position pos ( index starting from 1 ) , pos = -1 appends e to the end
 insert <- function(v, e, pos)
@@ -337,9 +393,11 @@ if( length(arg) == 9)
 	
 
 	#Do processing and generate Plots
-	proccessData(data, prefix)
-	pData = DownloadTime(data, prefix)
+	pData = proccessData(data, prefix)
+	createPlots(pData)
+	
+	summary = DownloadTime(data, prefix)
 	
 	#Save the processed data into the summary file
-	write.table(pData, file=histFile, sep=";", append=TRUE, col.names=FALSE, row.names = FALSE)
+	write.table(summary, file=histFile, sep=";", append=TRUE, col.names=FALSE, row.names = FALSE)
 }

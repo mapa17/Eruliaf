@@ -17,7 +17,7 @@ import logging
 import threading
 import queue
 
-logging.basicConfig(level=logging.DEBUG, format='%(levelname)s : %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(levelname)s : %(message)s')
 
 #rScript = os.path.abspath("./Statistics.R")
 #rScript = "/work/Eigene/uni/Erasmus/Thesis/Eruliaf/statistics/Statistics.R"
@@ -142,6 +142,11 @@ def main():
         
 
 def checkInput(dataDir, itStart, nIterations, rScript):
+   
+    #Generate Dir
+    d = os.path.abspath(statsSummaryDir)
+    if not os.path.exists(d):
+        os.makedirs( d )
     
     if( os.path.isfile( rScript ) == False):
         logging.error("Could not find R Statistics script {0}", rScript)

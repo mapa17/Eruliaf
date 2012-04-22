@@ -27,7 +27,6 @@ class Connection(object):
         self.interested = False
         self.disconnected = False
 
-        self.finishedPieces = set()
        
         self._freshUnchock = False 
         self._acumulatedData = 0
@@ -124,7 +123,7 @@ class Connection(object):
         if(self._srcPeer.getTorrent().isFinished() == False):
         
             #Check what the other peer has to offer
-            self.__calcDownloadablePieceSet()        
+            self._downloadablePieces = self.__calcDownloadablePieceSet()        
             if(len(self._downloadablePieces) > 0):
                 Log.pLD(self._srcPeer, "Having interest in {0} from {1}".format( len(self._downloadablePieces), self._destPeer.pid) )
                 self.interested = True
@@ -209,7 +208,7 @@ class Connection(object):
 
     #Select a piece for downloading
     def __setCurrentPiece(self):
-        self.__calcDownloadablePieceSet()
+        self._downloadablePieces = self.__calcDownloadablePieceSet()
 
         if( len(self._downloadablePieces) == 0):
             return False
@@ -220,11 +219,27 @@ class Connection(object):
                 return True #We already have a piece selected
     
         #shuffle the download list -> so we dont download the same piece from all peers
-        self._currentPiece = random.sample(self._downloadablePieces, 1)[0]
-        #Log.pLD(self._srcPeer,"Selecting piece {0} to get from {1}".format(self._currentPiece, self._destPeer.pid) )
-        return True
+        #self._currentPiece = random.sample(self._downloadablePieces, 1)[0]
+        #NO! dont shuffle, this is already done in the Peer.pieceSelection get them by order
+        
+        self._currentPiece = -1
+        #Now find the first piece in the download Queue we could get from the remote peer
+        for i in self._srcPeer.piecesQueue:
+            if( i in self._downloadablePieces):
+                self._currentPiece = i
+                break
+        
+        if(self._currentPiece != -1):
+            #Remove the selected piece from the queue to reduce the chance of double piece download. Remember that it will be added again into the Queue
+            #(that is ok )if Its not marked as downloaded at the next pieceSelection call in Peer 
+            self._srcPeer.downloadingPiece(self._currentPiece)
+        
+            #Log.pLD(self._srcPeer,"Selecting piece {0} to get from {1}".format(self._currentPiece, self._destPeer.pid) )
+            return True
+        else:
+            return False #Nothing to download
     
     def __calcDownloadablePieceSet(self):
-        self._downloadablePieces = self._srcPeer.piecesQueue & self.remoteConnection.finishedPieces   
+        return self._srcPeer._torrent.getEmptyPieces() & self.remoteConnection.finishedPieces   
 
 

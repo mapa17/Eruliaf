@@ -49,8 +49,10 @@ class Peer(Node):
         self._OUByteUpload = 0
         self._OUByteDownload = 0
 
-        self.piecesQueue = set() #Set of pieces to download next
+        self.piecesQueue = list() #Set of pieces to download next
         
+        #A hash table with a tuple for every known neighbor.
+        #Key is the peer id and the value is in the form <UPloadRate> <PeerID> <Ref to Connection> <TTL> <Connection Type>
         self._peersConn = {} #Empty dictionary key=peerID
        
         self._leaveRate = float( SConfig().value("LeaveRate", "Peer") )
@@ -75,7 +77,9 @@ class Peer(Node):
  
         self._getMorePeersFlag = True
         
-        self._minPieceInterestSize =  int(self._torrent.getNumberOfPieces() * 0.05) #Try to get 5% of the most rarest pieces
+        #self._minPieceInterestSize =  int(self._torrent.getNumberOfPieces() * 0.05) #Try to get 5% of the most rarest pieces
+        self._pieceRandomizeCount = 50 #The 50 most rarest pieces will be download at random
+        self._pieceAvailability = 0.0 #Every time we call piece selection, as well calculate the average file completion of all our neighbors
            
     def __del__(self):
         Log.pLD("Peer is being destroyed")
@@ -146,7 +150,7 @@ class Peer(Node):
         else:
             if( (SSimulator().tick >= self._nextPieceQueueUpdate)  or (len(self.piecesQueue) == 0) ):
                 Log.pLD(self, "Getting new piece list for downloading ..." )
-                self.piecesQueue = self.pieceSelection(self._minPieceInterestSize) #Simulates the queuing of piece requests to other peers
+                (self.piecesQueue, self._pieceAvailability) = self.pieceSelection(self._pieceRandomizeCount) #Simulates the queuing of piece requests to other peers
                 self._nextPieceQueueUpdate = SSimulator().tick + 5 #Shedule next update
         
         #Call updateLocalState() on each connection and update their averageDownloadRate
@@ -241,6 +245,8 @@ class Peer(Node):
                 self._runOUFlag = False
                 nSlots = self._maxOUSlots + self._maxTFTSlots
                 chosen = self.runOU(nSlots, self._nextOUPhaseStart)
+                nSlots = 0
+                chosen = self.runTFT(0, 0)
 
     def _runDownloads(self):
         for i in self._peersConn.values() :
@@ -338,16 +344,16 @@ class Peer(Node):
                             "N" if i[4] == self.NO_SLOT else "T" if i[4] ==  self.TFT_SLOT else "P" if i[4] ==  self.TFT_POSSIBLE_SLOT else "O", \
                             ) )
 
-        Log.pLI(self, "[{8}] DL {0}/{1} i{2} TFT {3}/{4}, OU {5}/{6} , U/D [{9}/{10}], PeerList {7}".format(self._torrent.getNumberOfFinishedPieces(), \
+        Log.pLI(self, "[{}] DL {}/{} i{} pA{} TFT {}/{}, OU {}/{} , U/D [{}/{}], PeerList {}".format( self.__class__.__name__, \
+            self._torrent.getNumberOfFinishedPieces(), \
             self._torrent.getNumberOfPieces(), \
             len(self.piecesQueue), \
+            self._pieceAvailability, \
             self._nTFTSlots, self._maxTFTSlots, \
             self._nOUSlots, self._maxOUSlots, \
-            t, \
-            self.__class__.__name__, \
-            self._uploadRateLastTick, self._downloadRateLastTick \
-            ) )
-                        
+            self._uploadRateLastTick, self._downloadRateLastTick,  \
+            t ) )
+        
     '''
         The Tit-for-tat algorithm ranks peers on their upload speed provided to this node.
         Take the <nSlots> highest ranked peers and execute the TFT algorithm on them 
@@ -367,7 +373,7 @@ class Peer(Node):
         
         if(len(candidates) == 0):
             self._getMorePeersFlag = True
-            return chosen
+            #return chosen #DO NOT RETURN HERE OR THE CHOCKING AT THE END OF THE FUNCTION WONT BE APPLIED
         
         candidates.sort(reverse=True) #Sort candidates based on their uploadRate, (highest uploadRate first)
 
@@ -440,17 +446,28 @@ class Peer(Node):
         if piece in self.piecesQueue:
             self.piecesQueue.remove(piece)
 
-    def downloadingPiece(self, conn, piece):
+    def downloadingPiece(self, piece):
         if piece in self.piecesQueue:
             self.piecesQueue.remove(piece)
 
     #Implementing Rarest piece first piece selection
-    def pieceSelection(self, nPieces):
-        emptyPieces = self._torrent.getEmptyPieces(  )
-        pieceHistogram = [ (0,x) for x in range(0, self._torrent.getNumberOfPieces()) ]
+    def pieceSelection(self, nRarePieces):
+        
+        avgPieceAvailability = 0.0
+        nPieces = self._torrent.getNumberOfPieces()        
+        emptyPieces = self._torrent.getEmptyPieces()
+        
+        #First value is our own
+        avgPieceAvailability = (nPieces - len(emptyPieces)) / nPieces
+        
+        pieceHistogram = [ (0,x) for x in range(0, nPieces) ]
         for i in self._peersConn.values():
             #Get a set of finished pieces
-            candidates = i[2].remoteConnection.finishedPieces & emptyPieces
+            fp = i[2].remoteConnection.finishedPieces
+            
+            avgPieceAvailability = ( avgPieceAvailability + (len(fp)/nPieces) ) / 2.0
+            
+            candidates =  fp & emptyPieces
             for k in candidates:
                 pieceHistogram[k] = ( pieceHistogram[k][0] + 1, pieceHistogram[k][1])
 
@@ -465,16 +482,27 @@ class Peer(Node):
         #Sort the histogram on the number of counts of finished pieces, least common are at the beginning
         pieceHistogram.sort()
 
-        if nPieces > len(pieceHistogram):
-            nPieces = len(pieceHistogram)
+        #Shuffle the nRarestPieces of the piece List in order not everyone tries to get the same piece
+        if nRarePieces > len(pieceHistogram):
+            nRarePieces = len(pieceHistogram)
         
-        rarestPieces = set()
-
-        while nPieces > 0:
-            rarestPieces.add(pieceHistogram.pop(0)[1])
-            nPieces -= 1
+        rarestPieces = list()
+        for i in range(nRarePieces) :
+            rarestPieces.append(pieceHistogram.pop(0))
+            
+        random.shuffle(rarestPieces)
         
-        return rarestPieces
+        #Join the sets again
+        while(len(rarestPieces) > 0):
+            pieceHistogram.insert(0,rarestPieces.pop(0))
+        
+        selection = list()
+        #Now extract the piece Index and return
+        for i in pieceHistogram:
+            selection.append(i[1])
+        
+        #Return as a set the ordered pieces to download the ( nRarePieces ) pieces are randomized 
+        return selection, int(avgPieceAvailability*100.0)
 
     def getTorrent(self):
         return self._torrent
