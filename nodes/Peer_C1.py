@@ -53,8 +53,12 @@ class Peer_C1(Peer):
         t = SSimulator().tick
 
         if(len(self._peersConn) < self._minPeerListSize):
-            self.getNewPeerList()
+            self._getMorePeersFlag = True
 
+        if(self._getMorePeersFlag == True):
+            self._getMorePeersFlag = False
+            self.getNewPeerList()
+        
 
         if(self._torrent.isFinished() == False):
             #Leecher
@@ -142,6 +146,7 @@ class Peer_C1(Peer):
         
         #If there are not enough interested peers, take some random peers
         if(len(chosen) < nSlots):
+            self._getMorePeersFlag = True #Do more/better peer discovery
             candidates = candidates2
             while( (len(chosen) < nSlots) and (len(candidates) > 0) ):
                 p = candidates.pop(0)
@@ -179,6 +184,7 @@ class Peer_C1(Peer):
             self._getMorePeersFlag = True
             #return list() #DO NOT RETURN HERE OR THE CHOCKING AT THE END OF THE FUNCTION WONT BE APPLIED
 
+        #Rate peers depending on their download/upload ration. New peers get a ration of zero (worst) , maybe change this to one?
         rated = []
         for (idx,i) in enumerate(candidates) :
             if( i[2].getUploadLimit() == 0):
@@ -190,8 +196,7 @@ class Peer_C1(Peer):
        
         chosen = []
          
-        #Always calculate with 4 OU Slots
-        
+        #This will be set earlier by self._calculateSlotCountAndUploadRate()
         maxUpload = self._maxTFTUploadRate
         acUploadRate = 0
 
@@ -213,7 +218,7 @@ class Peer_C1(Peer):
             chosen.append(p[1])
             acUploadRate += p[2].getUploadLimit()
         
-        #If we are not able to use all our upload capacity something is wrong. Maybe we have a too small neighborhood; -> get more peers
+        #If we are not able to use all our upload capacity something is wrong. Do more peer discovery -> get more peers
         if(acUploadRate < maxUpload):
             self._getMorePeersFlag = True
         
@@ -246,8 +251,8 @@ class Peer_C1(Peer):
         if( x > 100): x = 100
         
         
-        nMaxTFTSlots = int( math.atan(0.20*(x-15.0)) * 8 )  # http://www.wolframalpha.com/input/?i=plot%2C+int%28+atan%280.20%28x-15%29%29+*+8+%29+%2C+x+%3D+%5B0%2C100%5D
-        if(nMaxTFTSlots < 0): nMaxTFTSlots = 0
+        nMaxTFTSlots = int( math.atan(0.08*(x)) * 5 )  # http://www.wolframalpha.com/input/?i=plot%2C+int%28+atan%280.20%28x-15%29%29+*+8+%29+%2C+x+%3D+%5B0%2C100%5D
+        if(nMaxTFTSlots <= 0): nMaxTFTSlots = 1
         nMaxOUSlots = int( (8 - (( math.atan(0.15*x - 2) * 0.5 ) + 0.5)*4) + 1) # http://www.wolframalpha.com/input/?i=plot+%2C+int%28+%288+-+%28%28+atan%280.15*x+-+2%29+*+0.5+%29+%2B+0.5%29*4%29+%2B+1%29+%2C+x%3D%5B0%2C+100%5D
         
         #Calculate max upload rates per connection . Simple seperation of upload depending on the number of slots.
