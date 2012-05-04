@@ -183,16 +183,18 @@ class Peer_C1(Peer):
         if len(candidates) == 0:
             self._getMorePeersFlag = True
             #return list() #DO NOT RETURN HERE OR THE CHOCKING AT THE END OF THE FUNCTION WONT BE APPLIED
-
+        
+        #Create a list of tuples, or peer rating and peer id
         #Rate peers depending on their download/upload ration. New peers get a ration of zero (worst) , maybe change this to one?
         rated = []
         for (idx,i) in enumerate(candidates) :
             if( i[2].getUploadLimit() == 0):
-                rated.append(0, idx)
+                rated.append( (0, idx) )
             else:
                 rated.append( (i[0] / i[2].getUploadLimit() , idx) )
 
-        rated.sort()
+        rated.sort(reverse=True)
+        rated2 = list(rated) #Copy the rated list for later
        
         chosen = []
          
@@ -201,9 +203,8 @@ class Peer_C1(Peer):
         acUploadRate = 0
 
         #nSlots = min(nSlots, len(rated))
-
         while( (acUploadRate < maxUpload ) and (len(chosen) < nSlots) and (len(rated) > 0) ):
-            idx = rated.pop()[1] #Index of the elements in candidates
+            idx = rated.pop(0)[1] #Index of the elements in candidates
             p = candidates[idx] 
             
             #Skip peers that would take too much upload
@@ -219,9 +220,29 @@ class Peer_C1(Peer):
             acUploadRate += p[2].getUploadLimit()
         
         #If we are not able to use all our upload capacity something is wrong. Do more peer discovery -> get more peers
-        if(acUploadRate < maxUpload):
+        restOfUploadBandwidth = maxUpload - acUploadRate
+        if(restOfUploadBandwidth>100):
             self._getMorePeersFlag = True
-        
+            #Take another peer and limit the upload to the available bandwidth
+            rated = rated2
+            while( (acUploadRate < maxUpload ) and (len(chosen) < nSlots) and (len(rated) > 0) ):
+                idx = rated.pop()[1] #Index of the elements in candidates
+                p = candidates[idx] 
+                    
+                #Skip peers that would take too much upload
+                if( p[1] in chosen ):
+                    continue
+                
+                #Only unchok peers that are not already unchocked!
+                if(p[4] != self.TFT_SLOT):
+                    self._peersConn[p[1]][2].unchock()
+                
+                p[2].setUploadLimit(restOfUploadBandwidth)#Important
+                
+                self._peersConn[p[1]] = ( p[0],p[1],p[2], TTL , self.TFT_SLOT )
+                chosen.append(p[1])
+                acUploadRate += p[2].getUploadLimit()
+                
         #Do chocking of all TFT peers that currently are unchocked but not have been chosen in this round
         for i in self._peersConn.values():
             if( (i[4] == self.TFT_SLOT) and (chosen.count(i[1]) == 0) ):
@@ -249,13 +270,13 @@ class Peer_C1(Peer):
         x += random.randint(-5,5);
         if( x < 0): x = 0
         if( x > 100): x = 100
-        
-        
-        nMaxTFTSlots = int( math.atan(0.08*(x)) * 5 )  # http://www.wolframalpha.com/input/?i=plot%2C+int%28+atan%280.20%28x-15%29%29+*+8+%29+%2C+x+%3D+%5B0%2C100%5D
+       
+        # http://www.wolframalpha.com/input/?i=plot%7B+int%28+atan%280.05%28x-10%29%29+*+10.0+%29+%2C+int%28+%288+-+%28%28+atan%280.15*x+-+2%29+*+0.5+%29+%2B+0.5%29*4%29+%2B+1%29%7D+%2C+x+%3D+%5B0%2C100%5D
+        nMaxTFTSlots = int( math.atan(0.05*(x-10)) * 10 )
         if(nMaxTFTSlots <= 0): nMaxTFTSlots = 1
-        nMaxOUSlots = int( (8 - (( math.atan(0.15*x - 2) * 0.5 ) + 0.5)*4) + 1) # http://www.wolframalpha.com/input/?i=plot+%2C+int%28+%288+-+%28%28+atan%280.15*x+-+2%29+*+0.5+%29+%2B+0.5%29*4%29+%2B+1%29+%2C+x%3D%5B0%2C+100%5D
+        nMaxOUSlots = int( (8 - (( math.atan(0.15*x - 2) * 0.5 ) + 0.5)*4) + 1)
         
-        #Calculate max upload rates per connection . Simple seperation of upload depending on the number of slots.
+        #Calculate max upload rates per connection . Simple separation of upload depending on the number of slots.
         #This does not mean that each TFT or OU connection gets the same upload bandwidth. Its limiting absolute bandwidth only!
         maxTFTUpload = ( self._maxUploadRate * ( nMaxTFTSlots / (nMaxTFTSlots + nMaxOUSlots) ) )
         maxOUUpload = ( self._maxUploadRate * ( nMaxOUSlots / (nMaxTFTSlots + nMaxOUSlots) ) )

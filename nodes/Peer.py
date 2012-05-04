@@ -454,6 +454,7 @@ class Peer(Node):
     def pieceSelection(self, nRarePieces):
         
         avgPieceAvailability = 0.0
+        
         nPieces = self._torrent.getNumberOfPieces()        
         emptyPieces = self._torrent.getEmptyPieces()
         
@@ -465,7 +466,7 @@ class Peer(Node):
             #Get a set of finished pieces
             fp = i[2].remoteConnection.finishedPieces
             
-            avgPieceAvailability = ( avgPieceAvailability + (len(fp)/nPieces) ) / 2.0
+            avgPieceAvailability += len(fp) / nPieces #Sum up averages
             
             candidates =  fp & emptyPieces
             for k in candidates:
@@ -500,7 +501,8 @@ class Peer(Node):
         #Now extract the piece Index and return
         for i in pieceHistogram:
             selection.append(i[1])
-        
+
+        avgPieceAvailability = avgPieceAvailability / (len(self._peersConn) + 1)        
         #Return as a set the ordered pieces to download the ( nRarePieces ) pieces are randomized 
         return selection, int(avgPieceAvailability*100.0)
 
