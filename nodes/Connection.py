@@ -28,7 +28,7 @@ class Connection(object):
         self.disconnected = False
 
        
-        self._freshUnchock = False 
+        #self._freshUnchock = False 
         self._acumulatedData = 0
         self.finishedPieces = set()
         self._currentPiece = -1
@@ -82,7 +82,7 @@ class Connection(object):
         self.chocking = False
         Log.pLD(self._srcPeer, "unchocking [{0}@{1}]".format(self._destPeer.pid, self._maxUploadRate) )
         self.__calculateUploadRate()
-        self._freshUnchock = True
+        #self._freshUnchock = True
         #self._averageDownloadRate = 0
 
     

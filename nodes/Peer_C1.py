@@ -15,8 +15,8 @@ from simulation.SConfig import SConfig
 import math
 
 class Peer_C1(Peer):
-    def __init__(self, torrent, maxUploadRate, maxDownloadRate):
-        super().__init__(torrent, maxUploadRate, maxDownloadRate)
+    def __init__(self, torrent, maxUploadRate, maxDownloadRate, sleepTime):
+        super().__init__(torrent, maxUploadRate, maxDownloadRate, sleepTime)
 
         self._leaveRate = float( SConfig().value("LeaveRate", "PeerC1") )
 
@@ -32,7 +32,7 @@ class Peer_C1(Peer):
         self._OUSlotList = list()
         
         #Reduce the OU Period from 30 in the BitTorrent Specification to 10 
-        self.OUPeriod = 10
+        #self.OUPeriod = 10 No! Dont do this, setting OU Slot time to 30, more than TFT is a good thing, it achieves node discovery
         
         self._maxOUUploadRate = 0
         self._maxTFTUploadRate = 0
@@ -41,10 +41,6 @@ class Peer_C1(Peer):
         return "Peer_C1 [pid {0}]".format(self.pid)
 
     def updateLocalConnectionState(self):
-        
-        if( self._getMorePeersFlag == True):
-            self._dropPeers(self._maxPeerListSize - 20) #Drop some peers to have space for new ones
-            
         super().updateLocalConnectionState()
 
     #Override Prelogic to decide when to start TFT and OU algorithm and how long ease phase runs
@@ -57,6 +53,7 @@ class Peer_C1(Peer):
 
         if(self._getMorePeersFlag == True):
             self._getMorePeersFlag = False
+            self._dropPeers(self._maxPeerListSize - 20) #Drop some peers to have space for new ones
             self.getNewPeerList()
         
 
@@ -84,10 +81,7 @@ class Peer_C1(Peer):
                 self._nextOUPhaseStart = t + self.OUPeriod
                 self._maxOUUploadRate = self._maxUploadRate 
                 self._runOUFlag = True
-                
-            
-        #Print statistics about the node
-        #self._printStats()    
+    
 
     #Simply chosen nSlotElement nodes and distributes the OU Upload equally between them
     def runOU(self, nSlots, TTL):
@@ -126,7 +120,6 @@ class Peer_C1(Peer):
             #    return chosen
             #DO NOT RETURN HERE OR THE CHOCKING AT THE END OF THE FUNCTION WONT BE APPLIED
         
-        #candidates = random.sample(candidates, len(candidates)) #Array of peerId
         random.shuffle(candidates)
         candidates2 = list(candidates)
         
@@ -169,7 +162,9 @@ class Peer_C1(Peer):
                 self._peersConn[p[1]] = ( p[0], p[1], p[2], -1, self.NO_SLOT )
                 self._peersConn[p[1]][2].chock()
                 
-        self._nOUSlots = len(chosen) 
+        self._nOUSlots = len(chosen)
+        if(self._nOUSlots < nSlots):
+            pass
         return chosen
 
 
@@ -296,15 +291,25 @@ class Peer_C1(Peer):
         if(nDrop < 0):
             return #Nothing to do
         
-        while(nDrop > 0):
+        while(nDrop > 0 and len(p) > 0):
             pID = random.sample(p, 1)[0]
             #print("Dropping peer {} from {}".format(pID, p))
             p.remove(pID)
                 
             c = self._peersConn[pID]
+            if(c[2].interested == True):
+                continue #Do not drop peers we are interested in
+            
+            if(c[2].peerIsInterested() == True):
+                continue #Do not drop peers that have interest in our data
+            
             if(c[4] != Peer.NO_SLOT):
                 continue #Do not drop active connection of any kind
+           
+            if(c[2].getDownloadRate() > 0):
+                continue #Do not drop peers we are downloading from
             
+            Log.pLD(self, "Dropping peer [{}]".format( c[1]) )
             self._peersConn[pID][2].disconnect()
             nDrop-=1
 

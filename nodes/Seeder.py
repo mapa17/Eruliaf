@@ -9,7 +9,7 @@ class Seeder(Peer):
 
     def __init__(self, torrent, uploadRate, downloadRate):
         torrent.setFinished(False)
-        super().__init__(torrent, uploadRate, downloadRate)
+        super().__init__(torrent, uploadRate, downloadRate, 0) #Seeder does not sleep
         
         self._isSeeder = True
         self._SuperSeedingSize = 20

@@ -27,6 +27,10 @@ class SimElement(object):
     def registerSimFunction(self, stage, function):
         self.__simFunctions.append( (stage, function) )
 
+    def unregisterSimFunction(self, stage, function):
+        if( (stage, function) in self.__simFunctions ):
+            self.__simFunctions.remove( (stage, function) )
+
     def removeSimElement(self):
         SSimulator().delSimulationElement(self)
         

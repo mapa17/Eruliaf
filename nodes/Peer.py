@@ -23,7 +23,7 @@ class Peer(Node):
     OU_SLOT = 2
     TFT_POSSIBLE_SLOT = 3
 
-    def __init__(self, torrent, maxUploadRate, maxDownloadRate):
+    def __init__(self, torrent, maxUploadRate, maxDownloadRate, sleepTime):
         maxUploadRate = int(maxUploadRate)
         maxDownloadRate = int(maxDownloadRate)
         super().__init__()
@@ -42,7 +42,9 @@ class Peer(Node):
         self._activeDownloadBandwidthUsage = 0
         self._uploadRateLastTick = 0 #Upload rate calculated in _postLogic for each tick
         self._downloadRateLastTick = 0 #Download rate calculated in _postLogic for each tick
-
+        self._timeBetweenPeerListUpdates = 20 #At most update Peer List every 20 ticks
+        self._lastPeerListUpdate = (-1) * self._timeBetweenPeerListUpdates #set this so that in Tick 0 peers can update their peer list
+        
         #Keep track of downloaded data
         self._TFTByteUpload = 0
         self._TFTByteDownload = 0
@@ -52,48 +54,70 @@ class Peer(Node):
         self.piecesQueue = list() #Set of pieces to download next
         
         #A hash table with a tuple for every known neighbor.
-        #Key is the peer id and the value is in the form <UPloadRate> <PeerID> <Ref to Connection> <TTL> <Connection Type>
+        #Key is the peer id and the value is in the form <DownloadRate> <PeerID> <Ref to Connection> <TTL> <Connection Type>
         self._peersConn = {} #Empty dictionary key=peerID
        
         self._leaveRate = float( SConfig().value("LeaveRate", "Peer") )
-       
-        self._isSeeder = False 
-
-        self.registerSimFunction(Simulator.ST_UPDATE_LOCAL, self.updateLocalConnectionState )
-        self.registerSimFunction(Simulator.ST_UPDATE_GLOBAL, self.updateGlobalConnectionState )
-        self.registerSimFunction(Simulator.ST_LOGIC, self.peerLogic )
-        self.registerSimFunction(Simulator.ST_FILETRANSFER, self._runDownloads )
-        self.registerSimFunction(Simulator.ST_CONCLUTION, self._conclutionState )
-        
-        #Decide when to run tft and ou algorithm next time
-        self._nextTFTPhaseStart = SSimulator().tick
-        self._nextOUPhaseStart = SSimulator().tick
-        
-        self._nextPieceQueueUpdate = SSimulator().tick
         self._leaveNextRound = False
+       
+        self._isSeeder = False
         
         self._runTFTFlag = True 
         self._runOUFlag = True
  
         self._getMorePeersFlag = True
         
-        #self._minPieceInterestSize =  int(self._torrent.getNumberOfPieces() * 0.05) #Try to get 5% of the most rarest pieces
         self._pieceRandomizeCount = 50 #The 50 most rarest pieces will be download at random
         self._pieceAvailability = 0.0 #Every time we call piece selection, as well calculate the average file completion of all our neighbors
+        
+        self._sleepTime = sleepTime
+
+        self.registerSimFunction(Simulator.ST_INIT, self._wakeUpPeer )
            
     def __del__(self):
         Log.pLD("Peer is being destroyed")
 
     def __str__(self, *args, **kwargs):
         return "Peer [pid {0}, nid {1} ]".format(self.pid, self.nid)
-    
+   
+    def _wakeUpPeer(self):
+        
+        if( self._sleepTime > 0):
+            self._sleepTime -= 1
+            return
+        
+        Log.pLD(self, "Node waking up ...".format())
+        
+        #Unregister sleep and setup peer for normal operation
+        self.unregisterSimFunction(Simulator.ST_INIT, self._wakeUpPeer )
+        
+        self.registerSimFunction(Simulator.ST_UPDATE_LOCAL, self.updateLocalConnectionState )
+        self.registerSimFunction(Simulator.ST_UPDATE_GLOBAL, self.updateGlobalConnectionState )
+        self.registerSimFunction(Simulator.ST_LOGIC, self.peerLogic )
+        self.registerSimFunction(Simulator.ST_FILETRANSFER, self._runDownloads )
+        self.registerSimFunction(Simulator.ST_CONCLUTION, self._conclutionState )
+
+        #Decide when to run tft and ou algorithm next time
+        self._nextTFTPhaseStart = SSimulator().tick
+        self._nextOUPhaseStart = SSimulator().tick
+        self._nextPieceQueueUpdate = SSimulator().tick
+        
+        #Register to tracker
+        self._torrent.tracker.connect(self)
+   
     #Getting list of peer from tracker and add unknown ones to our own peer list 
     def getNewPeerList(self):
         
         #Dont create too many connections to other peers ( because of performance problems )        
         if(len(self._peersConn) >= self._maxPeerListSize):
             return
+        t = SSimulator().tick
+        if( (t - self._lastPeerListUpdate) < self._timeBetweenPeerListUpdates):
+            return
+        else:
+            self._lastPeerListUpdate = t
         
+        Log.pLD(self, "Ask Tracker for new peers ...".format())
         newPeers = self._torrent.tracker.getPeerList()
 
         #Filter unwanted peers , for example itself
@@ -174,7 +198,7 @@ class Peer(Node):
         for (k, v) in self._peersConn.items():
                
             #If nothing else, update uploadrate so the peer can be rated
-            self._peersConn[k] = ( v[2].getAverageDownloadRate(), v[1], v[2], v[3] , v[4]) #Update the UploadRate field in the tuple
+            self._peersConn[v[1]] = ( v[2].getAverageDownloadRate(), v[1], v[2], v[3] , v[4]) #Update the UploadRate field in the tuple
                 
             if(v[4] == self.OU_SLOT):
                 self._nOUSlots += 1
@@ -223,8 +247,18 @@ class Peer(Node):
     '''
                 
     def peerLogic(self):
-
         self._preLogicOperations()
+   
+        if(self._sleepTime > 0):
+            self._sleepTime -= 1
+            return
+    
+        if( (self._runOUFlag == True) or (self._runTFTFlag == True) ):
+            printChosen = True
+            tftChosen = []
+            ouChosen = []
+        else:
+            printChosen = False
     
         if(self._torrent.isFinished() == False):
             #Leecher
@@ -232,21 +266,25 @@ class Peer(Node):
             if( self._runTFTFlag == True):
                 self._runTFTFlag = False
                 nSlots = self._maxTFTSlots
-                chosen = self.runTFT(nSlots, self._nextTFTPhaseStart)
+                tftChosen = self.runTFT(nSlots, self._nextTFTPhaseStart)
             
             if( self._runOUFlag == True ):
                 self._runOUFlag = False
                 nSlots = self._maxOUSlots
-                chosen = self.runOU(nSlots, self._nextOUPhaseStart)
+                ouChosen = self.runOU(nSlots, self._nextOUPhaseStart)
             
         else:
             #Seeder Part
             if( self._runOUFlag == True ):
                 self._runOUFlag = False
                 nSlots = self._maxOUSlots + self._maxTFTSlots
-                chosen = self.runOU(nSlots, self._nextOUPhaseStart)
+                ouChosen = self.runOU(nSlots, self._nextOUPhaseStart)
                 nSlots = 0
-                chosen = self.runTFT(0, 0)
+                tftChosen = self.runTFT(0, 0)
+                
+        if(printChosen == True):
+            Log.pLI(self, "TFTChosen {} until {}, OUChosen {} until {}".format( tftChosen, self._nextTFTPhaseStart, ouChosen, self._nextOUPhaseStart ) )
+                                                     
 
     def _runDownloads(self):
         for i in self._peersConn.values() :
@@ -335,7 +373,8 @@ class Peer(Node):
             t.append( "( {0}@{1}/{2}/{3} {4}|{5}|{6}|{7} , {8}|{9})".format(i[1], \
                             i[2].getUploadRate(), \
                             i[2].getDownloadRate(),  \
-                            i[2].getAverageDownloadRate(), \
+                            i[0], \
+                            #i[2].getAverageDownloadRate(), \
                             1 if i[2].chocking == True else 0, \
                             1 if i[2].interested == True else 0, \
                             1 if i[2].peerIsChocking() == True else 0, \

@@ -26,6 +26,9 @@ class Tracker(Node):
     def remPeer(self, peer):
         self._peers.remove(peer)
 
+    def connect(self, peer):
+        self.addPeer(peer)
+
     #Returns a set of Peers
     def getPeerList(self):
         
