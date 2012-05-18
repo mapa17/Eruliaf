@@ -5,9 +5,7 @@
 # USAGE
 ###
 
-#Call the script with ./[ScriptName] [PATH_TO_CSV_DATA_FILES] [WORK_DIR] [SUMMARY_DIR] [PREFIX] [# of ITERATIONS] [NUM_THREADS]
-#e.g. ./createStatistics.py statsData/ 1 1  #Process iteration 1.csv
-#e.g. ./createStatistics.py statsData/ 2 100 #process iteration 2.csv - 102s.csv
+#Call the script with ./[ScriptName] RScript PATH_TO_CSV_DATA_FILES WORK_DIR SUMMARY_DIR PREFIX #ofITERATIONS NUM_THREADS
 
 import os
 import re
@@ -19,15 +17,6 @@ import queue
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s : %(message)s')
 
-#rScript = os.path.abspath("./Statistics.R")
-#rScript = "/work/Eigene/uni/Erasmus/Thesis/Eruliaf/statistics/Statistics.R"
-#dataDir = ""
-#workDir = ""
-#statsSummary = ""  
-#prefix = ""
-#nIterations = 0 
-#nThreads = 0
-
 q = queue.Queue()
 
 def worker():
@@ -35,8 +24,8 @@ def worker():
         i = q.get()
         
         #Generate tables using R script file
-        file2 = dataDir + '/' + prefix + str(i) + '.csv'
-        scenario_summary2 = workDir + '/' + prefix + str(i) + '_summary.csv'
+        file2 = os.path.join(dataDir , prefix + str(i) + '.csv')
+        scenario_summary2 = os.path.join(workDir , prefix + str(i) + '_summary.csv')
         args2 = "Rscript {} {} {} {} {}".format( rScript, file2, workDir, scenario_summary2, prefix + str(i))
         cmd2 = args2.split(" ")
         logging.info("Calling R script with {} in {}".format(cmd2, workDir))
@@ -48,7 +37,7 @@ def worker():
             return
         else:
             #Generate summary pdf for this scenario out of the different png files
-            args2 = "convert {} {}".format( prefix + str(i) + "_*.png", statsSummaryDir + "/" + prefix + str(i) + "_summary.pdf" )
+            args2 = "convert {} {}".format( prefix + str(i) + "_*.png", os.path.join(statsSummaryDir , prefix + str(i) + "_summary.pdf" ) )
             cmd2 = args2.split(" ")
             logging.debug("Calling convert with {0}".format(cmd2))
             (rV,out,err) = call_command(cmd2, workDir)
@@ -66,7 +55,7 @@ def main():
     #print('Being called to generate Statistics: {0}'.format(sys.argv) )
     #sys.exit(0)
     
-    if(len(sys.argv) != 7):
+    if(len(sys.argv) != 8):
         logging.error("Input error!")
         logging.error( usage() )
         sys.exit(1)
@@ -81,17 +70,19 @@ def main():
     global nIterations 
     global nThreads
     
-    #rScript = os.path.abspath("./Statistics.R")
-    rScript = "/work/Eigene/uni/Erasmus/Thesis/Eruliaf/R/Statistics.R"
-    dataDir = os.path.abspath( sys.argv[1] )
-    workDir = os.path.abspath( sys.argv[2] )
+    
+    #rScript = "/work/Eigene/uni/Erasmus/Thesis/Eruliaf/R/Statistics.R"
+    
+    rScript = os.path.abspath( sys.argv[1])
+    dataDir = os.path.abspath( sys.argv[2] )
+    workDir = os.path.abspath( sys.argv[3] )
     if( os.path.isdir   ( workDir ) == False ):
         os.mkdir(workDir) 
-    statsSummaryDir = os.path.abspath( sys.argv[3] )  
-    prefix = sys.argv[4]
-    nIterations = int(sys.argv[5]) 
-    nThreads = int(sys.argv[6])
-    statsSummaryFile = statsSummaryDir + "/" + prefix + "summary.csv"
+    statsSummaryDir = os.path.abspath( sys.argv[4] )  
+    prefix = sys.argv[5]
+    nIterations = int(sys.argv[6]) 
+    nThreads = int(sys.argv[7])
+    statsSummaryFile = os.path.join(statsSummaryDir, prefix + "summary.csv")
     
     if (checkInput(dataDir, prefix, nIterations, rScript) == False):
         logging.error("Something was wrong with input arguments ...")
@@ -111,8 +102,7 @@ def main():
     q.join()
        
     #Unify the different scenario summaries
-    args = "/bin/cat {} > {}".format( workDir+"/" + prefix + "*_summary.csv", statsSummaryFile)
-    #args = "cat {} > {}".format( "*.csv", statsSummaryDir)
+    args = "cat {} > {}".format( os.path.join( workDir, prefix + "*_summary.csv"), statsSummaryFile)
     #cmd = args.split(" ")
     cmd = args #Execution will hang if cmd is passed as array!
     logging.debug("Calling subprocess with {0}".format(cmd))
@@ -157,7 +147,7 @@ def checkInput(dataDir, itStart, nIterations, rScript):
         return False
     
     for i in range(nIterations):
-        path = dataDir + "/" + itStart + str(i) + '.csv'
+        path = os.path.join(dataDir, itStart + str(i) + '.csv')
         if( os.path.isfile( path ) == False):
             logging.error("Statistics file {0} not found!".format(path) )
             return False

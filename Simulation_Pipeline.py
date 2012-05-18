@@ -10,6 +10,8 @@ import re
 import sys
 import subprocess
 import logging
+import argparse
+
 
 import configparser
 logging.basicConfig(level=logging.DEBUG, format='%(levelname)s : %(message)s')
@@ -20,6 +22,7 @@ import queue
 def main():
     
     global nIterations
+    global rScript
     global runDir
     global prefix
     global scenarioFile
@@ -31,17 +34,23 @@ def main():
     global statsOutput
     global statsSummaryDir
     
-    if( len(sys.argv) < 2):
-        logging.error("Error in Arguments!\nUsage {0}".format(usage()))
-        sys.exit(1)
+#    if( len(sys.argv) < 2):
+#        logging.error("Error in Arguments!\nUsage {0}".format(usage()))
+#        sys.exit(1)
     
-    #The iteration prefix can be specified as the first argument
-    if( len(sys.argv) == 2):
-        configFile = os.path.abspath( sys.argv[1] )
-        prefix = ""
-    else:
-        prefix = sys.argv[1]
-        configFile = os.path.abspath( sys.argv[2] )
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-p", "--prefix", help="Prefix used for simulation results" , default="", type=str)
+    parser.add_argument("-s", "--StatsOnly", help="Use already available simulation data and generate statistics only", action="store_true")
+    parser.add_argument("SimulationFile", help="Specified the Simulation file")
+    args = parser.parse_args()
+    
+    configFile = os.path.abspath( args.SimulationFile )
+    prefix = args.prefix
+    generateStatsOnly = args.StatsOnly
+    
+    print("Running Simulation [{}] with Prefix \"{}\"".format(configFile, prefix))
+    if(generateStatsOnly):
+        print("Generating only statistics!!")
     
     if( os.path.isfile(configFile) == False):
         logging.error("Config file {0} could not be read!".format(configFile))
@@ -66,28 +75,31 @@ def main():
     nThreads = int( config.get("General", "nThreads") )
     statsScript = config.get("General", "statsScript")
     statsScript = os.path.abspath(statsScript)
+    rScript = config.get("General", "rScript")
+    rScript = os.path.abspath(rScript)
     statsOutput = config.get("General", "statsOutput")
     statsOutput = os.path.abspath(statsOutput)
     statsSummaryDir = config.get("General", "statsSummaryDir")
     statsSummaryDir = os.path.abspath(statsSummaryDir)
    
-    #Generate Dir
-    d = os.path.abspath(config.get("General", "runDirectory"))
-    if not os.path.exists(d):
-        os.makedirs( d )
+    if(generateStatsOnly == False):
+        #Generate Dir
+        d = os.path.abspath(config.get("General", "runDirectory"))
+        if not os.path.exists(d):
+            os.makedirs( d )
+        
+        d = os.path.abspath(config.get("General", "statsOutput"))
+        if not os.path.exists(d):
+            os.makedirs( d )
+        
+        d = os.path.abspath(config.get("General", "statsSummaryDir"))
+        if not os.path.exists(d):
+            os.makedirs( d )
     
-    d = os.path.abspath(config.get("General", "statsOutput"))
-    if not os.path.exists(d):
-        os.makedirs( d )
-    
-    d = os.path.abspath(config.get("General", "statsSummaryDir"))
-    if not os.path.exists(d):
-        os.makedirs( d )
-
-    #Generate Configs    
-    generateConfigs(config)
-    
-    runSimulations(config)
+        #Generate Configs    
+        generateConfigs(config)
+        
+        runSimulations(config)
 
     generateStatistics(config)
     
@@ -99,13 +111,16 @@ def generateConfigs(config):
     #print("{0}".format(config.items("General") ) )
     
     for i in  range(nIterations):
-        cfgPath = "{0}/{1}{2}.cfg".format(runDir, prefix, i)
+        #cfgPath = "{0}/{1}{2}.cfg".format(runDir, prefix, i)
+        cfgPath = os.path.join(runDir,prefix+str(i)+".cfg")
         logging.debug("Generating config {0}".format(cfgPath))
         
-        statsFile = "{0}/{1}{2}.csv".format(runDir, prefix, i)
+        #statsFile = "{0}/{1}{2}.csv".format(runDir, prefix, i)
+        statsFile = os.path.join(runDir,prefix+str(i)+".csv")
         scenario.set("General", "statsFile", statsFile )
         
-        logFile = "{0}/{1}{2}.log".format(runDir, prefix, i)
+        #logFile = "{0}/{1}{2}.log".format(runDir, prefix, i)
+        logFile = os.path.join(runDir,prefix+str(i)+".log")
         scenario.set("General", "logFile", logFile )
         
         scenario.set("General", "logCfg", logCfg )
@@ -124,7 +139,7 @@ def worker():
     while True:
         cfgFile = q.get()
         logging.info("Calling simulation with config {0}".format(cfgFile) )
-        (rC,out,err) = call_command([sys.executable, "./Eruliaf.py", cfgFile], silent=True)
+        (rC,out,err) = call_command([sys.executable, "Eruliaf.py", cfgFile], silent=True)
             
         q.task_done()
 
@@ -139,7 +154,8 @@ def runSimulations(config):
         threadList[-1].start()
 
     for i in range(nIterations):
-        cfgPath = "{0}/{1}{2}.cfg".format(runDir, prefix, i)
+        #cfgPath = "{0}/{1}{2}.cfg".format(runDir, prefix, i)
+        cfgPath = os.path.join(runDir, prefix+str(i)+".cfg")
         #logging.debug("Adding instance on cfg {0}".format(cfgPath))
         q.put(cfgPath, False)
     
@@ -149,14 +165,18 @@ def runSimulations(config):
     logging.debug("All threads finished!")
 
 def generateStatistics(config):
-    args = [sys.executable, statsScript, runDir, statsOutput, statsSummaryDir, prefix, str(nIterations) , str(nThreads) ]
+    args = [sys.executable, statsScript, rScript, runDir, statsOutput, statsSummaryDir, prefix, str(nIterations) , str(nThreads) ]
     logging.debug("Generating statistics calling {0}!".format(args))
     
     #call_command(args, cwd=os.path.dirname(statsScript) )
-    args = '{} {} {} {} {} "{}" {} {}'.format(sys.executable, statsScript, runDir, statsOutput, statsSummaryDir, prefix, str(nIterations) , str(nThreads))
-    subprocess.getstatusoutput(args)
-    
-    logging.info("Finished creating statistics!")
+    args = '{} {} {} {} {} {} "{}" {} {}'.format(sys.executable, statsScript, rScript, runDir, statsOutput, statsSummaryDir, prefix, str(nIterations) , str(nThreads))
+    (status,output) = subprocess.getstatusoutput(args)
+    if(status != 0):
+        logging.info("Generating statistics failed!\n{}".format(output))
+        return status
+    else:
+        logging.info("Finished creating statistics!")
+        return 0
     
 def usage():
     return ( "{0} [SIMULATION_PREFIX] SIMULATION_CONFIG ".format(sys.argv[0]) )

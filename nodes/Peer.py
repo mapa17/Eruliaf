@@ -572,4 +572,3 @@ class Peer(Node):
             candidates.append(i)
 
         return candidates
- 
