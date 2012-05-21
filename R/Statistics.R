@@ -69,11 +69,15 @@ proccessData <- function(data)
 	maxUpload <- 1:(maxTick*2)
 	download <- 1:(maxTick*2)
 	upload <- 1:(maxTick*2)
+	seederupload <- 1:(maxTick*2)
+	seedermaxUpload <- 1:(maxTick*2)
 	
 	#Seperate the frame depending on type and completed or downloading peers
 	dP = data[ (data$Type=="Peer"), ]
-	dPr = dP[ (dP$End == -1), ]
+	dPs = dP[ (dP$End != -1), ] #Seeders
+	dPr = dP[ (dP$End == -1), ] #Downloaders
 	dPC1 = data[ (data$Type=="Peer_C1"), ]
+	dPC1s = dPC1[ (dPC1$End != -1), ]
 	dPC1r = dPC1[ (dPC1$End == -1), ]
 	
 	lowerLimit = 0
@@ -83,6 +87,7 @@ proccessData <- function(data)
 		
 		#Get a subtable for this tick only
 		dPt = dP[ (dP$Tick == i), ]
+		dPst = dP[ (dPs$Tick == i), ]
 		dPrt = dPr[ (dPr$Tick == i), ]
 		if(length(dPrt$Tick) > 0)
 			upperLimit = i
@@ -90,7 +95,10 @@ proccessData <- function(data)
 		tick[i*2 + 1] <- i
 		type[i*2 +1] <- "Peer"
 		online[i*2 +1] <- nrow( dPt )
+		seederupload[i*2 +1] <- mean( dPst$Upload , na.rm = TRUE)
+		seedermaxUpload[i*2 +1] <- mean( dPst$MaxUpload , na.rm = TRUE )
 		completed[i*2 +1] <- nrow( dPt[ (dPt$End != -1) , ] )
+		
 		avgnTFTSlots[i*2 +1] <- mean( dPrt$TFT )
 		avgnOUSlots[i*2 +1] <- mean( dPrt$OU )
 		maxDownload[i*2 +1] <- mean( dPrt$MaxDownload , na.rm = TRUE)
@@ -113,6 +121,7 @@ proccessData <- function(data)
 		
 		#Get a subtable for this tick only
 		dPC1t = dPC1[ (dPC1$Tick == i), ]
+		dPC1st = dPC1[ (dPC1s$Tick == i), ]
 		dPC1rt = dPC1r[ (dPC1r$Tick == i), ]
 		if(length(dPC1rt$Tick) > 0)
 			upperLimit = i
@@ -121,7 +130,10 @@ proccessData <- function(data)
 		tick[i*2+1 + 1] <- i
 		type[i*2+1 + 1] <- "Peer_C1"
 		online[i*2+1 +1] <- nrow( dPC1t )
+		seederupload[i*2+1 +1] <- mean( dPC1st$Upload , na.rm = TRUE)
+		seedermaxUpload[i*2+1 +1] <- mean( dPC1st$MaxUpload , na.rm = TRUE )
 		completed[i*2+1 +1] <- nrow( dPC1t[ (dPC1t$End != -1), ] )
+		
 		avgnTFTSlots[i*2+1 +1] <- mean( dPC1rt$TFT )
 		avgnOUSlots[i*2+1 +1] <- mean( dPC1rt$OU )
 		download[i*2+1 + 1] <- mean( dPC1rt$Download , na.rm = TRUE)
@@ -161,7 +173,7 @@ proccessData <- function(data)
 	
 	pData <- data.frame(tick, type, online, completed, avgnTFTSlots, avgnOUSlots, tftouUpRatio,
 		tftouDownRatio, shareRatio, minNPieces, maxNPieces, meanNPieces, sdNPieces, nConnections, sdNConnections,
-		tftUpRate, tftDownRate, ouUpRate, ouDownRate, maxDownload, maxUpload, upload, download)
+		tftUpRate, tftDownRate, ouUpRate, ouDownRate, maxDownload, maxUpload, upload, download, seederupload, seedermaxUpload)
 
 	pData.lowerLimit <- lowerLimit
 	pData.upperLimit <- upperLimit
@@ -173,6 +185,7 @@ proccessData <- function(data)
 	
 	pData$downRate <- pData$download / pData$maxDownload
 	pData$upRate <- pData$upload / pData$maxUpload
+	pData$seederupRate <- pData$seederupload / pData$seedermaxUpload
 
 	#Scale to maximum up/down rate
 	pData$tftUpRate <- pData$tftUpRate/pData$maxUpload
@@ -187,10 +200,6 @@ proccessData <- function(data)
 
 createPlots <- function(pData, lowerLimit, upperLimit)
 {
-	#Get Limits
-	#lowerLimit = 0
-	#upperLimit = pData[is.nan(pData$maxDownload),]$tick[1] + 10
-	
 	#Prepare legends
 	o = opts(legend.position="bottom")
 	sc = scale_x_continuous(limits = c(lowerLimit, upperLimit))
@@ -207,16 +216,16 @@ createPlots <- function(pData, lowerLimit, upperLimit)
 	fm4 = scale_fill_manual( name="Standard deviation", breaks=c("Peer", "Peer_C1"), labels=c("BT","BT_ext") , values=c("red", "blue") , guide=g)
 	
 	s = stat_smooth()
-	
 	 
 	
 	#Generate Plots
-	pData.pieceAvailability = ggplot(pData, aes(x=tick) ) + ylab("# Pieces") + xlab("Ticks") + opts(title="Piece availability") + fm3 + cm3 + o + geom_smooth(aes(y=meanNPieces, ymin = lsdNPieces, ymax = usdNPieces, colour=type, fill=type), data=pData, stat="identity") + sc
+	pData.pieceAvailability = ggplot(pData, aes(x=tick) ) + ylab("# Pieces") + xlab("Ticks") + opts(title="Local Piece availability") + fm3 + cm3 + o + geom_smooth(aes(y=meanNPieces, ymin = lsdNPieces, ymax = usdNPieces, colour=type, fill=type), data=pData, stat="identity") + sc
 	
 	pData.NeighbourHoodSize = ggplot(pData, aes(x=tick) ) + ylab("# Peers") + xlab("Ticks") + opts(title="Neighbourhood size") + fm4 + cm4 + o + geom_smooth(aes(y=nConnections, ymin = lsdNConnections, ymax = usdNConnections, colour=type, fill=type), data=pData, stat="identity") + sc
 	
 	pData.upload = ggplot(pData, aes(x=tick, y=upRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Upload") + opts(title="Upload usage") + cm + o + s + sc
-	pData.download = ggplot(pData, aes(x=tick, y=downRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Download") + opts(title="Download usage") + cm + o + s + sc 
+	pData.download = ggplot(pData, aes(x=tick, y=downRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Download") + opts(title="Download usage") + cm + o + s + sc
+	pData.seederupload = ggplot(pData, aes(x=tick, y=seederupRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Upload") + opts(title="Seeder Upload usage") + cm2 + o + s + sc
 	
 	pData.TFTUploadRate = ggplot(pData, aes(x=tick , y=tftUpRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Upload") + opts(title="TFT Upload Rate") + cm + o + s + sc
 	pData.OUUploadRate = ggplot(pData, aes(x=tick, y=ouUpRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Upload") + opts(title="OU Upload Rate") + cm + o + s + sc
@@ -246,6 +255,9 @@ createPlots <- function(pData, lowerLimit, upperLimit)
 	
 	path = paste(prefix, "uploadRatio.png", sep="_")
 	ggsave(file=path, plot = pData.upload, dpi=100)
+	
+	path = paste(prefix, "uploadRatioSeeder.png", sep="_")
+	ggsave(file=path, plot = pData.seederupload, dpi=100)
 	
 	path = paste(prefix, "downloadRatio.png", sep="_")
 	ggsave(file=path, plot=pData.download, dpi=100)

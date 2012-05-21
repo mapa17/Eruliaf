@@ -77,11 +77,9 @@ class Peer_C1(Peer):
         else:
             #Seeder Part
             if( self._nextOUPhaseStart == t):
-                self._maxOUSlots = self._OUPhaseCnter%4 + 1
-                self._nextOUPhaseStart = t + self.OUPeriod
-                self._maxOUUploadRate = self._maxUploadRate 
+                (self._maxTFTSlots, self._maxOUSlots, self._maxTFTUploadRate, self._maxOUUploadRate ) = self._calculateSlotCountAndUploadRate( self._pieceAvailability , self._OUPhaseCnter)                 
+                self._nextOUPhaseStart = t + 10 
                 self._runOUFlag = True
-    
 
     #Simply chosen nSlotElement nodes and distributes the OU Upload equally between them
     def runOU(self, nSlots, TTL):
@@ -108,7 +106,7 @@ class Peer_C1(Peer):
         Log.pLD(self, "Executing OU Algorithm for {0}".format(nSlots) )
         #print("[{0}] peers [ {1} ]".format(self.pid, self._peersConn))
        
-        t = SSimulator().tick
+        #t = SSimulator().tick
         chosen = list()
        
         #Calculate the number of current OU Slots and possible candidates that are interested but not in OU or TFT
@@ -256,8 +254,8 @@ class Peer_C1(Peer):
             return -1
 
     def _calculateSlotCountAndUploadRate(self, pieceAvailability, ouPhaseCnter):
-        nMaxTFTSlots = 0
-        nMaxOUSlots = 0
+        #nMaxTFTSlots = 0
+        #nMaxOUSlots = 0
         
         x = pieceAvailability
         

@@ -21,7 +21,10 @@ class Tracker(Node):
         return "Tracker"
         
     def addPeer(self, peer):
-        self._peers.append(peer)
+        if(peer not in self._peers):
+            self._peers.append(peer)
+        else:
+            print("Error! Something tried to add the same peer twice!")
    
     def remPeer(self, peer):
         self._peers.remove(peer)

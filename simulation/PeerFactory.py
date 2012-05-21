@@ -61,7 +61,7 @@ class PeerFactory(SimElement):
         sleep = random.randint(0, self._maxSleep)
         p = Peer( Torrent( self.__tracker ) , uploadRate, downloadRate, sleep ) #Create new peer
         Log.w(Log.INFO, "New Peer {} Up/Down [{}/{}] Sleep {}".format(p.pid, uploadRate, downloadRate, sleep) )
-        self.__tracker.addPeer(p)
+        #self.__tracker.addPeer(p)
 
 
     def addPeer_C1(self):
@@ -70,7 +70,7 @@ class PeerFactory(SimElement):
         sleep = random.randint(0, self._C1maxSleep)
         p = Peer_C1( Torrent( self.__tracker ) , uploadRate, downloadRate, sleep ) #Create new peer
         Log.w(Log.INFO, "New Peer_C1 {} Up/Down [{}/{}] Sleep {}".format(p.pid, uploadRate, downloadRate, sleep) )
-        self.__tracker.addPeer(p)
+        #self.__tracker.addPeer(p)
  
     def spawnPeer(self):
         r = random.random()

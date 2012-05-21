@@ -47,10 +47,6 @@ if __name__ == '__main__':
     s = Seeder( tor , SConfig().value("SeederUpload"), SConfig().value("SeederDownload") )
     
     logging.log(Log.INFO, "Creating {0}".format(s))
-    #logging.log(Log.INFO, "Creating {0}".format(p1))
-    
-    T.addPeer(s)
-    #T.addPeer(p1)
     
     pF = PeerFactory(T)
 

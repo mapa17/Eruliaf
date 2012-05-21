@@ -190,12 +190,11 @@ class Peer(Node):
         for i in copy.values() :
             i[2].updateGlobalState()
         
-        t =  SSimulator().tick
-        
         self._nOUSlots = 0
         self._nTFTSlots = 0
         
-        for (k, v) in self._peersConn.items():
+#        for (k, v) in self._peersConn.items():
+        for v in self._peersConn.values():
                
             #If nothing else, update uploadrate so the peer can be rated
             self._peersConn[v[1]] = ( v[2].getAverageDownloadRate(), v[1], v[2], v[3] , v[4]) #Update the UploadRate field in the tuple
@@ -277,10 +276,8 @@ class Peer(Node):
             #Seeder Part
             if( self._runOUFlag == True ):
                 self._runOUFlag = False
-                nSlots = self._maxOUSlots + self._maxTFTSlots
-                ouChosen = self.runOU(nSlots, self._nextOUPhaseStart)
-                nSlots = 0
-                tftChosen = self.runTFT(0, 0)
+                self._nextOUPhaseStart = SSimulator().tick + 10
+                ouChosen = self.runSeederOU(4, 1, 10) #Keep 4, get 1 random
                 
         if(printChosen == True):
             Log.pLI(self, "TFTChosen {} until {}, OUChosen {} until {}".format( tftChosen, self._nextTFTPhaseStart, ouChosen, self._nextOUPhaseStart ) )
@@ -404,7 +401,7 @@ class Peer(Node):
         Log.pLD(self, " Executing TFT Algorithm for {0}".format(nSlots) )
         #self._peersConn.sort() #Peer list in the form ( <UploadRate>, <PeerID>, <Connection> ) , sort will on the first field and on collision continue with the others
         
-        t = SSimulator().tick
+        #t = SSimulator().tick
         chosen = list()
         
         #Now everyone is a candidate, take even current OU Slots, this makes sense to step up a peer from OU to TFT is they are good
@@ -448,7 +445,7 @@ class Peer(Node):
         Log.pLD(self, "Executing OU Algorithm for {0}".format(nSlots) )
         #print("[{0}] peers [ {1} ]".format(self.pid, self._peersConn))
        
-        t = SSimulator().tick
+        #t = SSimulator().tick
         chosen = list()
        
         #Calculate the number of current OU Slots and possible candidates that are interested but not in OU or TFT
@@ -480,6 +477,62 @@ class Peer(Node):
         self._nOUSlots = len(chosen) 
         return chosen
 
+    #Select peers for OU Slots depending on their Download Capacity. Peers that download faster are scheduled first
+    def runSeederOU(self, nRepeatingSlots, nRandomSlots, TTL):
+        Log.pLD(self, "Executing Seeder OU Algorithm for {} reapting, and {} ramdon Slots".format(nRepeatingSlots, nRandomSlots) )
+       
+        #t = SSimulator().tick
+        chosen = list()
+       
+        #Calculate the number of current OU Slots and possible candidates that are interested but not in OU or TFT
+        candidates = self.getOUCandidates()
+        if(len(candidates) == 0):
+            return chosen
+        
+        #Shuffle candidates to select nRandomSlots really random
+        random.shuffle(candidates)
+        
+        candidates2 = list(candidates)
+        
+        #Get nRepeatingSlots; Only peers that we are already uploading data to!
+        while( (len(chosen) <  nRepeatingSlots) and (len(candidates) > 0) ):
+            p = candidates.pop(0)
+                       
+            #Only get already OU allocated ones
+            if( (p[4] != self.OU_SLOT) ):
+                continue
+
+            #Skip un interested ones
+            if( p[2].peerIsInterested() == False):
+                continue 
+            
+            self._peersConn[p[1]] = ( p[0], p[1], p[2], TTL, self.OU_SLOT )
+            chosen.append(p[1])
+
+        #No randomly select nRandomSlots more ( or if we could not select enough nRepeatingSlots, select a random one too )
+        candidates = candidates2          
+        while( (len(chosen) <  nRepeatingSlots+nRandomSlots) and (len(candidates) > 0) ):
+            p = candidates.pop(0)
+            
+            if(p in chosen):
+                continue
+            
+            #Only unchok peers that are not already unchoked!
+            if( (p[4] != self.OU_SLOT) ):
+                self._peersConn[p[1]][2].unchock()    
+            
+            self._peersConn[p[1]] = ( p[0], p[1], p[2], TTL, self.OU_SLOT )
+            chosen.append(p[1])
+            
+        #Do chocking of all OU peers that currently are unchoked but not have been chosen in this round
+        for p in self._peersConn.values():
+            if( (p[4] == self.OU_SLOT) and (chosen.count(p[1]) == 0) ):
+                self._peersConn[p[1]] = ( p[0], p[1], p[2], -1, self.NO_SLOT )
+                self._peersConn[p[1]][2].chock()
+                
+        self._nOUSlots = len(chosen) 
+        return chosen
+
     def finishedDownloadingPiece(self, conn, piece):
         self._torrent.finishedPiece( piece )
         if piece in self.piecesQueue:
@@ -492,7 +545,7 @@ class Peer(Node):
     #Implementing Rarest piece first piece selection
     def pieceSelection(self, nRarePieces):
         
-        avgPieceAvailability = 0.0
+        #avgPieceAvailability = 0.0
         
         nPieces = self._torrent.getNumberOfPieces()        
         emptyPieces = self._torrent.getEmptyPieces()
@@ -558,17 +611,20 @@ class Peer(Node):
     def getOUCandidates(self):
         candidates = list()
         for i in self._peersConn.values():
-            if(i[4] == self.TFT_SLOT):
+            if( (i[4] == self.TFT_SLOT) and (i[2]._destPeer._torrent.isFinished() == True) ): #Skip Seeders and TFT allocated peers
                 continue
             
             candidates.append(i)
 
         return candidates
 
-    #Simply convert the peer dictionary to an array 
+    #Simply convert the peer dictionary to an array
+    #Try to follow this http://wiki.theory.org/BitTorrentSpecification#Choking_and_Optimistic_Unchoking
     def getTFTCandidates(self):
         candidates = list()
         for i in self._peersConn.values():
+            if( (i[2].peerIsInterested() == False) ):
+                continue
             candidates.append(i)
 
         return candidates

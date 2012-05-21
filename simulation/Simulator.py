@@ -53,7 +53,7 @@ class Simulator(object):
         self.__simEndElements = []
         self.__nodeId = -1
         self.__peerId = -1
-        self._multithreading = False #Turn off multithreading by default!
+        self._multithreading = False #Turn off multi threading by default!
 
         self._simEnd = int( SConfig().value("SimEnd") ) #Tick at which the simulation will be stopped
        
