@@ -28,6 +28,7 @@ def main():
     global scenarioFile
     global randSeedBase
     global logCfg
+    global logLevel
     global scenario
     global nThreads
     global statsScript
@@ -41,21 +42,25 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-p", "--prefix", help="Prefix used for simulation results" , default="", type=str)
     parser.add_argument("-s", "--StatsOnly", help="Use already available simulation data and generate statistics only", action="store_true")
+    parser.add_argument("-l", "--noLogs", help="Do not create log files", action="store_true")
     parser.add_argument("SimulationFile", help="Specified the Simulation file")
     args = parser.parse_args()
     
     configFile = os.path.abspath( args.SimulationFile )
     prefix = args.prefix
     generateStatsOnly = args.StatsOnly
+    noLogs = args.noLogs
     
     print("Running Simulation [{}] with Prefix \"{}\"".format(configFile, prefix))
     if(generateStatsOnly):
         print("Generating only statistics!!")
+    if(noLogs):
+        print("Will not generate Log files!")
     
     if( os.path.isfile(configFile) == False):
         logging.error("Config file {0} could not be read!".format(configFile))
         sys.exit(2)
-    
+
     #Read config values
     config = configparser.SafeConfigParser(allow_no_value=True)
     logging.debug("Reading config {0} ...".format(configFile))
@@ -70,6 +75,9 @@ def main():
     randSeedBase = int(config.get("General", "randSeedBase"))
     logCfg = config.get("General", "logCfg")
     logCfg = os.path.abspath(logCfg)
+    logLevel = config.get("General", "logLevel")
+    if(noLogs):
+        logLevel = "NONE"
     scenario = configparser.SafeConfigParser(allow_no_value=True)
     scenario.readfp(open(scenarioFile))   
     nThreads = int( config.get("General", "nThreads") )
@@ -124,6 +132,8 @@ def generateConfigs(config):
         scenario.set("General", "logFile", logFile )
         
         scenario.set("General", "logCfg", logCfg )
+        
+        scenario.set("General", "logLevel", logLevel)
         
         scenario.set("General", "randSeed", str(randSeedBase + i) )
         

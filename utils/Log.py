@@ -4,10 +4,10 @@ Created on Feb 2, 2012
 @author: Pasieka Manuel , mapa17@posgrado.upv.es
 '''
 
-import logging.config
+import logging
 from simulation.SSimulator import SSimulator
 from simulation.SConfig import SConfig
-import os
+#import os
 
 class Log(object):
 
@@ -15,7 +15,7 @@ class Log(object):
     INFO = logging.INFO
     DEBUG = logging.DEBUG
     ERROR = logging.ERROR
-
+    _skipLogFlag = True
 
     def __init__(self):
         #path = SConfig().value("logCfg")
@@ -23,7 +23,11 @@ class Log(object):
         logLevel = str(SConfig().value("logLevel"))
         print("Creating logfile {0} with logLevel = {1}".format( logFile, logLevel) )
         
-        logging.basicConfig(filename=logFile,
+        if( (logLevel == "NONE") or (logLevel == "none") ):
+            Log._skipLogFlag = True
+        else:
+            Log._skipLogFlag = False       
+            logging.basicConfig(filename=logFile,
                             filemode='w',
                             format='%(filename)s %(levelname)s - %(message)s',
                             level=logLevel)
@@ -50,11 +54,13 @@ class Log(object):
         Log.peerLogging(peer.pid, Log.ERROR, msg)
         
     def peerLogging(pID, level, msg):
-        logging.log(level, "{0}:{1}  [{2}] {3}".format( SSimulator().tick, SSimulator().stage, pID, msg ))
+        if(Log._skipLogFlag == False):
+            logging.log(level, "{0}:{1}  [{2}] {3}".format( SSimulator().tick, SSimulator().stage, pID, msg ))
 
     #write to log
     def w(level,msg):
-        logging.log( level, msg )
+        if(Log._skipLogFlag == False):
+            logging.log( level, msg )
 
     pLI = staticmethod(pLI)
     pLD = staticmethod(pLD)
