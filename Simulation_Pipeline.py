@@ -148,7 +148,7 @@ q = queue.Queue()
 def worker():
     while True:
         cfgFile = q.get()
-        rC = 0
+        rC = 1
         while(rC != 0):
             logging.info("Calling simulation with config {0}".format(cfgFile) )
             (rC,out,err) = call_command([sys.executable, "Eruliaf.py", cfgFile], silent=True)
