@@ -54,3 +54,4 @@ if __name__ == '__main__':
 
     logging.log(Log.INFO, "Ending simulation")    
     
+    sys.exit(0)

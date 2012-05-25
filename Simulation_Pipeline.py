@@ -148,9 +148,13 @@ q = queue.Queue()
 def worker():
     while True:
         cfgFile = q.get()
-        logging.info("Calling simulation with config {0}".format(cfgFile) )
-        (rC,out,err) = call_command([sys.executable, "Eruliaf.py", cfgFile], silent=True)
-            
+        rC = 0
+        while(rC != 0):
+            logging.info("Calling simulation with config {0}".format(cfgFile) )
+            (rC,out,err) = call_command([sys.executable, "Eruliaf.py", cfgFile], silent=True)
+            if(rC != 0):
+                logging.error("Simulation failed! With [out:{} , err:{}]".format(out, err))
+                logging.info("Will run the simulation again ...")
         q.task_done()
 
 def runSimulations(config):
