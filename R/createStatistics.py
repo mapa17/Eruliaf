@@ -30,6 +30,7 @@ def worker():
         cmd2 = args2.split(" ")
         logging.info("Calling R script with {} in {}".format(cmd2, workDir))
         (rV,out,err) = call_command(cmd2, cwd=workDir)
+        logging.debug( "Rscript finished with stdout {} \n stderr {} ".format(out,err) )
         
         if( rV > 0):
             logging.error("Generating scenario statistics failed!\n{}".format(err))

@@ -11,11 +11,13 @@ DownloadTime <- function(data, prefix)
 	downloadTime <- 1:nPeers
 	
 	for(i in 1:(nPeers)){
+		pid = pIds[i] #Iterate the pIds list . Fixing issue #76
+		#writeLines( paste("Processing peer ", pid ,sep="") )
 		
-		type[i] <- toString(unique(data[ (data$Pid == i), ]$Type))
-		start <- unique(data[ (data$Pid == i), ]$Start)
-		lastRound <- max(data[ (data$Pid == i), ]$Tick)
-		end <- data[ (data$Tick == lastRound) & (data$Pid==i), ]$End
+		type[i] <- toString(unique(data[ (data$Pid == pid), ]$Type))
+		start <- unique(data[ (data$Pid == pid), ]$Start)
+		lastRound <- max(data[ (data$Pid == pid), ]$Tick)
+		end <- data[ (data$Tick == lastRound) & (data$Pid==pid), ]$End
 		if( end >= 0){
 			downloadTime[i] <- end - start	
 		} else {
@@ -423,15 +425,21 @@ if( length(arg) == 9)
 	if( TRUE %in% fv)	data[ fv,]$tftouDownRatio = NA
 	
 
+	writeLines( "Processing data ..." )
 	#Do processing and generate Plots
-    l = proccessData(data)
+	l = proccessData(data)
 	pData = l$data
 	lowerLimit = l$ll
 	upperLimit = l$ul
 	createPlots(pData, lowerLimit, upperLimit)
 	
+	writeLines( "Creating summary ..." )
 	summary = DownloadTime(data, prefix)
 	
 	#Save the processed data into the summary file
 	write.table(summary, file=histFile, sep=";", append=TRUE, col.names=FALSE, row.names = FALSE)
+	
+	writeLines( "Finished!" )
+	
+	
 }
