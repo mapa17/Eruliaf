@@ -14,7 +14,7 @@ import argparse
 
 
 import configparser
-logging.basicConfig(level=logging.DEBUG, format='%(levelname)s : %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(levelname)s : %(message)s')
 
 import threading
 import queue
