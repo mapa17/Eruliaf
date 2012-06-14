@@ -180,7 +180,7 @@ def runSimulations(config):
 
 def generateStatistics(config):
     args = [sys.executable, statsScript, rScript, runDir, statsOutput, statsSummaryDir, prefix, str(nIterations) , str(nThreads) ]
-    logging.debug("Generating statistics calling {0}!".format(args))
+    logging.info("Generating statistics calling {0}!".format(args))
     
     #call_command(args, cwd=os.path.dirname(statsScript) )
     args = '{} {} {} {} {} {} "{}" {} {}'.format(sys.executable, statsScript, rScript, runDir, statsOutput, statsSummaryDir, prefix, str(nIterations) , str(nThreads))
