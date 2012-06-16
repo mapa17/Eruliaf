@@ -227,7 +227,15 @@ createPlots <- function(pData, lowerLimit, upperLimit)
 	
 	pData.upload = ggplot(pData, aes(x=tick, y=upRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Upload") + opts(title="Upload usage") + cm + o + s + sc
 	pData.download = ggplot(pData, aes(x=tick, y=downRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Download") + opts(title="Download usage") + cm + o + s + sc
-	pData.seederupload = ggplot(pData, aes(x=tick, y=seederupRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Upload") + opts(title="Seeder Upload usage") + cm2 + o + s + sc
+	
+	#This plot throws errors if there are too many NaN values in seederupRate because of no seeders , produce a reduced data set with containing only valid data
+	fv <- is.nan(pData$seederupRate)
+	redTick <- pData[fv == FALSE,]$tick
+	redUpRate <- pData[fv == FALSE,]$seederupRate
+	redType <- pData[fv == FALSE,]$type
+	reducedData <- data.frame(redTick, redUpRate,redType)
+	colnames(reducedData) <- c("tick", "seederupRate", "type") 
+	pData.seederupload = ggplot(reducedData, aes(x=tick, y=seederupRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Upload") + opts(title="Seeder Upload usage") + cm2 + o + s + sc
 	
 	pData.TFTUploadRate = ggplot(pData, aes(x=tick , y=tftUpRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Upload") + opts(title="TFT Upload Rate") + cm + o + s + sc
 	pData.OUUploadRate = ggplot(pData, aes(x=tick, y=ouUpRate, colour=type) ) + geom_line() + xlab("Ticks") + ylab("Ratio to maximum Upload") + opts(title="OU Upload Rate") + cm + o + s + sc
