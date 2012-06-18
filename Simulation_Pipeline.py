@@ -149,12 +149,22 @@ def worker():
     while True:
         cfgFile = q.get()
         rC = 1
+        retryCnt = 0
         while(rC != 0):
+            
             logging.info("Calling simulation with config {0}".format(cfgFile) )
             (rC,out,err) = call_command([sys.executable, "Eruliaf.py", cfgFile], silent=True)
-            if(rC != 0):
+            
+            if( (rC != 0) and (retryCnt < 2) ):
                 logging.error("Simulation failed! With [out:{} , err:{}]".format(out, err))
-                logging.info("Will run the simulation again ...")
+                logging.info("Will run the simulation again with log level set to INFO ...")
+                adaptLogLevel(cfgFile, "INFO" )
+                retryCnt+=1
+                
+            if(retryCnt == 2):
+                logging.error("Retried the simulation {} times. Giving up!".format(retryCnt))
+                break
+            
         q.task_done()
 
 def runSimulations(config):
@@ -164,7 +174,7 @@ def runSimulations(config):
     threadList = []
     for i in range(nThreads):
         threadList.append( threading.Thread(target=worker) )
-        threadList[-1].daemon = True #Make them deamon threads so we dont care about cleaning up
+        threadList[-1].daemon = True #Make them daemon threads so we dont care about cleaning up
         threadList[-1].start()
 
     for i in range(nIterations):
@@ -191,7 +201,14 @@ def generateStatistics(config):
     else:
         logging.info("Finished creating statistics!")
         return 0
-    
+
+
+def adaptLogLevel(cfgFile, logLevel):
+    cfg = configparser.SafeConfigParser(allow_no_value=True)
+    cfg.readfp(open(cfgFile))
+    cfg.set("General", "logLevel", logLevel)
+    cfg.write(cfgFile)    
+
 def usage():
     return ( "{0} [SIMULATION_PREFIX] SIMULATION_CONFIG ".format(sys.argv[0]) )
     
