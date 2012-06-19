@@ -154,7 +154,7 @@ def worker():
             
             logging.info("Calling simulation with config {0}".format(cfgFile) )
             (rC,out,err) = call_command([sys.executable, "Eruliaf.py", cfgFile], silent=True)
-            
+             
             if( (rC != 0) and (retryCnt < 1) ):
                 logging.error("Simulation failed! With [out:{} , err:{}]".format(out, err))
                 if(getLogLevel(cfgFile) != "NONE"):
@@ -163,6 +163,8 @@ def worker():
                 else:
                     logging.info("Will run the simulation again with log level set to INFO ...")
                     adaptLogLevel(cfgFile, "INFO" )
+            else:
+                retryCnt = 1
             
         q.task_done()
 
