@@ -150,20 +150,19 @@ def worker():
         cfgFile = q.get()
         rC = 1
         retryCnt = 0
-        while(rC != 0):
+        while(retryCnt < 1):
             
             logging.info("Calling simulation with config {0}".format(cfgFile) )
             (rC,out,err) = call_command([sys.executable, "Eruliaf.py", cfgFile], silent=True)
             
-            if( (rC != 0) and (retryCnt < 2) ):
+            if( (rC != 0) and (retryCnt < 1) ):
                 logging.error("Simulation failed! With [out:{} , err:{}]".format(out, err))
-                logging.info("Will run the simulation again with log level set to INFO ...")
-                adaptLogLevel(cfgFile, "INFO" )
-                retryCnt+=1
-                
-            if(retryCnt == 2):
-                logging.error("Retried the simulation {} times. Giving up!".format(retryCnt))
-                break
+                if(getLogLevel(cfgFile) != "NONE"):
+                    logging.info("Scenario already created a log file. Look for errors there.")
+                    retryCnt = 1
+                else:
+                    logging.info("Will run the simulation again with log level set to INFO ...")
+                    adaptLogLevel(cfgFile, "INFO" )
             
         q.task_done()
 
@@ -209,6 +208,11 @@ def adaptLogLevel(cfgFile, logLevel):
     cfg.set("General", "logLevel", logLevel)
     cfg.write(cfgFile)    
 
+def getLogLevel(cfgFile):
+    cfg = configparser.SafeConfigParser(allow_no_value=True)
+    cfg.readfp(open(cfgFile))
+    return cfg.get("General", "logLevel")
+    
 def usage():
     return ( "{0} [SIMULATION_PREFIX] SIMULATION_CONFIG ".format(sys.argv[0]) )
     
