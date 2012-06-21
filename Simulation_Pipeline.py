@@ -206,9 +206,12 @@ def generateStatistics(config):
 
 def adaptLogLevel(cfgFile, logLevel):
     cfg = configparser.SafeConfigParser(allow_no_value=True)
-    cfg.readfp(open(cfgFile))
+    cfgFD = open(cfgFile, "rw")
+    cfg.readfp(cfgFD)
     cfg.set("General", "logLevel", logLevel)
-    cfg.write(cfgFile)    
+    cfg.write( cfgFD )    
+    cfgFD.close() 
+           
 
 def getLogLevel(cfgFile):
     cfg = configparser.SafeConfigParser(allow_no_value=True)
