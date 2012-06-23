@@ -150,21 +150,23 @@ def worker():
         cfgFile = q.get()
         rC = 1
         retryCnt = 0
-        while(retryCnt < 1):
+        #Retry at most once
+        while(retryCnt <= 1):
             
             logging.info("Calling simulation with config {0}".format(cfgFile) )
             (rC,out,err) = call_command([sys.executable, "Eruliaf.py", cfgFile], silent=True)
              
-            if( (rC != 0) and (retryCnt < 1) ):
+            if( (rC != 0) ):
                 logging.error("Simulation failed! With [out:{} , err:{}]".format(out, err))
                 if(getLogLevel(cfgFile) != "NONE"):
                     logging.info("Scenario already created a log file. Look for errors there.")
-                    retryCnt = 1
+                    retryCnt += 100 
                 else:
                     logging.info("Will run the simulation again with log level set to INFO ...")
                     adaptLogLevel(cfgFile, "INFO" )
+                    retryCnt += 1
             else:
-                retryCnt = 1
+                retryCnt += 100 #If it was allright, dont rerun
             
         q.task_done()
 
