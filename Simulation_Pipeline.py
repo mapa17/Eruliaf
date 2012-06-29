@@ -166,7 +166,7 @@ def worker():
                     adaptLogLevel(cfgFile, "INFO" )
                     retryCnt += 1
             else:
-                retryCnt += 100 #If it was allright, dont rerun
+                retryCnt += 100 #If it was alright, dont rerun
             
         q.task_done()
 
