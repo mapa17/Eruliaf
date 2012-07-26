@@ -35,16 +35,13 @@ def main():
     global statsOutput
     global statsSummaryDir
     
-#    if( len(sys.argv) < 2):
-#        logging.error("Error in Arguments!\nUsage {0}".format(usage()))
-#        sys.exit(1)
-    
     parser = argparse.ArgumentParser()
     parser.add_argument("-p", "--prefix", help="Prefix used for simulation results" , default="", type=str)
     parser.add_argument("-s", "--StatsOnly", help="Use already available simulation data and generate statistics only", action="store_true")
     parser.add_argument("-l", "--noLogs", help="Do not create log files", action="store_true")
     parser.add_argument("SimulationFile", help="Specified the Simulation file")
     args = parser.parse_args()
+
     
     configFile = os.path.abspath( args.SimulationFile )
     prefix = args.prefix
