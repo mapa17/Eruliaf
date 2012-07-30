@@ -95,7 +95,7 @@ class Peer(Node):
         self.registerSimFunction(Simulator.ST_UPDATE_GLOBAL, self.updateGlobalConnectionState )
         self.registerSimFunction(Simulator.ST_LOGIC, self.peerLogic )
         self.registerSimFunction(Simulator.ST_FILETRANSFER, self._runDownloads )
-        self.registerSimFunction(Simulator.ST_CONCLUTION, self._conclutionState )
+        self.registerSimFunction(Simulator.ST_CONCLUTION, self._conclusionState )
 
         #Decide when to run tft and ou algorithm next time
         self._nextTFTPhaseStart = SSimulator().tick
@@ -287,7 +287,7 @@ class Peer(Node):
         for i in self._peersConn.values() :
             i[2].runDownload()
             
-    def _conclutionState(self):
+    def _conclusionState(self):
         #Calculate the total upload and download usage
         self._downloadRateLastTick = 0
         self._uploadRateLastTick = 0
