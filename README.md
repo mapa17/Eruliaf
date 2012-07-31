@@ -13,8 +13,11 @@ ggplot2 (>0.9)
 Install them using something like
 
 `sudo apt-get install python3 r-base imagemagick`
+
 `sudo R`
+
 `> install.packages("ggplot2", dependencies = TRUE )`
+
 `> quit("no")`
 
 Usage
